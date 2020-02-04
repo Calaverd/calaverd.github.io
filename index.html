@@ -2,6 +2,18 @@
 layout: default
 title: Calaverd
 ---
-<div class="blurb">
-	<p>Esta es mi pagina personal</p>
-</div><!-- /.blurb -->
+<!---
+Mostrar el ultimo post del blog
+-->
+{% for post in site.posts limit:1 %}
+<div class='post_title'>
+<p><b>{{ post.title }}</b> <br><i class="date_small">{{ post.date | date_to_string }}</i></p>
+</div>
+<div id="post">
+  {{ post.content }}
+</div>
+{% endfor %}
+<br>
+<a href="/blog">Read more posts »</a>
+<br>
+<br>
