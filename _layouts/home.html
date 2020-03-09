@@ -15,11 +15,6 @@ layout: default
       {%- for post in site.posts -%}
       <li>
 	    {% if post.lang == page.lang %}
-	        <h4>
-	          <a class="post-link" href="{{ post.url | relative_url }}">
-	            {{ post.title | escape }}
-	          </a>
-	        </h4>
 	        
 		    {% if page.lang == 'en' %}
                 <span class="post-meta">~Posted at {{ post.date | date: "%B %d of %Y" }}~</span>
@@ -43,6 +38,12 @@ layout: default
                         {% when '12' %}Diciembre
                 {% endcase %}{{ post.date | date: "%Y" }}~</span>
             {% endif %}
+
+	        <h4>
+	          <a class="post-link" href="{{ post.url | relative_url }}">
+	            {{ post.title | escape }}
+	          </a>
+	        </h4>
 	        
 	        {%- if site.show_excerpts -%}
 	          {{ post.excerpt }}
