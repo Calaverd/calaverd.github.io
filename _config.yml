@@ -1,2 +1,4 @@
 name: Calaverd
 markdown: kramdown
+
+theme: jekyll-theme-midnight
