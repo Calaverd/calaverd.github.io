@@ -21,9 +21,10 @@
 title: Calaverd
 email: your-email@example.com
 #description: # this means to ignore newlines until "baseurl:"
+show_excerpts: true
 dtrans:
-    en: Videogame programming tutorials using the *awesome* LÖVE (love2d) framework =P
-    es: Tutoriales de programación de videojuegos usando el *increible* framework LÖVE (love2d) =P
+    en: Videogame programming tutorials using the *awesome* LÖVE (love2d) framework.
+    es: Tutoriales de programación de videojuegos usando el *increible* framework LÖVE (love2d).
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb

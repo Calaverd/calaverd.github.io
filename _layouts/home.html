@@ -14,21 +14,45 @@ layout: default
     <ul class="post-list">
       {%- for post in site.posts -%}
       <li>
-        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
-        <span class="post-meta">{{ post.date | date: date_format }}</span>
-        <h4>
-          <a class="post-link" href="{{ post.url | relative_url }}">
-            {{ post.title | escape }}
-          </a>
-        </h4>
-        {%- if site.show_excerpts -%}
-          {{ post.excerpt }}
-        {%- endif -%}
+	    {% if post.lang == page.lang %}
+	        <h4>
+	          <a class="post-link" href="{{ post.url | relative_url }}">
+	            {{ post.title | escape }}
+	          </a>
+	        </h4>
+	        
+		    {% if page.lang == 'en' %}
+                <span class="post-meta">~Posted at {{ post.date | date: "%B %d of %Y" }}~</span>
+            {% endif %}
+
+            {% if page.lang == 'es' %}
+                <span class="post-meta">~Publicado el {{post.date | date: "%d de " }}
+                {% assign m = post.date | date: "%-m" %}
+                {% case m %}
+                        {% when  '1' %}Enero
+                        {% when  '2' %}Febrero
+                        {% when  '3' %}Marzo
+                        {% when  '4' %}Abril
+                        {% when  '5' %}Mayo
+                        {% when  '6' %}Junio
+                        {% when  '7' %}Julio
+                        {% when  '8' %}Agosto
+                        {% when  '9' %}Septiembre
+                        {% when '10' %}Octubre
+                        {% when '11' %}Noviembre
+                        {% when '12' %}Diciembre
+                {% endcase %}{{ post.date | date: "%Y" }}~</span>
+            {% endif %}
+	        
+	        {%- if site.show_excerpts -%}
+	          {{ post.excerpt }}
+	        {%- endif -%}
+       {%- endif -%}
       </li>
       {%- endfor -%}
     </ul>
 
-    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+    <!--p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p -->
   {%- endif -%}
 
 </div>

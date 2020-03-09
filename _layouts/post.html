@@ -22,7 +22,7 @@ layout: default
       <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         {% if page.lang == 'en' %}
-            ~Posted at {{ page.date | date: "%d/%m/%Y" }}
+            ~Posted at {{ post.date | date: "%B %d of %Y" }}
         {% endif %}
 
         {% if page.lang == 'es' %}
