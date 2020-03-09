@@ -19,7 +19,7 @@
 # in the templates via {{ site.myvariable }}.
 
 title: Calaverd
-email: your-email@example.com
+email: calaverd.lua@gmail.com
 #description: # this means to ignore newlines until "baseurl:"
 show_excerpts: true
 dtrans:
@@ -27,8 +27,8 @@ dtrans:
     es: Tutoriales de programación de videojuegos usando el *increible* framework LÖVE (love2d).
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
+twitter_username: calaverd1
+github_username:  calaverd
 
 # Build settings
 theme: minima
