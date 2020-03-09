@@ -1,0 +1,22 @@
+---
+layout: default
+---
+<article class="post">
+
+  <header class="post-header">
+    <div align="right">
+        {% if page.lang == "en" %}
+            <a class="{{ post.lang }}" href="{{ page.es_ver }}">🇪🇸 Español</a>
+        {% endif %}
+        {% if page.lang == "es" %}
+            <a class="{{ post.lang }}" href="{{ page.en_ver }}">🇺🇸 English</a>
+        {% endif %}
+    </div>
+    <h1 class="post-title">{{ page.title | escape }}</h1>
+  </header>
+    
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+</article>

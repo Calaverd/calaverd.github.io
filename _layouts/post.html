@@ -1,0 +1,65 @@
+---
+layout: default
+---
+<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+        <div align="right">
+    {% for post in site.posts %}
+        {% if post.tpar == page.tpar %}
+            {% if page.lang != post.lang and page.lang == "en" %}
+                <a class="{{ post.lang }}" href="{{ post.url }}">🇪🇸 Español</a>
+            {% endif %}
+            {% if page.lang != post.lang and page.lang == "es" %}
+                <a class="{{ post.lang }}" href="{{ post.url }}">🇺🇸 English</a>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    
+    </div>
+    <h2 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h2>
+    <p class="post-meta">
+      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+        {% if page.lang == 'en' %}
+            ~Posted at {{ page.date | date: "%d/%m/%Y" }}
+        {% endif %}
+
+        {% if page.lang == 'es' %}
+            ~Publicado el {{page.date | date: "%d de " }}
+            {% assign m = page.date | date: "%-m" %}
+    {% case m %}
+            {% when  '1' %}Enero
+            {% when  '2' %}Febrero
+            {% when  '3' %}Marzo
+            {% when  '4' %}Abril
+            {% when  '5' %}Mayo
+            {% when  '6' %}Junio
+            {% when  '7' %}Julio
+            {% when  '8' %}Agosto
+            {% when  '9' %}Septiembre
+            {% when '10' %}Octubre
+            {% when '11' %}Noviembre
+            {% when '12' %}Diciembre
+    {% endcase %}{{ page.date | date: "%Y" }}
+        {% endif %}
+      </time>
+      {%- if page.author -%}
+        • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
+      {%- endif -%}
+          ~
+      </p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    {{ content }}
+  </div>
+
+
+
+  {%- if site.disqus.shortname -%}
+    {%- include disqus_comments.html -%}
+  {%- endif -%}
+
+  <a class="u-url" href="{{ page.url | relative_url }}" hidden></a>
+</article>

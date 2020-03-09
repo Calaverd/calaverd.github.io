@@ -24,17 +24,3 @@ Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most ou
 [jekyll-gh]:   https://github.com/jekyll/jekyll
 [jekyll-talk]: https://talk.jekyllrb.com/
 
-<div align="center">________________________________________</div>
-<div class="lang" align="center">
-    {% for post in site.posts %}
-        {% if post.tpar == "d20200308l" %}
-            {% if page.lang != post.lang and page.lang == "en" %}
-                <a class="{{ post.lang }}" href="{{ post.url }}">Este árticulo esta en español</a>
-            {% endif %}
-            {% if page.lang != post.lang and page.lang == "es" %}
-                <a class="{{ post.lang }}" href="{{ post.url }}">This post is also in English</a>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-</div>
-<div align="center">________________________________________</div>

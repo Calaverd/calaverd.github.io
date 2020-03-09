@@ -3,11 +3,10 @@
 # To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 
 layout: home
-lang: "en"
+lang: "es"
 ---
 <div align="right">
-<a class="{{ post.lang }}" href="/es/">🇪🇸 Español</a>
+<a class="{{ post.lang }}" href="/">🇺🇸 English</a>
 </div>
-
-Hello world
+Hola mundo
     

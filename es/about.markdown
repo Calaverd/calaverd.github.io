@@ -1,9 +1,9 @@
 ---
 layout: page
-title: About
-permalink: /about/
-lang: "en"
-es_ver: /es/about/
+title: Acerca de
+permalink: /es/about/
+lang: "es"
+en_ver: /about/
 ---
 
 This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
