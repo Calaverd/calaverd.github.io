@@ -1,14 +1,16 @@
 ---
 layout: post
 title:  "Cambio de paleta en Löve, sin usar shaders"
-date:   2020-03-10 20:19:33 
+date:   2020-03-11 09:00
 lang: "es"
-categories: jekyll update
+categories: love2d tutorial
 tpar: "d20200310l"
 ---
 
 Cambiar el color de una imagen puede ser una forma muy útil de reutilizar un recurso sin aumentar el tamaño en disco del juego.
 Es posible cambiar el color de las imágenes utilizando las capacidades de `ImageData` para acceder a los píxeles directamente, ya sea para leer los colores como para cambiarlos.
+
+![](/assets/t_palette_swap/palette_swap.gif){: .center-image }
 
 El algoritmo consiste en cargar a la memoria nuestra imagen como un objeto de tipo  `ImageData`, en el cual no haremos cambios y solo vamos a usar como un *"mapa"* para saber que color se supone que debemos utilizar, por eso lo llamaremos `image_map`. También creamos una imagen de las mismas dimensiones donde vamos a escribir todos los cambios que hagamos, a esta la llamaremos `image_data`[^1].
 

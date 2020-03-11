@@ -1,15 +1,17 @@
 ---
 layout: post
 title:  "Palette swap on Löve, without use shaders"
-date:   2020-03-10 20:19:33 
+date:   2020-03-11 09:00
 lang: "en"
-categories: jekyll update
+categories: love2d tutorial
 tpar: "d20200310l"
 ---
 
-Changing the color of a image can be a very usefull form to reuse an asset without rise the file size of the game on disk. Is posible change the color of the images using the capaciti of `ImageData` to acces directly the pixels, to both, read the colors, as to modify they.
+Changing the color of a image can be a very useful form to reuse an asset without rise the file size of the game on disk. Is possible change the color of the images using the capacity of `ImageData` to access directly the pixels, to both, read the colors, as to modify they.
 
-The algorithm is based on load to the memory our image as an objet of type `ImageData`, in which we will do not any changes and only use as a *" map "* to know what is the color to be used, for that reason we gonna call it `image_map`. We also make an image of the same size where we will write all the changes to be made, and call it `image_data` [^1].
+![](/assets/t_palette_swap/palette_swap.gif){: .center-image }
+
+The algorithm is based on load to the memory our image as an object of type `ImageData`, in which we will do not any changes and only use as a *" map "* to know what is the color to be used, for that reason we gonna call it `image_map`. We also make an image of the same size where we will write all the changes to be made, and call it `image_data` [^1].
 
 ![](/assets/t_palette_swap/ima.png){: .center-image }
 
@@ -35,7 +37,7 @@ Now we create a new table to be used as look up where each column of the first r
 look_up_color_table = {}
 local col = palette_data:getWidth()
 local i = 0
-while i <> col do
+while i < col do
     local r,g,b,a = palette_data:getPixel(i,0)
     --the id is created using a hex like value
     local id = ("%X_%X_%X_%X"):format(math.floor((r)*255),math.floor((g)*255), math.floor((b)*255),math.floor((a)*255))  
@@ -51,7 +53,7 @@ use_palette = 1
 changePalete()
 {% endhighlight %}
 
-What happens inside of the function `changePalete()`, the metod `mapPixel()` of the objet `ImageData` is called. `mapPixel()` allow us to send a function that will be run for each one of the pixels on the objet, in this case, the very function that actually change the colors. 
+What happens inside of the function `changePalete()`, the method `mapPixel()` of the object `ImageData` is called. `mapPixel()` allow us to send a function that will be run for each one of the pixels on the object, in this case, the very function that actually change the colors. 
 After, as objects of type `ImageData` can not be draw, we should create a image object to draw on screen, and we set the filter to "nearest".
 
 {% highlight lua %}
@@ -66,7 +68,7 @@ Now, in the function `changeColors()` happens everything.
 
 ![](/assets/t_palette_swap/algoritmo.png){: .center-image }
 
-We first take the coords *(x,y)* of the color to be change, we search the color on the `image_map` using the metod `getPixel(x,y)`, after we transform the color to an `id`, and use it to access to the table `look_up_color_table`, that returns the column number. An then, using `use_palette`, that is equal to the number of the row, and now knowing also the column, we take the color of the palete and place it in the coords *(x,y)* on `image_data`.
+We first take the cords *(x,y)* of the color to be change, we search the color on the `image_map` using the method `getPixel(x,y)`, after we transform the color to an `id`, and use it to access to the table `look_up_color_table`, that returns the column number. An then, using `use_palette`, that is equal to the number of the row, and now knowing also the column, we take the color of the palette and place it in the cords *(x,y)* on `image_data`.
 
 {% highlight lua %}
 function changeColors(x, y, r,g,b,a)
@@ -93,7 +95,7 @@ changePalete()
 
 Watch out, a disadvantage of this method without shaders, is on the fact that change the palettes, **the bigger the area to change, this will be slower on a exponential manner**
 
-That will be everything, you can download the ***.love*** file [right here](/assets/t_palette_swap/palette_swap.love) and check it for yourself. Use the arrow keys to change between palletes.
+That will be everything, you can download the ***.love*** file [right here](/assets/t_palette_swap/palette_swap.love) and check it for yourself. Use the arrow keys to change between palettes.
 
 [^1]: When an `ImageData` object is created using `love.image.newImageData()`, all the RGBA values of the pixels are *(0,0,0,0)* 
 
