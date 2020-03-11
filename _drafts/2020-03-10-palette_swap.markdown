@@ -7,49 +7,55 @@ categories: jekyll update
 tpar: "d20200310l"
 ---
 
-Cambiar el color de una imagen puede ser una forma muy util de reeutilizar un recurso sin aumentar el tamaño en disco del juego.
-Es posible cambiar el color de las imagenes utilizando las capacidades de `ImageData` para acceder a los pixeles directamente, ya sea para leer los colores como para cambiarlos.
+Cambiar el color de una imagen puede ser una forma muy útil de reutilizar un recurso sin aumentar el tamaño en disco del juego.
+Es posible cambiar el color de las imágenes utilizando las capacidades de `ImageData` para acceder a los píxeles directamente, ya sea para leer los colores como para cambiarlos.
 
-El algoritmo consiste en cargar a la memoria nuestra imagen como un objeto de tipo  `ImageData`, en el cual no haremos cambios y solo vamos a usar como un "mapa" para saber que color se supone que debemos utilizar, por eso lo llamaremos `image_map`. Tambien creamos una imagen de las mismas dimenciones donde vamos a escribir todos los cambios que hagamos, a esta la llamaremos `image_data`[^1]. Hay que cargar tambien una imagen que contiene las paletas a utilizar, que sera `palette_data`, donde cada franja horizontal de un pixel de alto es una paleta.
+El algoritmo consiste en cargar a la memoria nuestra imagen como un objeto de tipo  `ImageData`, en el cual no haremos cambios y solo vamos a usar como un *"mapa"* para saber que color se supone que debemos utilizar, por eso lo llamaremos `image_map`. También creamos una imagen de las mismas dimensiones donde vamos a escribir todos los cambios que hagamos, a esta la llamaremos `image_data`[^1].
+
+![](/assets/t_palette_swap/ima.png){: .center-image }
+
+Hay que cargar una imagen que contiene las paletas a utilizar, que sera `palette_data`, donde cada franja horizontal de un píxel de alto es una paleta:
+
+![](/assets/t_palette_swap/palette.png){: .center-image }
 
 {% highlight lua %}
-	image_map = love.image.newImageData('ima.png')
-	image_data = love.image.newImageData( image_map:getWidth(), image_map:getHeight())
-	palette_data = love.image.newImageData('palette.png')
+image_map = love.image.newImageData('ima.png')
+image_data = love.image.newImageData( image_map:getWidth(), image_map:getHeight())
+palette_data = love.image.newImageData('palette.png')
 {% endhighlight %}
 
 
-Tambien debemos calcular el numero maximo de paletas (`max_palettes`) que podemos utilizar, este sera igual al tamaño de la imagen donde guardamos las paletas. 
+También debemos calcular el numero máximo de paletas (`max_palettes`) que podemos utilizar, este sera igual al tamaño vertical de la imagen donde guardamos las paletas. 
 
 {% highlight lua %}
-	max_palettes = palette_data:getHeight()
+max_palettes = palette_data:getHeight()
 {% endhighlight %}
 
 
-Ahora creamos una tabla donde veremos a que columna de la imagen de paletas se corresponde cada color que compone la primera paleta. A esta tabla la llamaremos `look_up_color_table`. Tambien crearemos una cadena que nos servira de `id` para identificar a cada color rapidamente.
+Ahora creamos una tabla donde veremos a que cada columna de la primera fila de imagen de paletas se corresponde cada color que compone la primera paleta. A esta tabla la llamaremos `look_up_color_table`. Crearemos una cadena que nos servirá de `id` para identificar a cada color rápidamente.
 
 {% highlight lua %}
-	look_up_color_table = {}
-	local col = palette_data:getWidth()
-	local i = 0
-    while i < col do
-        local r,g,b,a = palette_data:getPixel(i,0)
-        --the id is created the using a hex like value
-        local id = ("%X_%X_%X_%X"):format(math.floor((r)*255),math.floor((g)*255), math.floor((b)*255),math.floor((a)*255))  
-        look_up_color_table[id] = i
-        i=i+1
-    end
+look_up_color_table = {}
+local col = palette_data:getWidth()
+local i = 0
+while i < col do
+    local r,g,b,a = palette_data:getPixel(i,0)
+    --El id es creado usando un valor similar al hexadecimal
+    local id = ("%X_%X_%X_%X"):format(math.floor((r)*255),math.floor((g)*255), math.floor((b)*255),math.floor((a)*255))  
+    look_up_color_table[id] = i
+    i=i+1
+end
 {% endhighlight %}
 
-Ahora fijamos la paleta que queremos usar y cambiamos los colores de `image_data`.
+Fijamos la paleta que queremos usar y cambiamos los colores de `image_data`.
 
 {% highlight lua %}
-	use_palette = 1
-    changePalete()
+use_palette = 1
+changePalete()
 {% endhighlight %}
 
-Lo que ocurre dentro de la función `changePalete()`, es que llamamos al metodo `mapPixel()` del objeto `ImageData`. `mapPixel()` nos permite mandar una función que se ejecutara por cada uno de los pixeles que componen el objeto, en este caso, la función con la cual cambiamos los colores.
-Después, como los objetos de tipo `ImageData` no pueden ser dibujados creamos una imagen para poder dibujar en pantalla, y le decimos que queremos que se dibuje nitida.  
+Lo que ocurre dentro de la función `changePalete()`, es que llamamos al método `mapPixel()` del objeto `ImageData`. `mapPixel()` nos permite mandar una función que se ejecutara por cada uno de los píxeles que componen el objeto, en este caso, la función con la cual cambiamos los colores.
+Después, como los objetos de tipo `ImageData` no pueden ser dibujados creamos una imagen para poder dibujar en pantalla, y le decimos que queremos que se dibuje nítida.
 
 {% highlight lua %}
 function changePalete()
@@ -61,9 +67,9 @@ end
 
 Ahora, es en la función `changeColors()` donde ocurre todo.
 
-![Algotirmo](/assets/t_palette_swap/algoritmo.png)
+![](/assets/t_palette_swap/algoritmo.png){: .center-image }
 
-Primero recibimos las cordenadas (x,y) del color que queremos cambiar, buscamos que color es en `image_map` con el metodo `getPixel(x,y)`, después transformamos ese color a un `id`, con el cual accedemos a la tabla `look_up_color_table`, que nos regresa un numero de columna. Con el numero de `use_palette` obtenemos la fila, y con los dos tomamos ese color de nuesta paleta, y lo regresamos. Ese color que regresamos sera colocado en las cordenadas (x,y)
+Primero recibimos las coordenadas *(x,y)* del color que queremos cambiar, buscamos que color es en `image_map` con el método `getPixel(x,y)`, después transformamos ese color a un `id`, con el cual accedemos a la tabla `look_up_color_table`, que nos regresa un numero de columna. Con el numero de `use_palette` que es igual al numero de la fila, y ya sabiendo la columna, tomamos ese color de nuestra paleta, y lo regresamos para colocado en las coordenadas *(x,y)* en `image_data`
 
 {% highlight lua %}
 function changeColors(x, y, r,g,b,a)
@@ -81,18 +87,16 @@ function changeColors(x, y, r,g,b,a)
 end
 {% endhighlight %}
 
-
-Ahora, cada que queremos cambiar la paleta de la imagen, solo tenemos que decir cual es la paleta que queremos utilizar, y que las cambie. 
+Por cada vez que cambiemos la paleta de la imagen, solo necesitamos establecer cuál es la fila correspondiente y cambiarla.
 
 {% highlight lua %}
 use_palette = 3 
 changePalete()
-{% highlight lua %}}
+{% endhighlight %}
 
 
-Ahora bien, una desventaja de utilizar este metodo, radica en el hecho de que cambiar las paletas, requiere basicamente aplicarlo a toda la imagen, no solo al fragmento que estemos usando en pantalla, y que entre mayor sea el tamaño de la imagen donde apliquemos el cambio de paleta, aumenta de forma exponencial el tiempo en que tardara. 
+Ojo, una desventaja de este método sin sombreadores, es el hecho de que cambian las paletas, ** cuanto más grande sea el área a cambiar, esto será más lento de manera exponencial **
 
+Eso seria todo, puedes descargar el archivo ***.love*** [justo aquí](/assets/t_palette_swap/palette_swap.love) y revisarlo por ti mismo. Puedes usar las flechas para cambiar entre paletas.
 
-Y eso seria todo, puedes descargar el .love [justo aquí](/assets/t_palette_swap/palette_swap.love) y usar las flechas para cambiar entre paletas.
-
-[^1]: Cuando creamos un objeto `ImageData` usando `love.image.newImageData()`, todos los valores RGBA de los pixeles son *(0,0,0,0)* 
+[^1]: Cuando creamos un objeto `ImageData` usando `love.image.newImageData()`, todos los valores RGBA de los píxeles son *(0,0,0,0)* 

@@ -13,4 +13,4 @@ If you don't know how to program, I urge you to search for programming tutorials
 
 ![Something like this](/assets/21days.png)
 
-Do not forget, the tutorials are just a guide that presents to you the answers to a problem already solved. You are free to experiment and at the end of it depends on being able to apply these answers as you see fit.
+Do not forget, the tutorials are just a guide that presents to you the answers to a problem already solved. You are free to experiment and at the end, it depends on you being able to apply these answers as you see fit.
