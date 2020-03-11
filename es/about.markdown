@@ -6,15 +6,11 @@ lang: "es"
 en_ver: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](https://jekyllrb.com/)
+Un día decidí hacer una serie de tutoriales porque ... ¿Por qué no?
 
-You can find the source code for Minima at GitHub:
-[jekyll][jekyll-organization] /
-[minima](https://github.com/jekyll/minima)
+Esta serie de tutoriales se basan en el supuesto de que tienes algo de experiencia programando, no necesariamente con Lua.
+Si no sabes programar, te insto a buscar tutoriales de programación en internet, al tiempo que uses estos tutoriales. Aprender a hacer algo nuevo es un proceso que lleva tiempo, pero sus recompenzas pueden ser muy dulces. 
 
-You can find the source code for Jekyll at GitHub:
-[jekyll][jekyll-organization] /
-[jekyll](https://github.com/jekyll/jekyll)
+(/assets/21dias.png)
 
-
-[jekyll-organization]: https://github.com/jekyll
+No lo olvides, los tutoriales son solo una guía que te presenta las respuestas a un problema ya resuelto. Eres libre de experimentar y al final de ti depende poder aplicar estas respuestas como veas más conveniente.
