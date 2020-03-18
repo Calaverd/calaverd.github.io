@@ -99,6 +99,6 @@ changePalete()
 
 Ojo, una desventaja de este método sin sombreadores, es el hecho de que cambian las paletas, ** cuanto más grande sea el área a cambiar, esto será más lento de manera exponencial **
 
-Eso seria todo, puedes descargar el archivo ***.love*** [justo aquí](/assets/t_palette_swap/palette_swap.love) y revisarlo por ti mismo. Puedes usar las flechas para cambiar entre paletas.
+Eso seria todo, puedes descargar el archivo ***.zip*** [justo aquí](/assets/t_palette_swap/palette_swap.zip) y revisarlo por ti mismo. Puedes usar las flechas para cambiar entre paletas.
 
 [^1]: Cuando creamos un objeto `ImageData` usando `love.image.newImageData()`, todos los valores RGBA de los píxeles son *(0,0,0,0)* 

@@ -95,7 +95,7 @@ changePalete()
 
 Watch out, a disadvantage of this method without shaders, is on the fact that change the palettes, **the bigger the area to change, this will be slower on a exponential manner**
 
-That will be everything, you can download the ***.love*** file [right here](/assets/t_palette_swap/palette_swap.love) and check it for yourself. Use the arrow keys to change between palettes.
+That will be everything, you can download the ***.zip*** file [right here](/assets/t_palette_swap/palette_swap.zip) and check it for yourself. Use the arrow keys to change between palettes.
 
 [^1]: When an `ImageData` object is created using `love.image.newImageData()`, all the RGBA values of the pixels are *(0,0,0,0)* 
 
