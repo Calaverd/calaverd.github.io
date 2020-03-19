@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "El poder del 'Image Wraping'"
-date:   2020-03-18 09:00
+date:   2020-03-18 21:15
 lang: "es"
 categories: love2d tutorial
 tpar: "d20200318l"
