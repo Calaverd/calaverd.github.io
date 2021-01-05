@@ -4,10 +4,11 @@
 
 layout: home
 lang: "en"
+es_ver: /es/
 ---
-<div align="right">
+<!-- div align="right">
 <a class="{{ post.lang }}" href="/es/">🇪🇸 Español</a>
-</div>
+</div -->
 
 Hello world
     

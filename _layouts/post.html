@@ -1,25 +1,12 @@
 ---
 layout: default
 ---
-<article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+<article class="h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
-  <header class="post-header">
-        <div align="right">
-    {% for post in site.posts %}
-        {% if post.tpar == page.tpar %}
-            {% if page.lang != post.lang and page.lang == "en" %}
-                <a class="{{ post.lang }}" href="{{ post.url }}">🇪🇸 Español</a>
-            {% endif %}
-            {% if page.lang != post.lang and page.lang == "es" %}
-                <a class="{{ post.lang }}" href="{{ post.url }}">🇺🇸 English</a>
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-    
-    </div>
-    <h2 class="post-title p-name" itemprop="name headline">{{ page.title | escape }}</h2>
-    <p class="post-meta">
-      <time class="dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+ <div class="columns is-centered">
+  <div class="column is-full-mobile is-6-desktop text-show">
+    <p class="title is-3 p-name" itemprop="headline">{{ page.title | escape }}</p>
+      <p class="subtitle is-5 dt-published" datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
         {% if page.lang == 'en' %}
             ~Posted at {{ page.date | date: "%B %d of %Y" }}
@@ -43,26 +30,19 @@ layout: default
             {% when '12' %}Diciembre
     {% endcase %}{{ page.date | date: "%Y" }}
         {% endif %}
-      </time>
+      
       {%- if page.author -%}
         • <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span class="p-author h-card" itemprop="name">{{ page.author }}</span></span>
       {%- endif -%}
           ~
-      </p>
-  </header>
+       </p>
 
-  <div class="post-content e-content" itemprop="articleBody">
+  <div class="content has-text-justified" itemprop="articleBody">
     {{ content }}
   </div>
 
-<!--
-<span>[
-  {% for tag in page.categories %}
-    {% capture tag_name %}{{ tag }}{% endcapture %}
-    <a href="/tag/{{ tag_name }}"><code class="highligher-rouge"><nobr>{{ tag_name }}</nobr></code>&nbsp;</a>
-  {% endfor %}
-]</span>
--->
+    </div>
+  </div>
   {%- if site.disqus.shortname -%}
     {%- include disqus_comments.html -%}
   {%- endif -%}

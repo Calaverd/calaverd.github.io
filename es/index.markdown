@@ -4,9 +4,10 @@
 
 layout: home
 lang: "es"
+en_ver: /
 ---
-<div align="right">
+<!--div align="right">
 <a class="{{ post.lang }}" href="/">🇺🇸 English</a>
-</div>
+</div -->
 Hola mundo
     

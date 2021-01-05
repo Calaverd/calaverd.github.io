@@ -20,6 +20,7 @@
 
 title: Calaverd
 email: calaverd.lua@gmail.com
+email_t: calaverd.lua<wbr>@gmail.com
 #description: # this means to ignore newlines until "baseurl:"
 show_excerpts: true
 dtrans:
@@ -30,8 +31,9 @@ url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: calaverd1
 github_username:  calaverd
 
+
+
 # Build settings
-theme: minima
 plugins:
   - jekyll-feed
 

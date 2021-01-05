@@ -1,59 +1,38 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: "en" }}">
 
-<div class="home">
-  {%- if page.title -%}
+  {%- include head.html -%}
+
+  <body>
+    <section class="hero is-fullheight is-primary is-bold">
+    {%- include header.html -%}
+    <div class="hero-body">
+        <div class="container">
+     {%- if page.title -%}
     <h1 class="page-heading">{{ page.title }}</h1>
   {%- endif -%}
 
-  {{ content }}
+            <div class="content has-text-centered">
+                <h1 class="title post-slow">
+                Osvaldo Bajaras Fierros
+               </h1>
+               <h2 class="subtitle is-family-monospace has-text-dark post-v-slow">
+                 {% if page.lang == 'es' %}Programador{% else %}Programmer{% endif %}
+               </h2>
+           </div>
+       </div>
+    </div>
+       
+        {% comment %}
+       <h4>
+        <span class="is-size-4 " style="vertical-align:middle;"><i class="far fa-lg fa-address-card is-left"></i> <strong>Contacto</strong></span>
+       </h4>
+       {%- include social.html -%}
+       {% endcomment %} 
+  
+    {%- include footer.html -%}
+  </section>
+  </body>
 
-  {%- if site.posts.size > 0 -%}
-    <h3 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h3>
-    <ul class="post-list">
-      {%- for post in site.posts -%}
-      <li>
-	    {% if post.lang == page.lang %}
-	        
-		    {% if page.lang == 'en' %}
-                <span class="post-meta">~Posted at {{ post.date | date: "%B %d of %Y" }}~</span>
-            {% endif %}
+</html>
 
-            {% if page.lang == 'es' %}
-                <span class="post-meta">~Publicado el {{post.date | date: "%d de " }}
-                {% assign m = post.date | date: "%-m" %}
-                {% case m %}
-                        {% when  '1' %}Enero
-                        {% when  '2' %}Febrero
-                        {% when  '3' %}Marzo
-                        {% when  '4' %}Abril
-                        {% when  '5' %}Mayo
-                        {% when  '6' %}Junio
-                        {% when  '7' %}Julio
-                        {% when  '8' %}Agosto
-                        {% when  '9' %}Septiembre
-                        {% when '10' %}Octubre
-                        {% when '11' %}Noviembre
-                        {% when '12' %}Diciembre
-                {% endcase %}{{ post.date | date: "%Y" }}~</span>
-            {% endif %}
-
-	        <h4>
-	          <a class="post-link" href="{{ post.url | relative_url }}">
-	            {{ post.title | escape }}
-	          </a>
-	        </h4>
-	        
-	        {%- if site.show_excerpts -%}
-	          {{ post.excerpt }}
-	        {%- endif -%}
-       {%- endif -%}
-      </li>
-      {%- endfor -%}
-    </ul>
-
-    <!--p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p -->
-  {%- endif -%}
-
-</div>

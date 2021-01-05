@@ -15,32 +15,32 @@ One of the advantages of  Löve 2d is that being built on top of OpenGl allow us
 
 The different modes of wrap can be applied to a image, in an horizontal, vertical or both.
 
-* <h4>`clampzero`</h4>
+* <h5>clampzero</h5>{: .code_name}
 
 > In this mode, is made clear for the image that it can not wrap to cover the area.
 
 ![](/assets/t_wrap/ima1.png){: .center-image }
 
-* <h4>`clamp`</h4>
+* <h4>clamp</h4>{: .code_name}
 
 > Wrap using the color of the image border pixel.
 
 ![](/assets/t_wrap/clamp.png){: .center-image }
-(clamp,clampzero) || (clampzero,clamp) || (clamp,clamp)
+<p>(clamp,clampzero) || (clampzero,clamp) || (clamp,clamp)</p>{: .has-text-centered }
 
-* <h4>`repeat`</h4> 
+* <h4>repeat</h4> {: .code_name}
 
 > Repeat the image many times as needed to cover the area.
 
 ![](/assets/t_wrap/repeat.png){: .center-image }
-(repeat,clampzero) || (clampzero,repeat) || (repeat,repeat)
+<p>(repeat,clampzero) || (clampzero,repeat) || (repeat,repeat)</p>{: .has-text-centered }
 
-* <h4>`mirroredrepeat`</h4>
+* <h4>mirroredrepeat</h4>{: .code_name}
 
 > Repeat the image mirroring itself to cover the area.
 
 ![](/assets/t_wrap/mirroredrepeat.png){: .center-image }
-(mirroredrepeat,clampzero) || (clampzero,mirroredrepeat) || (mirroredrepeat,mirroredrepeat)
+<p>(mirroredrepeat,clampzero) || (clampzero,mirroredrepeat) || (mirroredrepeat,mirroredrepeat)</p>{: .has-text-centered }
 
 Can be used different modes of wrap to the same time, for example, here the horizontal is `mirroredrepeat` and the vertical is `clamp`.
 
@@ -111,7 +111,6 @@ love.graphics.draw(tile_image,quad,x,y)
 {% endhighlight %}
 
 ![](/assets/t_wrap/wrap_tile.gif){: .center-image }
-
 
 You can download the adjusted source code [right here.](/assets/t_wrap/wrap_tile.zip)
 
