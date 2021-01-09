@@ -1,0 +1,36 @@
+---
+permalink: /covid_mex.html
+layout: default
+---
+  <head>
+      <link rel="stylesheet" href="/assets/covid_edomex/controls.css">
+      <link rel="stylesheet" href="/assets/extcss/c3.min.css">
+      <script src="/assets/js/d3.v5.min.js"></script>
+      <script src="/assets/js/c3.min.js"></script>
+      <script src="/assets/js/pako.min.js"  charset="utf-8"></script>
+  </head>
+  
+  <div class="covid">
+   <h1>Datos del Estado de México sobre Covid-19</h1>
+     
+     <h2 id="mostrando_ahora">Mostrando los datos de Todo el Estado de México</h2>
+     <div class="dropdown">
+      <button id='btnMun' onclick="muestraMenuMunicipios()" class="dropbtn">Buscar Municipio</button>
+      <div id="menuMun" class="dropdown-content">
+          <input type="text" placeholder="Buscar..." id="buscaMun" onkeyup="filterFunction()">
+
+          <div id="listMun" class="dropdown-content-list" ></div>
+          <!-- Aqui van los municipios... <li>Coffee</li> -->
+           
+      </div>
+    </div>     
+    
+    <h3>Contagios y Defunciones Nuevas Diarias</h3>
+      <div id="contagios"></div>
+    <h3>Contagios y Defunciones Acumuladas</h3>
+      <div id="defunciones"></div>
+    <p class='is-small'>
+    Datos tomados de la página de la Secretaría de Salud del Gobierno del Estado de México <a class="is-right" href="https://salud.edomex.gob.mx/salud/covid19_municipio">https://salud.edomex.gob.mx/salud/covid19_municipio</a>
+    </p>
+    <script src='/assets/covid_edomex/graficas_covid_edomex.js' charset="utf-8">  </script>  
+  <div class="covid">
