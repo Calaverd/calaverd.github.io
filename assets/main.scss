@@ -320,6 +320,12 @@ body {
     padding: unset;
 }
 
+.section {
+   //padding: 9rem 1.5rem;
+   padding-top: 9rem !important;
+}
+
+
 .highlight  { @extend .has-text-left; line-height: 1; }
 
 .highlight .c { color: #93a1a1; font-style: italic; } /* Comment */

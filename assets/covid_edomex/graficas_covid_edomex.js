@@ -1,7 +1,3 @@
-let datos_nuevos_diarios =   [ ];
-let datos_acumulados = [ ]; 
-let datos_fechas = [];
-
 let lista_de_municipios = [];
 let diccionario_municipios = {};
 
@@ -16,13 +12,139 @@ let datos_list_mun_cargados = false;
 let datos_fechas_cargados = false;
 let datos_estado_cargados = false;
 
+var myChart = echarts.init(document.getElementById('chart'));
+var option = {
+    tooltip: {
+        allowDecimals: false,
+        trigger: 'axis',
+
+        axisPointer: {
+            type: 'cross',
+            allowDecimals: false,
+            label: {
+                backgroundColor: '#6a7985'
+            }
+        }
+    },
+    title: {
+        left: 'center',
+        text: 'Evolución del Covid-19',
+    },
+    toolbox: {
+        feature: {
+             magicType: {
+                type: ['line', 'bar']
+            },
+            restore: {
+             title:'Restart'
+             },
+            saveAsImage: {
+             title:'Save picture'
+             }
+        }
+    },
+    xAxis: {
+        type: 'category',
+        boundaryGap: true,
+        data: []
+    },
+    yAxis: {
+        allowDecimals: false,
+        type: 'value',
+        boundaryGap: false
+    },
+    dataZoom: [{
+        type: 'inside',
+        filterMode: 'weakFilter',
+        },
+        {
+        start: 14,
+        end: 15,
+        handleIcon: 'M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+        handleSize: '80%',
+        handleStyle: {
+            color: '#fff',
+            shadowBlur: 3,
+            shadowColor: 'rgba(0, 0, 0, 0.6)',
+            shadowOffsetX: 2,
+            shadowOffsetY: 2
+        }
+      }],
+    series: [
+        {
+            name: 'Contagios',
+            type: 'bar',
+            large: true,
+            smooth: false,
+            symbol: 'none',
+            sampling: 'average',
+            itemStyle: {
+                color: 'rgb(199, 18, 0)'
+            },
+            itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0.3,
+                    color: 'rgb(199, 18, 0)' 
+                }, {
+                    offset: 0.9,
+                    color: 'rgb(224, 167, 62)'
+                }])
+            },
+            areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0.3,
+                    color: 'rgb(199, 18, 0)' 
+                }, {
+                    offset: 0.9,
+                    color: 'rgb(224, 167, 62)'
+                }])
+            },
+            data: []
+        },
+        {
+            name: 'Defunciones',
+            type: 'bar',
+            large: true,
+            //stack: 'one',
+            barGap: '-100%',
+            barCategoryGap: '0%', // this changed
+            smooth: false,
+            symbol: 'none',
+            sampling: 'average',
+            itemStyle: {
+                color: 'rgb(23, 24, 26)'
+            },
+            itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0.3,
+                    color: 'rgb(23, 24, 26)' 
+                }, {
+                    offset: 0.9,
+                    color: 'rgb(38, 46, 54)'
+                }])
+            },
+            areaStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                    offset: 0.3,
+                    color: 'rgb(23, 24, 26)' 
+                }, {
+                    offset: 0.9,
+                    color: 'rgb(38, 46, 54)'
+                }])
+            },
+            data: []
+        }
+    ]
+};
+
+function updateChartData(){
+    myChart.setOption(option);
+    }
+
 function startup_completadas(){
     if(datos_estado_cargados && datos_fechas_cargados && datos_list_mun_cargados){
          console.log('Estamos listos');
-         datos_nuevos_diarios[0] = datos_fechas;
-         datos_acumulados[0] = datos_fechas;
-         chart_contagios.load({ columns:datos_nuevos_diarios });
-         chart_defunciones.load({ columns:datos_acumulados });
+         updateChartData()
        }
     else{
         console.log('Aun no estamos listos');
@@ -34,14 +156,8 @@ const promesa_por_estado = fetch(request_datos_estado).then(
     function(response) {
         return response.json();
     }).then(function(data) {
-        datos_nuevos_diarios[1] =
-        ['Contagios Nuevos'].concat(data['CNH'].slice(1));
-        datos_nuevos_diarios[2] =
-        ['Defunciones Nuevas'].concat(data['DNH'].slice(1));            
-        
-        datos_acumulados[1] = ['Contagios'].concat(data['CTC'].slice(1));
-        datos_acumulados[2] = ['Defunciones'].concat(data['DTC'].slice(1));
-        
+        option.series[0].data = data['CNH'].slice(1);
+        option.series[1].data = data['DNH'].slice(1);
         datos_estado_cargados = true;
         startup_completadas();
     });
@@ -95,7 +211,6 @@ const promesa_por_municipios = fetch(request_municipios).then(
             div.appendChild(li_municipio);
 
         });
-
         datos_list_mun_cargados = true;
         startup_completadas();
     });
@@ -106,8 +221,12 @@ const promesa_por_fechas = fetch(request_fechas).then(
     }).then(function(buffer) {
         let my_data = new Uint8Array(buffer);
         let data = JSON.parse(pako.inflate(my_data, { to: 'string' }));
-        datos_fechas = ['x'].concat(data.Fechas.slice(1));
-        console.log('¡¡Fechas cargadas!!')
+        option.xAxis.data = data.Fechas.slice(1);
+        option.dataZoom[0].endValue = option.xAxis.data.length 
+        option.dataZoom[0].startValue = option.xAxis.data.length-14
+        console.log(data);
+        
+        console.log('¡¡Fechas cargadas!!');
         datos_fechas_cargados = true;
         startup_completadas();
     });
@@ -127,69 +246,7 @@ const fechaAEspL = function(x){
     return `${MESES[x.getMonth()]}`;
     }
 
-const chart_contagios = c3.generate({
-    bindto: '#contagios',
-    data: {
-      x: 'x',
-      xFormat: '%Y-%m-%d',
-      columns: [],
-      type: 'area',
-      empty: { label: { text: "Esperando datos..." } }
-     },
-     legend: { position: 'inset' },
-     axis: { 
-            x: { 
-                type: 'timeseries', tick: { format: fechaAEspL, count: 8, centered: true },
-                localtime: true,                
-                label: 
-                  { text:'Fecha', position: 'outer-center'}
-                },
-            y: { label: 
-                 { text:'Numero de Casos', position: 'outer-middle'}
-                }
-        },
-     grid: { 
-          x: { show: true },
-          y: { show: true }
-         },
-    tooltip: { format: { title: fechaAEsp  } },
-    color: { pattern: ['#FF0000','#020202'] },
-    point: { focus: { expand: { r: 6} } }
- });
-
-
-const chart_defunciones = c3.generate({
-    bindto: '#defunciones',
-    data: {
-      x: 'x',
-      xFormat: '%Y-%m-%d',
-      columns: [],
-      type: 'area',
-      empty: { label: { text: "Esperando datos..." } }
-     },            
-     legend: { position: 'inset' },
-     axis: { 
-            x: { 
-                type: 'timeseries', tick: { format: '%Y-%m-%d' },
-                label: 
-                  { text:'Fecha', position: 'outer-center'}
-                },
-            y: { label: 
-                 { text:'Numero de Defunciones', position: 'outer-middle'}
-                }
-        },
-     grid: { 
-          x: { show: true },
-          y: { show: true }
-         },
-    tooltip: { format: { title: fechaAEsp  } },
-    color: { pattern: ['#FF0000','#020202']  },
-    point: { focus: { expand: { r: 6} } }
- });
-
-
 /* Logica de la pagina */
-
 
 function muestraMenuMunicipios(){
    document.getElementById("menuMun").classList.toggle("show");
@@ -228,13 +285,12 @@ function SolicitaDatosMunicipio(event){
     document.getElementById("mostrando_ahora").innerHTML = info_text;
     document.getElementById("buscaMun").value = '';
     filterFunction();
+
+    option.series[0].data = [];
+    option.series[1].data = [];
     
-    datos_nuevos_diarios[1] = ['Contagios Nuevos'].concat(new Array(datos_fechas.length-1).fill(0));
-    datos_nuevos_diarios[2] = ['Defunciones Nuevas'].concat(new Array(datos_fechas.length-1).fill(0));
-    datos_acumulados[1] = ['Contagios'].concat(new Array(datos_fechas.length-1).fill(0));
-    datos_acumulados[2] = ['Defunciones'].concat(new Array(datos_fechas.length-1).fill(0));
-    chart_contagios.load({columns:datos_nuevos_diarios });
-    chart_defunciones.load({ columns:datos_acumulados });
+    updateChartData();
+    
     /* cuando solicitabamos los datos en un archivo binario comprimido...
     const mun_request_datos = new Request(`./static/covid_edomex/${clv_num}.json.zlib`);
     fetch(mun_request_datos).then(
@@ -261,62 +317,10 @@ function SolicitaDatosMunicipio(event){
     function(response) {
         return response.json();
     }).then(function(data) {
-        datos_nuevos_diarios[1] =
-        ['Contagios Nuevos'].concat(data['CNH'].slice(1));
-        datos_nuevos_diarios[2] =
-        ['Defunciones Nuevas'].concat(data['DNH'].slice(1));            
+        option.series[0].data = data['CNH'].slice(1); 
+        option.series[1].data = data['DNH'].slice(1);
         
-        datos_acumulados[1] = ['Contagios'].concat(data['CTC'].slice(1));
-        datos_acumulados[2] = ['Defunciones'].concat(data['DTC'].slice(1));
-        
-        chart_contagios.load({ columns:datos_nuevos_diarios });
-        chart_defunciones.load({ columns:datos_acumulados });
+        updateChartData();
     });
 
 }
-
-
-
-
-
-/* DOM modificaciones */
-
-
-
-
-
-/*
-d3.json('static/reporte_covid.json').then(data => {
-    // convertir los casos y defunciones a enteros
-    
-    datos_nuevos_diarios[0] = datos_fechas;
-    datos_nuevos_diarios[1] =
-    ['Contagios Nuevos Diarios'].concat(data['000CNH'].slice(1));
-    datos_defunciones[0] = datos_fechas;
-    datos_nuevos_diarios[2] =
-    ['Defunciones Nuevas Diarias'].concat(data['000DNH'].slice(1));
-
-    chart_contagios.load({ columns:datos_nuevos_diarios });    
-    //chart_defunciones.load({ columns:datos_defunciones });
-    
-    });
-*/
-/*
-d3.csv('static/reporte_covid.csv').then(data => {
-    // convertir los casos y defunciones a enteros
-    let count = false;
-    data.forEach( fila => {
-        if(count){  
-            datos_nuevos_diarios[0].push(fila.Fecha);
-            datos_nuevos_diarios[1].push(+fila['000CNH']);
-            datos_defunciones[0].push(fila.Fecha);
-            datos_defunciones[1].push(+fila['000DNH']);
-            }
-        count = true;
-        });
-    console.log('Datos procesados, cargando a graficas...')
-    chart_contagios.load({ columns:datos_nuevos_diarios });    
-    chart_defunciones.load({ columns:datos_defunciones });
-    });
-*/
-
