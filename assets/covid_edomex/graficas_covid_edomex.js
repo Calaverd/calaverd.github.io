@@ -1,3 +1,8 @@
+const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto",
+"Septiembre","Octubre","Noviembre","Diciembre"];
+const DIAS_S = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"]
+const base_date_obj = new Date();
+
 let lista_de_municipios = [];
 let diccionario_municipios = {};
 
@@ -12,7 +17,15 @@ let datos_list_mun_cargados = false;
 let datos_fechas_cargados = false;
 let datos_estado_cargados = false;
 
+let base_title = 'Evolución del Covid-19 en el Estado de México';
+let time_frame = '\nUltimos 15 días';
+let interval_start_date = new Date();
+let interval_end_date = new Date();
+let last_date = undefined;
+
 var myChart = echarts.init(document.getElementById('chart'));
+myChart.showLoading();
+
 var option = {
     tooltip: {
         allowDecimals: false,
@@ -20,26 +33,31 @@ var option = {
 
         axisPointer: {
             type: 'cross',
-            allowDecimals: false,
+            snap: true,
             label: {
-                backgroundColor: '#6a7985'
+                backgroundColor: '#6a7985',
+                precision: 0,
+                formatter: function(x){ 
+                        if(x.axisDimension == "x"){
+                            return fechaAEspL(x.value);
+                         };
+                         return Math.floor(x.value);
+                         },
             }
         }
     },
     title: {
         left: 'center',
-        text: 'Evolución del Covid-19',
+        text: base_title+time_frame,
     },
     toolbox: {
         feature: {
-             magicType: {
-                type: ['line', 'bar']
-            },
+            // magicType: { type: ['line', 'bar'] },
             restore: {
-             title:'Restart'
+             title:'Reiniciar'
              },
             saveAsImage: {
-             title:'Save picture'
+             title:'Guardar Como Imágen'
              }
         }
     },
@@ -49,13 +67,20 @@ var option = {
         data: []
     },
     yAxis: {
+        //name: 'Personas',
         allowDecimals: false,
         type: 'value',
         boundaryGap: false
     },
+    legend: {
+        data: ['Contagios', 'Defunciones'],
+        left: '10',
+        orient: 'vertical'
+    },
     dataZoom: [{
         type: 'inside',
         filterMode: 'weakFilter',
+        index: 'zoom_control',
         },
         {
         start: 14,
@@ -77,7 +102,8 @@ var option = {
             large: true,
             smooth: false,
             symbol: 'none',
-            sampling: 'average',
+            barCategoryGap: '0%',
+            //sampling: 'average',
             itemStyle: {
                 color: 'rgb(199, 18, 0)'
             },
@@ -87,7 +113,7 @@ var option = {
                     color: 'rgb(199, 18, 0)' 
                 }, {
                     offset: 0.9,
-                    color: 'rgb(224, 167, 62)'
+                    color: 'rgb(173, 45, 45)'
                 }])
             },
             areaStyle: {
@@ -96,7 +122,7 @@ var option = {
                     color: 'rgb(199, 18, 0)' 
                 }, {
                     offset: 0.9,
-                    color: 'rgb(224, 167, 62)'
+                    color: 'rgb(173, 45, 45)'
                 }])
             },
             data: []
@@ -110,7 +136,7 @@ var option = {
             barCategoryGap: '0%', // this changed
             smooth: false,
             symbol: 'none',
-            sampling: 'average',
+            //sampling: 'average',
             itemStyle: {
                 color: 'rgb(23, 24, 26)'
             },
@@ -120,7 +146,7 @@ var option = {
                     color: 'rgb(23, 24, 26)' 
                 }, {
                     offset: 0.9,
-                    color: 'rgb(38, 46, 54)'
+                    color: 'rgb(4, 33, 36)'
                 }])
             },
             areaStyle: {
@@ -129,7 +155,7 @@ var option = {
                     color: 'rgb(23, 24, 26)' 
                 }, {
                     offset: 0.9,
-                    color: 'rgb(38, 46, 54)'
+                    color: 'rgb(4, 33, 36)'
                 }])
             },
             data: []
@@ -137,17 +163,60 @@ var option = {
     ]
 };
 
+myChart.on('dataZoom', function (evt) {
+ updateCharTitle();
+});
+
+function updateCharTitle(){
+  var axis = myChart.getModel().option.xAxis[0];
+  var starttime = axis.data[axis.rangeStart];
+  var endtime = axis.data[axis.rangeEnd];
+  if(starttime == undefined){ starttime = axis.data[0]; };
+  if(endtime == undefined){ endtime = axis.data[axis.data.length-1]; };
+  interval_start_date.setTime(Date.parse(starttime));
+  interval_end_date.setTime(Date.parse(endtime));
+  //console.log(starttime,endtime);
+  var diff_date = (interval_end_date-interval_start_date) / (1000 * 3600 * 24); 
+  time_frame = '';
+  if(diff_date+1 > 30 || endtime != last_date ){
+     time_frame = `\n${fechaAEsp(starttime)} al ${fechaAEsp(endtime)}`;
+     };
+  if(endtime == last_date){
+    time_frame = time_frame+`\n(Ultimos ${diff_date+1} días)`;
+    }
+  else{
+    time_frame = time_frame+`\n(${diff_date+1} días)`;
+    };
+  myChart.setOption({
+    title:{
+        text: base_title + time_frame}
+    });
+};
+
 function updateChartData(){
     myChart.setOption(option);
     }
+    
+const fechaAEspL = function(dateString){
+    base_date_obj.setTime(Date.parse(dateString));
+    return `${DIAS_S[base_date_obj.getUTCDay()]} ${base_date_obj.getUTCDate()} de ${MESES[base_date_obj.getUTCMonth()]} ${base_date_obj.getFullYear()}`;
+    }
+
+const fechaAEsp = function(dateString){
+    base_date_obj.setTime(Date.parse(dateString));
+    return `${base_date_obj.getUTCDate()} de ${MESES[base_date_obj.getUTCMonth()]} ${base_date_obj.getFullYear()}`;
+    }
+    
 
 function startup_completadas(){
     if(datos_estado_cargados && datos_fechas_cargados && datos_list_mun_cargados){
          console.log('Estamos listos');
-         updateChartData()
+         updateChartData();
+         myChart.hideLoading();
        }
     else{
         console.log('Aun no estamos listos');
+        myChart.showLoading();
         }
     };
 
@@ -161,27 +230,6 @@ const promesa_por_estado = fetch(request_datos_estado).then(
         datos_estado_cargados = true;
         startup_completadas();
     });
-
-
-/* cuando solicitabamos los datos en un archivo binario comprimido...
-const promesa_por_estado = fetch(request_datos_estado).then(
-    function(response) {
-        return response.arrayBuffer();
-    }).then(function(buffer) {
-        let my_data = new Uint8Array(buffer);
-        let data = JSON.parse(pako.inflate(my_data, { to: 'string' }));
-        datos_nuevos_diarios[1] =
-        ['Contagios Nuevos'].concat(data['CNH'].slice(1));
-        datos_nuevos_diarios[2] =
-        ['Defunciones Nuevas'].concat(data['DNH'].slice(1));            
-        
-        datos_acumulados[1] = ['Contagios'].concat(data['CTC'].slice(1));
-        datos_acumulados[2] = ['Defunciones'].concat(data['DTC'].slice(1));
-        
-        datos_estado_cargados = true;
-        startup_completadas();
-    });
-*/
 
 const promesa_por_municipios = fetch(request_municipios).then(
     function(response) {
@@ -221,30 +269,23 @@ const promesa_por_fechas = fetch(request_fechas).then(
     }).then(function(buffer) {
         let my_data = new Uint8Array(buffer);
         let data = JSON.parse(pako.inflate(my_data, { to: 'string' }));
-        option.xAxis.data = data.Fechas.slice(1);
+        option.xAxis.data = data.Fechas.slice(1)/*
+         .map(
+            function(x){
+                return fechaAEsp(new Date(x));
+                }
+            )*/;
+        last_date = option.xAxis.data[option.xAxis.data.length-1];
         option.dataZoom[0].endValue = option.xAxis.data.length 
         option.dataZoom[0].startValue = option.xAxis.data.length-14
         console.log(data);
         
         console.log('¡¡Fechas cargadas!!');
+        console.log('last date',last_date)
         datos_fechas_cargados = true;
         startup_completadas();
     });
 
-
-/* Dibujar las graficas */
-
-const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto",
-"Septiembre","Octubre","Noviembre","Diciembre"];
-const DIAS_S = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"]
-
-const fechaAEsp = function (x, index){
-    return `${DIAS_S[x.getDay()]} ${x.getDate()} de ${MESES[x.getMonth()]} del ${x.getFullYear()}`;
-    }
-
-const fechaAEspL = function(x){
-    return `${MESES[x.getMonth()]}`;
-    }
 
 /* Logica de la pagina */
 
@@ -278,9 +319,11 @@ function SolicitaDatosMunicipio(event){
     const clv_num = event.target.getAttribute('inegi_id');
     
     let info_text = 'Mostrando los datos de Todo el Estado de México';
+    base_title = 'Evolución del Covid-19 en el Estado de México';
     if(clv_num != '000'){
         const mun_name = event.target.innerHTML;
         info_text = `Mostrando los datos de ${mun_name}.`;
+        base_title = `Evolución del Covid-19 en ${mun_name}`;
         } 
     document.getElementById("mostrando_ahora").innerHTML = info_text;
     document.getElementById("buscaMun").value = '';
@@ -289,28 +332,18 @@ function SolicitaDatosMunicipio(event){
     option.series[0].data = [];
     option.series[1].data = [];
     
-    updateChartData();
-    
-    /* cuando solicitabamos los datos en un archivo binario comprimido...
-    const mun_request_datos = new Request(`./static/covid_edomex/${clv_num}.json.zlib`);
-    fetch(mun_request_datos).then(
-    function(response) {
-        return response.arrayBuffer();
-    }).then(function(buffer) {
-        let my_data = new Uint8Array(buffer);
-        let data = JSON.parse(pako.inflate(my_data, { to: 'string' }));
-        datos_nuevos_diarios[1] =
-        ['Contagios Nuevos'].concat(data['CNH'].slice(1));
-        datos_nuevos_diarios[2] =
-        ['Defunciones Nuevas'].concat(data['DNH'].slice(1));            
+    myChart.setOption( { 
+           series: [
+                 { data:[] },
+                 { data:[] }
+                  ] 
+                } );
+    myChart.setOption({
+        title:{
+            text: ''}
+        });
         
-        datos_acumulados[1] = ['Contagios'].concat(data['CTC'].slice(1));
-        datos_acumulados[2] = ['Defunciones'].concat(data['DTC'].slice(1));
-        
-        chart_contagios.load({ columns:datos_nuevos_diarios });
-        chart_defunciones.load({ columns:datos_acumulados });
-    });
-    */
+    myChart.showLoading();
     
     const mun_request_datos = new Request(file_directory+`${clv_num}.json`);
     fetch(mun_request_datos).then(
@@ -320,7 +353,15 @@ function SolicitaDatosMunicipio(event){
         option.series[0].data = data['CNH'].slice(1); 
         option.series[1].data = data['DNH'].slice(1);
         
-        updateChartData();
+        myChart.setOption( { 
+           series: [
+                 { data: option.series[0].data },
+                 { data: option.series[1].data }
+                  ] 
+                } );
+        
+        myChart.hideLoading();
+        updateCharTitle()
     });
 
 }
