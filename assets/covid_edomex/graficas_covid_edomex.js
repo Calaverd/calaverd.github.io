@@ -5,6 +5,8 @@ const base_date_obj = new Date();
 
 let lista_de_municipios = [];
 let diccionario_municipios = {};
+let HistoricoDefunciones = {};
+let HistoricoContagios = {};
 
 const file_directory = '/assets/covid_edomex/data/';
 
@@ -12,21 +14,31 @@ const file_directory = '/assets/covid_edomex/data/';
 const request_fechas = new Request(file_directory+'Fechas.json');
 const request_municipios = new Request(file_directory+'Municipios.json');
 const request_datos_estado = new Request(file_directory+'000.json');
+const request_historial_defunciones = new Request(file_directory+'historial_defunciones.json');
+const request_historial_contagios = new Request(file_directory+'historial_contagios.json');
 
 let datos_list_mun_cargados = false;
 let datos_fechas_cargados = false;
 let datos_estado_cargados = false;
+let dato_hisdef_cargado = false;
+let dato_hiscon_cargado = false;
+let chart_one_is_ready = false;
+let chart_two_is_ready = false;
+
 
 let base_title = 'Evolución del Covid-19 en el Estado de México';
+let base_title_geo = 'Numero de Contagios Confirmados\n'
 let time_frame = '\nUltimos 15 días';
 let interval_start_date = new Date();
 let interval_end_date = new Date();
 let last_date = undefined;
 
 var myChart = echarts.init(document.getElementById('chart'));
+var myChartGeo = echarts.init(document.getElementById('geo_test'));
 myChart.showLoading();
+myChartGeo.showLoading();
 
-var option = {
+var OptionChart1 = {
     tooltip: {
         allowDecimals: false,
         trigger: 'axis',
@@ -167,6 +179,25 @@ myChart.on('dataZoom', function (evt) {
  updateCharTitle();
 });
 
+myChartGeo.on('timelinechanged', function (evt) {
+    let date = myChart.getModel().option.xAxis[0].data[evt.currentIndex]
+    //console.log('entra: ', current_option.title[0].text);
+    console.log();
+    
+        
+    myChartGeo.setOption({
+        title:[
+            {text: fechaAEsp(date)},
+            { 
+             text: base_title_geo+HistoricoContagios.date_list[evt.currentIndex].totales,
+            }
+            ]
+        });
+    //console.log('sale: ',current_option.title[0].text); 
+});
+
+
+
 function updateCharTitle(){
   var axis = myChart.getModel().option.xAxis[0];
   var starttime = axis.data[axis.rangeStart];
@@ -194,7 +225,7 @@ function updateCharTitle(){
 };
 
 function updateChartData(){
-    myChart.setOption(option);
+    myChart.setOption(OptionChart1);
     }
     
 const fechaAEspL = function(dateString){
@@ -209,15 +240,115 @@ const fechaAEsp = function(dateString){
     
 
 function startup_completadas(){
-    if(datos_estado_cargados && datos_fechas_cargados && datos_list_mun_cargados){
+    if(datos_estado_cargados && datos_fechas_cargados && datos_list_mun_cargados && !chart_one_is_ready){
          console.log('Estamos listos');
          updateChartData();
          myChart.hideLoading();
+         chart_one_is_ready = true;
        }
     else{
         console.log('Aun no estamos listos');
-        myChart.showLoading();
-        }
+        if(!chart_one_is_ready){
+            myChart.showLoading();
+            }
+        };
+    if (dato_hiscon_cargado && datos_fechas_cargados && !chart_two_is_ready){
+        chart_two_is_ready = true;
+        const test_geo = fetch(file_directory+'edomex_geojson.json').then(
+        function(response) {
+            return response.json();
+        }).then(function(map_data) {
+            
+            
+            echarts.registerMap('edomex', map_data);
+            
+            
+            let OptionChart12 = {
+                baseOption: {
+                    timeline: {
+                        //loop: false,
+                        top: '3%',
+                        axisType: 'category',
+                        show: true,
+                        rewind: false,
+                        autoPlay: false,
+                        symbol : 'none',
+                        playInterval: 150,
+                        loop :  false,
+                        data: OptionChart1.xAxis.data, 
+                        label: { show: false } 
+                    },
+                title: [{
+                    text:  fechaAEsp(OptionChart1.xAxis.data[0]),
+                    left: 'center'
+                },
+                {
+                text: base_title_geo+HistoricoContagios.date_list[0].totales,
+                    textAlign: 'center',
+                    left: '70%',
+                    top: '25%',
+                    textStyle: {
+                        fontSize: 20,
+                        color: 'rgba(10,10,10, 0.7)'
+                }}
+                ],
+                tooltip: {
+                    trigger: 'item',
+                    showDelay: 0,
+                    transitionDuration: 0.2,
+                },
+                visualMap: {
+                    orient: 'horizontal',
+                    left: 'center',
+                    bottom: 'top',
+                    itemWidth:  15,
+                    itemHeight: 500,
+                    min: 0,
+                    max: HistoricoContagios.max_con,
+                    inRange: {
+                        color: ['#baab95','#caa07b','#fdae61',
+                                '#f8a052','#f29244','#ed8336',
+                                '#e77429','#e2641b','#dc530e',
+                                '#d64000','#a50026','#811c24',
+                                '#5f2322','#3d2321']
+                       },
+                    calculable: true
+                },
+            series: [
+                {
+                    name: 'Contagios',
+                    type: 'map',
+                    map: 'edomex',
+                    left: '20%',
+                    label: {
+                           color:"#0a0a0a"
+                          }
+                 },
+                {
+                    name: 'Contagios',
+                    type: 'pie',
+                    center: ['70%', '55%'],
+                    radius: 75,
+                    //map: 'edomex',
+                    minShowLabelAngle: 5,
+                    label: {
+                           color:"#3d2321"
+                          }
+                 }
+                 
+                ] 
+            },
+            
+            options: HistoricoContagios.date_list.slice(1),
+            
+            };
+            
+            myChartGeo.setOption(OptionChart12);
+            myChartGeo.hideLoading();
+        });
+         
+       }
+        
     };
 
 
@@ -225,8 +356,8 @@ const promesa_por_estado = fetch(request_datos_estado).then(
     function(response) {
         return response.json();
     }).then(function(data) {
-        option.series[0].data = data['CNH'].slice(1);
-        option.series[1].data = data['DNH'].slice(1);
+        OptionChart1.series[0].data = data['CNH'].slice(1);
+        OptionChart1.series[1].data = data['DNH'].slice(1);
         datos_estado_cargados = true;
         startup_completadas();
     });
@@ -241,6 +372,7 @@ const promesa_por_municipios = fetch(request_municipios).then(
         
         for (var key in diccionario_municipios) {        
             lista_de_municipios[lista_de_municipios.length] = key
+            //console.log(key);
         }
         let top = lista_de_municipios[0];
         lista_de_municipios = [top].concat(lista_de_municipios.slice(1).sort());
@@ -262,6 +394,7 @@ const promesa_por_municipios = fetch(request_municipios).then(
         datos_list_mun_cargados = true;
         startup_completadas();
     });
+    
 
 const promesa_por_fechas = fetch(request_fechas).then(
     function(response) {
@@ -269,20 +402,56 @@ const promesa_por_fechas = fetch(request_fechas).then(
     }).then(function(buffer) {
         let my_data = new Uint8Array(buffer);
         let data = JSON.parse(pako.inflate(my_data, { to: 'string' }));
-        option.xAxis.data = data.Fechas.slice(1)/*
+        OptionChart1.xAxis.data = data.Fechas.slice(1)/*
          .map(
             function(x){
                 return fechaAEsp(new Date(x));
                 }
             )*/;
-        last_date = option.xAxis.data[option.xAxis.data.length-1];
-        option.dataZoom[0].endValue = option.xAxis.data.length 
-        option.dataZoom[0].startValue = option.xAxis.data.length-14
+        last_date = OptionChart1.xAxis.data[OptionChart1.xAxis.data.length-1];
+        OptionChart1.dataZoom[0].endValue = OptionChart1.xAxis.data.length 
+        OptionChart1.dataZoom[0].startValue = OptionChart1.xAxis.data.length-14
         console.log(data);
         
         console.log('¡¡Fechas cargadas!!');
         console.log('last date',last_date)
         datos_fechas_cargados = true;
+        startup_completadas();
+    });
+
+
+const promesa_hisotrial_contagios = fetch(request_historial_contagios).then(
+    function(response) {
+        return response.arrayBuffer();
+    }).then(function(buffer) {
+        let my_data = new Uint8Array(buffer);
+        let data = JSON.parse(pako.inflate(my_data, { to: 'string' }));
+        let temp_data = [];
+        data.date_list.forEach(
+            element => {
+                 let temp_array = {"series":[],"totales":0};
+                 temp_array.totales = element.totales;
+                 temp_array.series[0] = element.series;
+                 temp_array.series[1] = element.series;
+                 temp_data.push(temp_array);
+            });
+        HistoricoContagios = data;
+        HistoricoContagios.date_list = temp_data;
+        console.log('¡¡Hisotrico contagios cargado...!!');
+        dato_hiscon_cargado = true;
+        startup_completadas();
+    });
+
+
+const promesa_hisotrial_defuncines = fetch(request_historial_defunciones).then(
+    function(response) {
+        return response.arrayBuffer();
+    }).then(function(buffer) {
+        let my_data = new Uint8Array(buffer);
+        let data = JSON.parse(pako.inflate(my_data, { to: 'string' }));
+        HistoricoDefunciones = data.date_list.slice(1);
+        console.log('¡¡Hisotrico defunciones cargado...!!');
+        dato_hisdef_cargado = true;
         startup_completadas();
     });
 
@@ -325,12 +494,12 @@ function SolicitaDatosMunicipio(event){
         info_text = `Mostrando los datos de ${mun_name}.`;
         base_title = `Evolución del Covid-19 en ${mun_name}`;
         } 
-    document.getElementById("mostrando_ahora").innerHTML = info_text;
-    document.getElementById("buscaMun").value = '';
+    //document.getElementById("mostrando_ahora").innerHTML = info_text;
+    //document.getElementById("buscaMun").value = '';
     filterFunction();
 
-    option.series[0].data = [];
-    option.series[1].data = [];
+    OptionChart1.series[0].data = [];
+    OptionChart1.series[1].data = [];
     
     myChart.setOption( { 
            series: [
@@ -350,13 +519,13 @@ function SolicitaDatosMunicipio(event){
     function(response) {
         return response.json();
     }).then(function(data) {
-        option.series[0].data = data['CNH'].slice(1); 
-        option.series[1].data = data['DNH'].slice(1);
+        OptionChart1.series[0].data = data['CNH'].slice(1); 
+        OptionChart1.series[1].data = data['DNH'].slice(1);
         
         myChart.setOption( { 
            series: [
-                 { data: option.series[0].data },
-                 { data: option.series[1].data }
+                 { data: OptionChart1.series[0].data },
+                 { data: OptionChart1.series[1].data }
                   ] 
                 } );
         
@@ -365,3 +534,5 @@ function SolicitaDatosMunicipio(event){
     });
 
 }
+
+
