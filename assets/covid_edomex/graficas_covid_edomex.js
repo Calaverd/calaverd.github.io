@@ -319,7 +319,8 @@ function startup_completadas(){
                     name: 'Contagios',
                     type: 'map',
                     map: 'edomex',
-                    left: '20%',
+                    left: '13%',
+                    top: '13%',
                     label: {
                            color:"#0a0a0a"
                           }
