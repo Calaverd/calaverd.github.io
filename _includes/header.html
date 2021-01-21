@@ -5,13 +5,13 @@
             {%- assign default_paths = site.pages | map: "path" -%}
             {%- assign page_paths = site.header_pages | default: default_paths -%}
              <span class="navbar-item">
-            {% if page.lang == "es" %}
+            {%- if page.lang == "es" -%}
                 <a class="navbar-item" rel="author" href="{{ "/es/" | relative_url }}">
-            {% else %} <a class="navbar-item" rel="author" href="{{ "/" | relative_url }}">
-            {% endif %}
+            {%- else -%} <a class="navbar-item" rel="author" href="{{ "/" | relative_url }}">
+            {%- endif -%}
             <div class="box has-text-centered is-vcentered post" id='titleCard' style="display: table-cell;">
                 <p id='siteTitleName' class="title is-2 has-text-dark">{{ site.title | escape }}</p>
-                <p id='siteSubtitleName' class="subtitle is-6 has-text-dark title_card">{% if page.lang == "es" %}¡Las Cosas Se Hacen!{% else %}Getting Stuff Done!{% endif %}</p>
+                <p id='siteSubtitleName' class="subtitle is-6 has-text-dark title_card">{%- if page.lang == "es" -%}¡Las Cosas Se Hacen!{%- else -%}Getting Stuff Done!{%- endif -%}</p>
             </div>
             </a>
              </span>
@@ -22,12 +22,10 @@
             <span></span>
           </span>
         </div>
-
         {%- if page_paths -%}
           <div class="navbar-end">
           <div class="navbar-menu" id="navMenu">
-            
-           {% if page.lang == "es" %}
+           {%- if page.lang == "es" -%}
             <a class="navbar-item navbar-item-shady is-3 post" href="/es/about">
              <span style="vertical-align:middle;">
               <i class="far fa-lg fa-address-card fa-fw is-left"></i> <strong>Acerca de</strong>
@@ -38,7 +36,7 @@
               <i class="far fa-lg fa-file-alt fa-fw is-left"></i> <strong>Blog</strong>
              </span>
            </a>
-           {% else %}
+           {%- else -%}
             <a class="navbar-item navbar-item-shady is-3 post" href="/about">
              <span style="vertical-align:middle;">
               <i class="far fa-lg fa-address-card fa-fw is-left"></i> <strong>About</strong>
@@ -49,55 +47,53 @@
               <i class="far fa-lg fa-file-alt fa-fw is-left post"></i> <strong>Blog</strong>
              </span>
            </a>
-           {% endif %}
+           {%- endif -%}
             <hr class="navbar-divider">
-            {% assign post_encontrado = false %}
-            {% assign idiom_post = "es" %}
-            {% assign idiom_post_url = "" %}
-            {% for post in site.posts %}
-                {% if post.tpar == page.tpar %}
-                    {% if page.lang != post.lang and page.lang == "en" %}
-                        {% assign idiom_post_url = post.url %}
-                        {% assign post_encontrado = true %}
-                        {% break %}
-                    {% endif %}
-                    {% if page.lang != post.lang and page.lang == "es" %}
-                        {% assign idiom_post_url = post.url %}
-                        {% assign idiom_post = "en" %}
-                        {% assign post_encontrado = true %}
-                        {% break %}
-                    {% endif %}
-                {% endif %}
-            {% endfor %}
-            {% if post_encontrado %}
+            {%- assign post_encontrado = false -%}
+            {%- assign idiom_post = "es" -%}
+            {%- assign idiom_post_url = "" -%}
+            {%- for post in site.posts -%}
+                {%- if post.tpar == page.tpar -%}
+                    {%- if page.lang != post.lang and page.lang == "en" -%}
+                        {%- assign idiom_post_url = post.url -%}
+                        {%- assign post_encontrado = true -%}
+                        {%- break -%}
+                    {%- endif -%}
+                    {%- if page.lang != post.lang and page.lang == "es" -%}
+                        {%- assign idiom_post_url = post.url -%}
+                        {%- assign idiom_post = "en" -%}
+                        {%- assign post_encontrado = true -%}
+                        {%- break -%}
+                    {%- endif -%}
+                {%- endif -%}
+            {%- endfor -%}
+            {%- if post_encontrado -%}
                 <a class="navbar-item navbar-item-shady is-3 post" href="{{ idiom_post_url }}">
                   <span style="vertical-align:middle;">    
                     <i class="fas fa-lg fa-language fa-fw is-left post" data-fa-transform="shrink-6 up-.5" data-fa-mask="fas fa-comment" data-fa-mask-id="comment"></i>
-                    <strong>{% if idiom_post == "es" %}Español{% else %}English{% endif %}</strong>
+                    <strong>{%- if idiom_post == "es" -%}Español{%- else -%}English{%- endif -%}</strong>
                  </span>
                 </a>
-            {% else %}
-                {% if page.lang == "en" %}
+            {%- else -%}
+                {%- if page.lang == "en" -%}
                  <a class="{{ post.lang }} navbar-item navbar-item-shady post" href="{{ page.es_ver }}">
                   <span style="vertical-align:middle;">    
                     <i class="fas fa-lg fa-language fa-fw is-left" data-fa-transform="shrink-6 up-.5" data-fa-mask="fas fa-comment" data-fa-mask-id="comment"></i>
                     <strong>Español</strong>
                   </span>
                 </a> 
-                {% endif %}
-                {% if page.lang == "es" %}
+                {%- endif -%}
+                {%- if page.lang == "es" -%}
                 <a class="{{ post.lang }} navbar-item navbar-item-shady post" href="{{ page.en_ver }}">
                   <span style="vertical-align:middle;">    
                     <i class="fas fa-lg fa-language fa-fw is-left" data-fa-transform="shrink-6 up-.5" data-fa-mask="fas fa-comment" data-fa-mask-id="comment"></i>
                     <strong>English</strong>
                   </span>
                 </a> 
-                {% endif %}
-
-            {% endif %}
+                {%- endif -%}
+            {%- endif -%}
             </div>
           </div>
-
         {%- endif -%}
         <!-- make the burger menu work -->
         </div>
