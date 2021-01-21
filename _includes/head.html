@@ -1,48 +1,61 @@
 <head>
+  {%- if page.description.size > 0 -%}
+    {%- assign descipcion = page.description -%}
+  {%- else  -%}
+    {%- if page.excerpt.size > 0 -%}
+      {%- assign descipcion = page.excerpt -%}
+    {%- else -%}
+        {%- if page.lang == "es" -%}
+        {%- assign descipcion = "¡Las Cosas Se Hacen! - Página personal de Osvaldo Barajas" -%}
+          {%- else -%}
+          {%- assign descipcion = "Getting Stuff Done! - Personal Page of Osvaldo Barajas" -%}
+        {%- endif -%}
+    {%- endif -%}
+  {%- endif -%}
+
+  {%- if page.feature_img.size > 0 -%}
+    {%- assign thumbnail_image = page.feature_img -%}
+    {%- else -%}
+    {%- assign images = page.content | split:'src="' -%}
+    {%- for image in images -%}
+      {%- if image contains 'png' or image contains 'jpg' or image contains 'gif' -%}
+          {%- assign thumbnail_image = image | split:'"' | first -%}
+          {%- break -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ site.title }} {% if page.title -%} | {{ page.title }} {% endif %} </title>
-  {% assign description = site.dtrans[page.lang] %}
   <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
   <link rel="icon" type="image/vnd.microsoft.icon" href="{{ "/assets/favico.ico" | relative_url }}" sizes="16x16">
-  
-  <meta property="og:title" {% if page.title %} content="{{ page.title }}" {% else %} content="{{ site.title }}" {% endif %} >
-  <meta property="og:description" 
-  {% if page.description.size > 0 -%}
-    content="{{ page.description }}"
-  {%- else  -%}
-    {%- if page.excerpt.size > 0 -%}
-      content="{{ page.excerpt }}"
-    {%- else -%}
-        {%- if page.lang == "es" -%}
-          content="¡Las Cosas Se Hacen! - Página personal de Osvaldo Barajas"
-          {%- else -%}
-         content="Getting Stuff Done! - Personal Page of Osvaldo Barajas"
-        {%- endif -%}
-    {%- endif -%}
-  {%- endif -%}
- >
 
- {%- assign images = page.content | split:'src="' -%}
- {%- for image in images -%}
-   {%- if image contains 'png' or image contains 'jpg' or image contains 'gif' -%}
-      {%- assign thumbnail_image = image | split:'"' | first -%}
-      {%- break -%}
-   {%- endif -%}
- {%- endfor -%}
-
- 
-
-  <meta property="og:image" content="{{ thumbnail_image }}">
-  <meta property="og:url" content="{{ page.url }}">
-  <!-- meta name="twitter:card" content="summary_large_image" -->
-
-  <!--  Non-Essential, But Recommended -->
+  <meta name="title" content="Calaverd | Covid-19 en el Estado de México">
+  <meta name="description" content="{{ descipcion }}">
   <meta property="og:site_name" content="Calaverd">
-  
-  {%- feed_meta -%}
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ page.url }}">
+  <meta property="og:title" content="{{ site.title }} {% if page.title -%} | {{ page.title }} {% endif %} ">
+  <meta property="og:description" content="{{ descipcion }}">
+  <meta property="og:image" content="{{ thumbnail_image }}">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="{{ page.url }}">
+  <meta property="twitter:title" content="Calaverd | Covid-19 en el Estado de México">
+  <meta property="twitter:description" content="{{ descipcion }}">
+  <meta property="twitter:image" content="{{ thumbnail_image }}">
+
+
+  <meta property="og:title" content="{{ site.title }} {% if page.title -%} | {{ page.title }} {% endif %} ">
+  <meta property="og:description" content="{{ descipcion }}" >
+
+  {% feed_meta -%}
   {%- if jekyll.environment == 'production' and site.google_analytics -%}
     {%- include google-analytics.html -%}
   {%- endif -%}
