@@ -277,6 +277,7 @@ function startup_completadas(){
             
             echarts.registerMap('edomex', map_data);
 
+            /*
             let timelineChartOptions = {
                 timeline: {
                     axisType: 'category',
@@ -291,6 +292,7 @@ function startup_completadas(){
                     label: { show: false },
                     }
                 };
+            */
 
             let edomexChartOptions = {
                 tooltip: {
@@ -514,6 +516,7 @@ const promesa_por_fechas = fetch(request_fechas).then(
         
         console.log('¡¡Fechas cargadas!!');
         console.log('last date',last_date)
+        document.getElementById("fecha").innerHTML = fechaAEspL(last_date);
         datos_fechas_cargados = true;
         startup_completadas();
     });
