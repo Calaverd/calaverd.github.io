@@ -9,11 +9,9 @@
     <div class="hero-body">
         <div class="container">
             <div class="content has-text-centered">
-                <h1 class="title post-slow">
-                Osvaldo Bajaras Fierros
-               </h1>
-               <h2 class="subtitle is-family-monospace has-text-dark post-v-slow">
-                 {% if page.lang == 'es' %}Programador{% else %}Programmer{% endif %}
+                <h1 class="title is-size-1 post-slow">Osvaldo Bajaras Fierros</h1>
+               <h2 id ="skills" class="subtitle is-size-2 is-family-monospace has-text-dark post-v-slow">
+                 {%- if page.lang == 'es' -%}es{%- else -%}en{%- endif -%}
                </h2>
            </div>
        </div>
@@ -28,6 +26,7 @@
   
     {%- include footer.html -%}
   </section>
+  <script src="/assets/js/nms_text.js"></script>
   </body>
 
 </html>
