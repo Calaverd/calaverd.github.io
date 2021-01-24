@@ -293,6 +293,12 @@ function startup_completadas(){
                     }
                 };
             */
+            
+            let color_pal_cont = ['#918573','#caa07b','#fdae61',
+            '#f8a052','#f29244','#ed8336',
+            '#e77429','#e2641b','#dc530e',
+            '#d64000','#a50026','#811c24',
+            '#5f2322','#700000'];
 
             let edomexChartOptions = {
                 tooltip: {
@@ -316,11 +322,7 @@ function startup_completadas(){
                     max: MaximosContagiosMunicipio,
                     calculable: true,
                     inRange: {
-                        color: ['#baab95','#caa07b','#fdae61',
-                                '#f8a052','#f29244','#ed8336',
-                                '#e77429','#e2641b','#dc530e',
-                                '#d64000','#a50026','#811c24',
-                                '#5f2322','#3d2321']
+                        color:color_pal_cont
                         },
                     textStyle:{
                         fontSize : 14,
@@ -359,11 +361,7 @@ function startup_completadas(){
                     min: 0,
                     max: MaximosContagiosMunicipio,
                     inRange: {
-                        color: ['#918573','#caa07b','#fdae61',
-                                '#f8a052','#f29244','#ed8336',
-                                '#e77429','#e2641b','#dc530e',
-                                '#d64000','#a50026','#811c24',
-                                '#5f2322','#3d2321']
+                        color: color_pal_cont
                         }
                     },
                 series: [{
@@ -404,11 +402,11 @@ function startup_completadas(){
                         min: 0,
                         max: MaximosDefuncionesMunicipio,
                         inRange: {
-                            color: ['#918573','#caa07b','#fdae61',
-                                    '#f8a052','#f29244','#ed8336',
-                                    '#e77429','#e2641b','#dc530e',
-                                    '#d64000','#a50026','#811c24',
-                                    '#5f2322','#3d2321']
+                            color: ['#739190','#7bc1ca','#61f0fd',
+                                    '#52f8f0','#44ecf2','#36d5ed',
+                                    '#29a4e7','#1b7fe2','#0e48dc',
+                                    '#0056d6','#0021a5','#1c3c81',
+                                    '#223b5f','#212c3d']
                             }
                         },
                     series: [{
