@@ -1,27 +1,3 @@
-function getRandom(min, max){ return Math.floor(Math.random()*(max-min+1)+min); };
-
-function randChart(){ 
-    let grup = getRandom(0,8);
-    let upper_limit = 25;
-    if(grup == 0 ){ //letter like simbos have the lowest probability, you do not what to form a random word
-        grup = getRandom(0,2);
-        if(grup == 0){
-            return String.fromCharCode(getRandom(20,128-upper_limit));
-        }else if(grup == 1){
-            return String.fromCharCode(getRandom(160,591-upper_limit));
-        }else{
-            return String.fromCharCode(getRandom(768,1327-upper_limit));
-        };
-    }else if( grup <= 3 ){
-        return String.fromCharCode(getRandom(8592,8703-upper_limit));
-    }else if(grup < 6){
-        return String.fromCharCode(getRandom(9472,9584-upper_limit));
-    }else{
-        return String.fromCharCode(getRandom(9600,9631-upper_limit));
-    }
-   // return 'a'
-};
-
 const underscore_a = '▯';
 const underscore_b = '▮';
 
@@ -37,6 +13,34 @@ const st_decipher = 1;
 const st_espera   = 2;
 const st_delete   = 3;
 const st_get_next = 4;
+
+function getRandom(min, max){ return Math.floor(Math.random()*(max-min+1)+min); };
+
+function randChart(){ 
+    let grup = getRandom(0,8);
+    let upper_limit = 25;
+    if(grup == 0 ){ //letter like simbos have the lowest probability, you do not what to form a random word
+        grup = getRandom(0,2);
+        if(grup == 0){
+            return String.fromCharCode(getRandom(20,128-upper_limit));
+        }else{
+            return String.fromCharCode(getRandom(160,260-upper_limit));
+        };
+    }else if( grup <= 3 ){
+        return String.fromCharCode(getRandom(8592,8703-upper_limit));
+    }else if(grup < 6){
+        return String.fromCharCode(getRandom(9472,9584-upper_limit));
+    }else{
+        return String.fromCharCode(getRandom(9600,9631-upper_limit));
+    }
+   // return 'a'
+};
+
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    };
+};
 
 function getOfuscated(base_string){
     let i = 0;
@@ -89,14 +93,22 @@ function setNewWord(){
 function writeText(current_text){
     if(current_position < current_text.length){
         let i = 0
-        document.getElementById('skills').innerHTML=''
+        removeAllChildNodes(document.getElementById('skills'));
         while(i <= current_position){
-            document.getElementById('skills').innerHTML += current_text[i].nchar;
+            let tag = document.createElement("span");
+            let text = document.createTextNode(current_text[i].nchar);
+            tag.classList.add("has-text-light");
+            tag.appendChild(text);
+            document.getElementById('skills').appendChild(tag);
             i++;
         };
         current_position++;
         if(current_position != current_text.length){
-            document.getElementById('skills').innerHTML += underscore_b;
+            let tag = document.createElement("span");
+            let text = document.createTextNode(underscore_b);
+            tag.classList.add("has-text-link");
+            tag.appendChild(text);
+            document.getElementById('skills').appendChild(tag);
         };
     }else{
         state = st_decipher;
@@ -109,25 +121,49 @@ function decipherText(current_text){
     let i = 0;
     let all_zeros = true;
     esperar_por_n_ticks++;
-    document.getElementById('skills').innerHTML=''
+
+    removeAllChildNodes(document.getElementById('skills'));
+
+    let tick = esperar_por_n_ticks%4;
+    let simbol = '⬖';
+    if( tick == 1){simbol = '⬘'}
+    if( tick == 2){simbol = '⬗'}
+    if( tick == 3){simbol = '⬙'}
+    let tag = document.createElement("span");
+    let text = document.createTextNode(simbol);
+    tag.classList.add("has-text-warning");
+    tag.appendChild(text);
+    document.getElementById('skills').appendChild(tag);
+
+    
     while(i < current_text.length){
         current_text[i].runs--;
         current_text[i].nchar = String.fromCharCode(current_text[i].nchar.charCodeAt()+2-getRandom(0,1));
         if( current_text[i].runs <= 0 ){
             all_zeros = all_zeros && true;
-            document.getElementById('skills').innerHTML += current_text[i].basec;
+            let tag = document.createElement("span");
+            let text = document.createTextNode(current_text[i].basec);
+            tag.classList.add("has-text-grey-dark");
+            tag.appendChild(text);
+            document.getElementById('skills').appendChild(tag);
             }
         else{
             all_zeros = all_zeros && false;
-            document.getElementById('skills').innerHTML += current_text[i].nchar;
+            let tag = document.createElement("span");
+            let text = document.createTextNode(current_text[i].nchar);
+            tag.classList.add("has-text-link");
+            tag.appendChild(text);
+            document.getElementById('skills').appendChild(tag);
             };
         i++;
     };
-    if(esperar_por_n_ticks%4 < 2){
-        document.getElementById('skills').innerHTML += underscore_a;
-    }else{
-        document.getElementById('skills').innerHTML += underscore_b;
-    };
+    
+    let tag2 = document.createElement("span");
+    let text2 = document.createTextNode(simbol);
+    tag2.classList.add("has-text-warning");
+    tag2.appendChild(text2);
+    document.getElementById('skills').appendChild(tag2);
+   
     if(all_zeros){
        // document.getElementById('skills').innerHTML += underscore_a;
         state = st_espera;
@@ -143,9 +179,9 @@ function esperaText(current_text){
     if(esperar_por_n_ticks > 0){
         esperar_por_n_ticks--;
         if(esperar_por_n_ticks%4 < 2){
-            document.getElementById('skills').innerHTML += underscore_a;
+            //document.getElementById('skills').innerHTML += underscore_a;
         }else{
-            document.getElementById('skills').innerHTML += underscore_b;
+            //document.getElementById('skills').innerHTML += underscore_b;
         };
     }else{
        state = st_delete; // st delete or st decipher
@@ -156,13 +192,17 @@ function esperaText(current_text){
 function deleteText(current_text){
     if(current_position >= 0){
         let i = 0;
-        document.getElementById('skills').innerHTML=''
+        removeAllChildNodes(document.getElementById('skills'));
         while(i < current_position-1){
             document.getElementById('skills').innerHTML += current_text[i].basec;
             i++;
         };
         current_position--;
-        document.getElementById('skills').innerHTML += underscore_b;
+        let tag = document.createElement("span");
+        let text = document.createTextNode(underscore_b);
+        tag.classList.add("has-text-danger");
+        tag.appendChild(text);
+        document.getElementById('skills').appendChild(tag);
     }
     else{
         document.getElementById('skills').innerHTML=''
