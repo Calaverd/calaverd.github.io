@@ -83,6 +83,8 @@ function addSubtitle(){
     };
 
 let added = false;
+let moved_to_body = false;
+let first_time_moving = true;
 
 function checkScrollPos(){
     let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
@@ -120,6 +122,34 @@ function checkScrollPos(){
        window.setTimeout(addSubtitle,250);
        added = false;
     };
+
+    let hero = document.getElementById('hero');
+    if(hero != null){
+      let hero_head = document.getElementById('hero-head');
+      let domRect = hero.getBoundingClientRect();
+      let nav_bar_pos = hero_head.getBoundingClientRect().y;
+      let nav_bar_size = (document.getElementById('navbar').getBoundingClientRect().height);
+      //console.log(nav_bar_pos);
+      if((Math.abs(nav_bar_pos)+nav_bar_size)>domRect.height && !moved_to_body){
+        console.log('moved to body');
+        moved_to_body = true;
+        hero.removeChild(hero_head);
+        if(first_time_moving){
+          first_time_moving = false;
+          let all_post = hero_head.querySelectorAll(".post"); 
+          all_post.forEach( x => console.log(x.classList.remove("post")) );
+        }
+        document.body.insertBefore(hero_head, document.body.firstChild);
+      }
+      if(moved_to_body){
+        if((Math.abs(nav_bar_pos)+nav_bar_size)<domRect.height){
+          console.log('moved to hero');
+          moved_to_body = false;
+          document.body.removeChild(hero_head);
+          hero.insertBefore(hero_head, hero.firstChild);
+        }
+      }
+    }
 };
 
-window.setInterval(checkScrollPos,0.5);
+window.setInterval(checkScrollPos,5);

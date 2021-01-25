@@ -4,7 +4,8 @@
   {%- include head.html -%}
 
   <body>
-    <section class="hero is-fullheight is-primary is-bold">
+    
+    <section class="hero is-fullheight is-primary is-bold" id='hero'>
       {%- include header.html -%}
       <div class="hero-body">
           <div class="container">
@@ -28,19 +29,22 @@
     </section>
 
     <!-- Begin About Me Section -->
-    <section class="section is-fullheight is-primary is-bold">
+    <section class="section is-primary is-bold">
         <div class='columns'>
           <div class='column is-9 is-offset-2'>
             <div class='columns has-vertically-aligned-content'>
-              <div class='column has-text-centered'>
+              <div class='column has-text-centered is-4'>
                 <h1 class="title"> <i class="fas fa-lg fa-id-badge"></i></h1>
                 <h1 class="title">{%- if page.lang == 'es' -%} Acerca De Mi...{%- else -%} About Me... {%- endif -%}</h1>
-                 {%- if page.lang == 'es' -%} 
-                 <p>Soy un desarrollador quien ha experimentado con distintos lenguajes de programación y varios enfoques diferentes a lo largo de los años.</p>
-                  <p> Enfocado en crear experiencias que sean simples y directas.</p>
+                  <div class='px-6'>
+                    {%- if page.lang == 'es' -%} 
+                    <p>Soy un desarrollador quien ha experimentado con distintos lenguajes de programación y varios enfoques diferentes a lo largo de los años.</p>
+                    <p>Enfocado en crear experiencias y software que sea tanto simple como directo.</p>
                     {%- else -%}
-                   
-                   {%- endif -%}
+                    <p>I am a developer who has experimented with different programming languages and several different approaches over the years.</p>
+                    <p>Focused on creating experiences and software that is both simple and straightforward.</p>
+                    {%- endif -%}
+                  </div>
               </div>
               <div class='column'>
 
@@ -52,23 +56,80 @@
         </div>
     </section>
 
+    <section class="section is-primary is-bold">
+      <div class='columns'>
+        <div class='column is-9 is-offset-2'>
+          <div class='columns has-vertically-aligned-content'>
+            <div class='column is-3'>
+
+            </div>
+            <div class='column'>
+
+            </div>
+            <div class='column has-text-centered is-4 is-dark'>
+              <h1 class="title"> <i class="fas fa-lg fa-address-card"></i></h1>
+              <h1 class="title">{%- if page.lang == 'es' -%}Contacto{%- else -%}Contact{%- endif -%}</h1>
+
+              <div class='columns is-gapless'>
+                <div class="column"></div>
+                <div class="column">
+                  <span class="subtitle icon is-left" style="vertical-align:middle; display: inline-table;"><i class="far fa-lg fa-envelope fa-fw"></i></span>
+                </div>
+                <div class="column is-half" style="vertical-align:middle; display: inline-table;" >
+                  <a class="u-email subtitle is-size-6 is-italic" href="mailto:{{ site.email }}">calaverd.lua<wbr>@gmail.com</a>
+                </div>
+                <div class="column"></div>
+              </div>
+
+              <div class='columns is-gapless'>
+                <div class="column"></div>
+                <div class="column">
+                  <span class="subtitle icon is-left" style="vertical-align:middle;"><i class="fab fa-lg fa-github-alt fa-fw"></i></span>
+                </div>
+                <div class="column is-half" style="vertical-align:middle; display: inline-table;" >
+                  <a href="https://github.com/{{ site.github_username| cgi_escape | escape }}"  class="subtitle is-size-6 is-italic"><span>{{ site.github_username| escape }}</span></a>
+                </div>
+                <div class="column"></div>
+              </div>
+
+              <div class='columns is-gapless'>
+                <div class="column "></div>
+                <div class="column">
+                  <span class="subtitle icon is-left" style="vertical-align:middle; display: inline-table;"><i class="fab fa-lg fa-twitter fa-fw"></i></span>
+                </div>
+                <div class="column is-half" style="vertical-align:middle; display: inline-table;" >
+                  <a href="https://www.twitter.com/{{ site.twitter_username| cgi_escape | escape }}" class="subtitle is-size-6 is-italic"><span>{{ site.twitter_username| escape }}</span></a></li>
+                </div>
+                <div class="column"></div>
+              </div>
+
+              <div class='columns is-gapless'>
+                <div class="column "></div>
+                <div class="column">
+                  <span class="subtitle icon is-left" style="vertical-align:middle; display: inline-table;"><i class="fab fa-lg fa-itch-io fa-fw"></i></span>
+                </div>
+                <div class="column is-half" style="vertical-align:middle; display: inline-table;" >
+                  <a href="https://www.twitter.com/{{ site.twitter_username| cgi_escape | escape }}" class="subtitle is-size-6 is-italic"><span>{{ site.twitter_username| escape }}</span></a></li>
+                </div>
+                <div class="column"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+
     <section class="section is-fullheight is-primary is-bold">
       <div class='columns has-vertically-aligned-content'>
-            <div class='column has-text-centered is-6'>
-              <h1 class="title"> <i class="fas fa-lg fa-id-badge"></i></h1>
-              <h1 class="title">{%- if page.lang == 'es' -%}Contacto{%- else -%}Contact{%- endif -%}</h1>
+        <div class='column'>
+
+        </div>  
+          <div class='column has-text-centered-tablet is-6'>
+              
               <div class="columns">
                 <div class="column">
-                  <span class="icon is-left" style="vertical-align:middle; display: inline-table;"><i class="far fa-lg fa-envelope fa-fw"></i></span>
-                  <a class="u-email subtitle is-size-6 is-italic" href="mailto:{{ site.email }}"> {{ site.email }}</a>
-                </div>
-                <div class="column">
-                  <span class="icon is-left" style="vertical-align:middle; display: inline-table;"><i class="far fa-lg fa-envelope fa-fw"></i></span>
-                  <a class="u-email subtitle is-size-6 is-italic" href="mailto:{{ site.email }}"> {{ site.email }}</a>
-                </div>
-                <div class="column">
-                  <span class="icon is-left" style="vertical-align:middle; display: inline-table;"><i class="far fa-lg fa-envelope fa-fw"></i></span>
-                  <a class="u-email subtitle is-size-6 is-italic" href="mailto:{{ site.email }}"> {{ site.email }}</a>
+                  
                 </div>
               </div>
 
@@ -79,10 +140,11 @@
       </div>
   </section>
 
-
   {%- include footer.html -%}
+  
   <script src="/assets/js/nms_text.js"></script>
   </body>
+  {%- include scripts.html -%}
 
 </html>
 
