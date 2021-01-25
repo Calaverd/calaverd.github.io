@@ -1,31 +1,86 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: "en" }}">
+<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
 
   {%- include head.html -%}
 
   <body>
     <section class="hero is-fullheight is-primary is-bold">
-    {%- include header.html -%}
-    <div class="hero-body">
-        <div class="container">
-            <div class="content has-text-centered">
-                <h1 class="title is-size-1 post-slow">Osvaldo Bajaras Fierros</h1>
-               <h2 id ="skills" class="subtitle is-size-2 is-family-monospace has-text-grey-darker post-v-slow">
-                 {%- if page.lang == 'es' -%}es{%- else -%}en{%- endif -%}
-               </h2>
-           </div>
-       </div>
-    </div>
-       
-        {% comment %}
-       <h4>
-        <span class="is-size-4 " style="vertical-align:middle;"><i class="far fa-lg fa-address-card is-left"></i> <strong>Contacto</strong></span>
-       </h4>
-       {%- include social.html -%}
-       {% endcomment %} 
-  
-    {%- include footer.html -%}
+      {%- include header.html -%}
+      <div class="hero-body">
+          <div class="container">
+              <div class="content has-text-centered">
+                  <h1 class="title is-size-1 post-slow">Osvaldo Bajaras Fierros</h1>
+                <h2 id ="skills" class="subtitle is-size-2 is-family-monospace has-text-grey-darker post-v-slow">
+                  {%- if page.lang == 'es' -%}es{%- else -%}en{%- endif -%}
+                </h2>
+            </div>
+        </div>
+      </div>
+        
+          {% comment %}
+        <h4>
+          <span class="is-size-4 " style="vertical-align:middle;"><i class="far fa-lg fa-address-card is-left"></i> <strong>Contacto</strong></span>
+        </h4>
+        {%- include social.html -%}
+        {% endcomment %} 
+        <footer class="hero-foot">
+        </footer>
+    </section>
+
+    <!-- Begin About Me Section -->
+    <section class="section is-fullheight is-primary is-bold">
+        <div class='columns'>
+          <div class='column is-9 is-offset-2'>
+            <div class='columns has-vertically-aligned-content'>
+              <div class='column has-text-centered'>
+                <h1 class="title"> <i class="fas fa-lg fa-id-badge"></i></h1>
+                <h1 class="title">{%- if page.lang == 'es' -%} Acerca De Mi...{%- else -%} About Me... {%- endif -%}</h1>
+                 {%- if page.lang == 'es' -%} 
+                 <p>Soy un desarrollador quien ha experimentado con distintos lenguajes de programación y varios enfoques diferentes a lo largo de los años.</p>
+                  <p> Enfocado en crear experiencias que sean simples y directas.</p>
+                    {%- else -%}
+                   
+                   {%- endif -%}
+              </div>
+              <div class='column'>
+
+              </div>
+              <div class='column is-3'>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <section class="section is-fullheight is-primary is-bold">
+      <div class='columns has-vertically-aligned-content'>
+            <div class='column has-text-centered is-6'>
+              <h1 class="title"> <i class="fas fa-lg fa-id-badge"></i></h1>
+              <h1 class="title">{%- if page.lang == 'es' -%}Contacto{%- else -%}Contact{%- endif -%}</h1>
+              <div class="columns">
+                <div class="column">
+                  <span class="icon is-left" style="vertical-align:middle; display: inline-table;"><i class="far fa-lg fa-envelope fa-fw"></i></span>
+                  <a class="u-email subtitle is-size-6 is-italic" href="mailto:{{ site.email }}"> {{ site.email }}</a>
+                </div>
+                <div class="column">
+                  <span class="icon is-left" style="vertical-align:middle; display: inline-table;"><i class="far fa-lg fa-envelope fa-fw"></i></span>
+                  <a class="u-email subtitle is-size-6 is-italic" href="mailto:{{ site.email }}"> {{ site.email }}</a>
+                </div>
+                <div class="column">
+                  <span class="icon is-left" style="vertical-align:middle; display: inline-table;"><i class="far fa-lg fa-envelope fa-fw"></i></span>
+                  <a class="u-email subtitle is-size-6 is-italic" href="mailto:{{ site.email }}"> {{ site.email }}</a>
+                </div>
+              </div>
+
+            </div>
+            <div class='column'>
+
+            </div>
+      </div>
   </section>
+
+
+  {%- include footer.html -%}
   <script src="/assets/js/nms_text.js"></script>
   </body>
 
