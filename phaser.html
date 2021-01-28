@@ -31,9 +31,13 @@ const carga_phaser = fetch('/assets/js/phaser.ultramin.js').then(
 
         var config = {
             type: Phaser.AUTO,
-            width: 800,
-            height: 600,
-            parent: 'phaser-game',
+            scale: {
+                mode: Phaser.Scale.FIT,
+                parent: 'phaser-game',
+                autoCenter: Phaser.Scale.CENTER_BOTH,
+                width: 800,
+                height: 600
+                },
             physics: {
                 default: 'arcade',
                 arcade: {
@@ -43,7 +47,7 @@ const carga_phaser = fetch('/assets/js/phaser.ultramin.js').then(
             scene: {
                 preload: function(){
                         console.log("Phaser tries to load here... ")
-                        this.load.setBaseURL('http://labs.phaser.io');
+                        this.load.setBaseURL('https://labs.phaser.io');
 
                         this.load.image('sky', 'assets/skies/space3.png');
                         this.load.image('logo', 'assets/sprites/phaser3-logo.png');
