@@ -78,12 +78,26 @@ const promesa = fetch(request_data).then(
                 name: 'Gramos',
                 min: 400,
             },
+            singleAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['kmeans 1']
+            },
             series: [{
                 type: 'boxplot',
-                scale: 'log',
                 data: [
-                    grupo_1_peso,
-                    grupo_2_peso
+                    {   value: grupo_1_peso,
+                        itemStyle: {
+                            color:'#006e3c',
+                            borderColor: '#000000'
+                        }
+                    },
+                    {   value: grupo_2_peso,
+                        itemStyle: {
+                            color:'#004d66',
+                            borderColor: '#000000'
+                        }
+                    },
                     ]
                 }
             ]
@@ -113,8 +127,18 @@ const promesa = fetch(request_data).then(
                 type: 'boxplot',
                 scale: 'log',
                 data: [
-                    grupo_1_g120,
-                    grupo_2_g120
+                    {   value: grupo_1_g120,
+                        itemStyle: {
+                            color:'#006e3c',
+                            borderColor: '#000000'
+                        }
+                    },
+                    {   value: grupo_2_g120,
+                        itemStyle: {
+                            color:'#004d66',
+                            borderColor: '#000000'
+                        }
+                    }
                     ]
                 }
             ]
@@ -144,8 +168,18 @@ const promesa = fetch(request_data).then(
                 type: 'boxplot',
                 scale: 'log',
                 data: [
-                    grupo_1_tag,
-                    grupo_2_tag
+                    {   value: grupo_1_tag,
+                        itemStyle: {
+                            color:'#006e3c',
+                            borderColor: '#000000'
+                        }
+                    },
+                    {   value: grupo_2_tag,
+                        itemStyle: {
+                            color:'#004d66',
+                            borderColor: '#000000'
+                        }
+                    }
                     ]
                 }
             ]
@@ -185,15 +219,18 @@ const promesa = fetch(request_data).then(
             series: [{
                 name: 'Grupo1',
                 type: 'line',
-                data:grupo_1_tag
+                data:grupo_1_tag,
+                lineStyle: {
+                    color: '#006e3c'
+                    }
                 },
                 {
                 name: 'Grupo2',
                 type: 'line',
                 data:grupo_2_tag,
                 lineStyle: {
-                    color: '#0f0'
-                    },
+                    color: '#004d66'
+                    }
                 }
             ]
         };
