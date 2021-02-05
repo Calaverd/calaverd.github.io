@@ -87,7 +87,7 @@ const promesa = fetch(request_data).then(
                 type: 'value',
                 name: 'Gramos',
                 min: 400,
-                max: 700
+                max: 770
             },
             series: [{
                 type: 'boxplot',
