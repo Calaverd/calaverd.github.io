@@ -26,14 +26,14 @@ const promesa = fetch(request_data).then(
         let grupo_2 = data['grupo_2'];
 
         let grupo_1_peso = [];
-        let grupo_1_peso_scatter = []
+        let grupo_1_scat_insul = []
         let grupo_1_kmeans = [];
         let grupo_1_g120 = [];
         let grupo_1_tag = [];
         let grupo_1_insul = [];
         
         let grupo_2_peso = [];
-        let grupo_2_peso_scatter = [];
+        let grupo_2_scat_insul = [];
         let grupo_2_kmeans = [];
         let grupo_2_g120 = [];
         let grupo_2_tag = [];
@@ -44,106 +44,142 @@ const promesa = fetch(request_data).then(
 
         grupo_1.forEach(element => {
             grupo_1_peso.push(element['S20']);
-            grupo_1_peso_scatter.push([0,element['S20']]);
             grupo_1_kmeans.push(element['kmeans']);
             grupo_1_g120.push(element['G120']);
             grupo_1_tag.push(element['TAG']);
             grupo_1_insul.push(element['INS']);
+            grupo_1_scat_insul.push([0,element['INS']]);
         });
 
         grupo_2.forEach(element => {
             grupo_2_peso.push(element['S20']);
-            grupo_2_peso_scatter.push([1,element['S20']]);
             grupo_2_kmeans.push(element['kmeans']);
             grupo_2_g120.push(element['G120']);
             grupo_2_tag.push(element['TAG']);
             grupo_2_insul.push(element['INS']);
+            grupo_2_scat_insul.push([1,element['INS']]);
         });
-
-        console.log(grupo_1_peso_scatter)
         
         let OptionChart1 = {
-            title: {
-                text: 'Peso vs Kmeans',
-                left: 'center'
-            },
+            title:[
+                {
+                    text: 'Comparación del Peso',
+                    left: 'center'
+                },
+                /* // leyenda
+                {
+                    text: 'upper: Q3 + 1.5 * IRQ lower: Q1 - 1.5 * IRQ',
+                    borderColor: '#999',
+                    borderWidth: 1,
+                    textStyle: {
+                        fontSize: 14
+                    },
+                    left: '10%',
+                    top: '93%'
+                }
+                */
+                ],
+            tooltip: {
+                backgroundColor : 'rgba(50,50,50,0.8)',
+                trigger: 'item',
+                axisPointer: {
+                    type: 'cross',
+                    snap: true
+                    }
+                },
             xAxis: {
                 type: 'category',
-                data: ['kmeans 1','kmeans 2'],
+                data: ['Kmeans 1','Kmeans 2'],
                 splitArea: {
                     show: false
                 },
                 splitLine: {
                     show: false
-                }
-            },
-            tooltip: {
-                trigger: 'item',
-                axisPointer: {
-                    type: 'shadow'
-                }
+                },
+                axisLabel: {
+                    color:'#0f0f0f',
+                    fontSize :14,
+                    }
             },
             yAxis: {
                 type: 'value',
                 name: 'Gramos',
                 min: 400,
-                max: 770
+                max: 700,
+                type: 'value',
+                nameTextStyle: {
+                    color:'#0f0f0f',
+                    fontSize :16,
+                    },
+                axisLabel: {
+                    color:'#0f0f0f',
+                    fontSize :14,
+                    },
+                boundaryGap: false
             },
             series: [{
                 type: 'boxplot',
                 data: [
-                    {   value: grupo_1_peso,
+                    {   name: 'Kmeans 1',
+                        value: grupo_1_peso,
                         itemStyle: {
                             color:'#006e3c',
                             borderColor: '#000000'
                         }
                     },
-                    {   value: grupo_2_peso,
+                    {   name: 'Kmeans 2',
+                        value: grupo_2_peso,
                         itemStyle: {
                             color:'#004d66',
                             borderColor: '#000000'
                         }
                     },
                     ]
-                },
-                {
-                type: 'scatter',
-                data: grupo_1_peso_scatter,
-                    itemStyle: {
-                        color:'#0f0f0f'
-                    },
-                z: 4
-                },
-                {
-                type: 'scatter',
-                data: grupo_2_peso_scatter,
-                    itemStyle: {
-                        color:'#0f0f0f'
-                    },
-                z: 4
                 }
             ]
         };
 
         let OptionChart2 = {
             title: {
-                text: 'G120 vs Kmeans',
+                text: 'G120',
                 left: 'center'
             },
-            xAxis: {
-                type: 'category',
-                data: ['kmeans 1','kmeans 2']
-            },
             tooltip: {
+                backgroundColor : 'rgba(50,50,50,0.8)',
                 trigger: 'item',
                 axisPointer: {
-                    type: 'shadow'
-                }
+                    type: 'cross',
+                    snap: true
+                    }
+                },
+            xAxis: {
+                type: 'category',
+                data: ['Kmeans 1','Kmeans 2'],
+                splitArea: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                },
+                axisLabel: {
+                    color:'#0f0f0f',
+                    fontSize :14,
+                    }
             },
             yAxis: {
-                type: 'value',
                 name: 'Glucosa',
-                min: 50,
+                min: 70,
+                max: 260,
+                type: 'value',
+                nameTextStyle: {
+                    color:'#0f0f0f',
+                    fontSize :16,
+                    },
+                axisLabel: {
+                    color:'#0f0f0f',
+                    fontSize :14,
+                    },
+                boundaryGap: false
             },
             series: [{
                 type: 'boxplot',
@@ -168,25 +204,45 @@ const promesa = fetch(request_data).then(
 
         let OptionChart3 = {
             title: {
-                text: 'TAG vs Kmeans',
+                text: 'TAG',
                 left: 'center'
             },
-            xAxis: {
-                type: 'category',
-                data: ['kmeans 1','kmeans 2']
-            },
             tooltip: {
+                backgroundColor : 'rgba(50,50,50,0.8)',
                 trigger: 'item',
                 axisPointer: {
-                    type: 'shadow'
-                }
+                    type: 'cross',
+                    snap: true
+                    }
+                },
+            xAxis: {
+                type: 'category',
+                data: ['Kmeans 1','Kmeans 2'],
+                splitArea: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                },
+                axisLabel: {
+                    color:'#0f0f0f',
+                    fontSize :14,
+                    }
             },
             yAxis: {
-                type: 'value',
                 name: 'Triglicéridos',
+                type: 'value',
+                nameTextStyle: {
+                    color:'#0f0f0f',
+                    fontSize :16,
+                    },
+                axisLabel: {
+                    color:'#0f0f0f',
+                    fontSize :14,
+                    },
+                boundaryGap: false
             },
             series: [{
-                name: 'TAG vs Kmeans',
                 type: 'boxplot',
                 scale: 'log',
                 data: [
@@ -208,51 +264,70 @@ const promesa = fetch(request_data).then(
         };
 
         let OptionChart4 = {
-            legend: {
-                data: ['Grupo 1', 'Grupo 2'],
-                //left: '10',
-                //bottom: '5%'
-                //orient: 'vertical'
-                textStyle:{
-                    fontSize : 17,
-                    fontStyle : 'bold',
-                    fontFamily: 'Atkinson'
-                    }
-                },
             title: {
-                text: 'TAG vs Insulina',
+                text: 'Insulina',
                 left: 'center'
             },
-            xAxis: {
-                name:'Insulina',
-                type: 'category',
-                data: grupo_1_insul
-            },
             tooltip: {
+                backgroundColor : 'rgba(50,50,50,0.8)',
                 trigger: 'item',
                 axisPointer: {
-                    type: 'shadow'
-                }
-            },
-            yAxis: {
-                type: 'value',
-                name: 'Triglicéridos',
-            },
-            series: [{
-                name: 'Grupo1',
-                type: 'line',
-                data:grupo_1_tag,
-                lineStyle: {
-                    color: '#006e3c'
+                    type: 'cross',
+                    snap: true
                     }
                 },
-                {
-                name: 'Grupo2',
-                type: 'line',
-                data:grupo_2_tag,
-                lineStyle: {
-                    color: '#004d66'
+            xAxis: {
+                type: 'category',
+                data: ['Kmeans 1','Kmeans 2'],
+                splitArea: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                },
+                axisLabel: {
+                    color:'#0f0f0f',
+                    fontSize :14,
                     }
+            },
+            yAxis: {
+                name: 'Insulina',
+                type: 'value',
+                nameTextStyle: {
+                    color:'#0f0f0f',
+                    fontSize :16,
+                    },
+                axisLabel: {
+                    color:'#0f0f0f',
+                    fontSize :14,
+                    },
+                boundaryGap: false
+            },
+            series: [{
+                type: 'boxplot',
+                scale: 'log',
+                data: [
+                    {   value: grupo_1_insul,
+                        itemStyle: {
+                            color:'#006e3c',
+                            borderColor: '#000000'
+                        }
+                    },
+                    {   value: grupo_2_insul,
+                        itemStyle: {
+                            color:'#004d66',
+                            borderColor: '#000000'
+                        }
+                    }
+                    ]
+                },
+                {
+                type: 'scatter',
+                data: grupo_1_scat_insul
+                },
+                {
+                type: 'scatter',
+                data: grupo_2_scat_insul
                 }
             ]
         };
