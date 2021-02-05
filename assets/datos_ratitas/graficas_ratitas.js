@@ -26,12 +26,14 @@ const promesa = fetch(request_data).then(
         let grupo_2 = data['grupo_2'];
 
         let grupo_1_peso = [];
+        let grupo_1_peso_scatter = []
         let grupo_1_kmeans = [];
         let grupo_1_g120 = [];
         let grupo_1_tag = [];
         let grupo_1_insul = [];
         
         let grupo_2_peso = [];
+        let grupo_2_peso_scatter = [];
         let grupo_2_kmeans = [];
         let grupo_2_g120 = [];
         let grupo_2_tag = [];
@@ -42,7 +44,8 @@ const promesa = fetch(request_data).then(
 
         grupo_1.forEach(element => {
             grupo_1_peso.push(element['S20']);
-            grupo_1_kmeans.push(element['kmeas']);
+            grupo_1_peso_scatter.push([0,element['S20']]);
+            grupo_1_kmeans.push(element['kmeans']);
             grupo_1_g120.push(element['G120']);
             grupo_1_tag.push(element['TAG']);
             grupo_1_insul.push(element['INS']);
@@ -50,13 +53,14 @@ const promesa = fetch(request_data).then(
 
         grupo_2.forEach(element => {
             grupo_2_peso.push(element['S20']);
-            grupo_2_kmeans.push(element['kmeas']);
+            grupo_2_peso_scatter.push([1,element['S20']]);
+            grupo_2_kmeans.push(element['kmeans']);
             grupo_2_g120.push(element['G120']);
             grupo_2_tag.push(element['TAG']);
             grupo_2_insul.push(element['INS']);
         });
 
-
+        console.log(grupo_1_peso_scatter)
         
         let OptionChart1 = {
             title: {
@@ -65,7 +69,13 @@ const promesa = fetch(request_data).then(
             },
             xAxis: {
                 type: 'category',
-                data: ['kmeans 1','kmeans 2']
+                data: ['kmeans 1','kmeans 2'],
+                splitArea: {
+                    show: false
+                },
+                splitLine: {
+                    show: false
+                }
             },
             tooltip: {
                 trigger: 'item',
@@ -77,11 +87,7 @@ const promesa = fetch(request_data).then(
                 type: 'value',
                 name: 'Gramos',
                 min: 400,
-            },
-            singleAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: ['kmeans 1']
+                max: 700
             },
             series: [{
                 type: 'boxplot',
@@ -99,6 +105,22 @@ const promesa = fetch(request_data).then(
                         }
                     },
                     ]
+                },
+                {
+                type: 'scatter',
+                data: grupo_1_peso_scatter,
+                    itemStyle: {
+                        color:'#0f0f0f'
+                    },
+                z: 4
+                },
+                {
+                type: 'scatter',
+                data: grupo_2_peso_scatter,
+                    itemStyle: {
+                        color:'#0f0f0f'
+                    },
+                z: 4
                 }
             ]
         };
