@@ -320,14 +320,6 @@ const promesa = fetch(request_data).then(
                         }
                     }
                     ]
-                },
-                {
-                type: 'scatter',
-                data: grupo_1_scat_insul
-                },
-                {
-                type: 'scatter',
-                data: grupo_2_scat_insul
                 }
             ]
         };
