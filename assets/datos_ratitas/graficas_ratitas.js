@@ -31,6 +31,7 @@ const promesa = fetch(request_data).then(
         let grupo_1_tag = [];
         let grupo_1_insul = [];
         let grupo_1_insul_vs_tag = [];
+        let grupo_1_bf = [];
         
         let grupo_2_peso = [];
         let grupo_2_kmeans = [];
@@ -38,6 +39,7 @@ const promesa = fetch(request_data).then(
         let grupo_2_tag = [];
         let grupo_2_insul = [];
         let grupo_2_insul_vs_tag = [];
+        let grupo_2_bf = [];
         
         
         let max_tag = []
@@ -50,6 +52,7 @@ const promesa = fetch(request_data).then(
             grupo_1_tag.push(element['TAG']);
             grupo_1_insul.push(element['INS']);
             grupo_1_insul_vs_tag.push([element['INS'],element['TAG']]);
+            grupo_1_bf.push(element['BF']);
         });
 
         grupo_2.forEach(element => {
@@ -59,6 +62,7 @@ const promesa = fetch(request_data).then(
             grupo_2_tag.push(element['TAG']);
             grupo_2_insul.push(element['INS']);
             grupo_2_insul_vs_tag.push([element['INS'],element['TAG']]);
+            grupo_2_bf.push(element['BF']);
         });
 
         
@@ -284,10 +288,10 @@ const promesa = fetch(request_data).then(
             ]
         };
 
-        /*
+        
         let OptionChart4 = {
             title: {
-                text: 'Insulina',
+                text: 'BF vs Kmeans',
                 left: 'center',
                 textStyle: {
                     color:'#0f0f0f',
@@ -319,16 +323,22 @@ const promesa = fetch(request_data).then(
                     }
             },
             yAxis: {
-                name: 'Insulina',
+                min: 180,
+                max: 350,
+                name: 'BF',
                 type: 'value',
+                nameGap:35,
                 nameTextStyle: {
                     color:'#0f0f0f',
                     fontSize :16,
-                    fontFamily: 'Atkinson'
+                    fontFamily: 'Atkinson',
+                    fontWeight:'bold'
                     },
+                nameLocation: 'center',
                 axisLabel: {
                     color:'#0f0f0f',
                     fontSize :14,
+                    rotate: 65,
                     },
                 boundaryGap: false
             },
@@ -336,13 +346,13 @@ const promesa = fetch(request_data).then(
                 type: 'boxplot',
                 scale: 'log',
                 data: [
-                    {   value: grupo_1_insul,
+                    {   value: grupo_1_bf,
                         itemStyle: {
                             color:'#006e3c',
                             borderColor: '#000000'
                         }
                     },
-                    {   value: grupo_2_insul,
+                    {   value: grupo_2_bf,
                         itemStyle: {
                             color:'#004d66',
                             borderColor: '#000000'
@@ -351,8 +361,9 @@ const promesa = fetch(request_data).then(
                     ]
                 }
             ]
-        };*/
+        };
 
+        /*
         let OptionChart4 = {
             title: {
                 text: 'Triglicéridos contra Insulina',
@@ -591,6 +602,7 @@ const promesa = fetch(request_data).then(
                 }
             ]
         };
+        */
 
         var myChart = echarts.init(document.getElementById('chart_1'));
         myChart.setOption(OptionChart1);
