@@ -24,6 +24,9 @@ const promesa = fetch(request_data).then(
 
         let grupo_1 = data['grupo_1'];
         let grupo_2 = data['grupo_2'];
+        let control = data['control']; 
+        
+        control.pop();// el ultimo valor de este array esta vacio de momento...
 
         let grupo_1_peso = [];
         let grupo_1_kmeans = [];
@@ -40,10 +43,23 @@ const promesa = fetch(request_data).then(
         let grupo_2_insul = [];
         let grupo_2_insul_vs_tag = [];
         let grupo_2_bf = [];
-        
-        
-        let max_tag = []
 
+        let control_peso = [];
+        let control_tag = [];
+        let control_bf = [] ;
+        let control_g120 = [];
+        
+        
+        let max_tag = [];
+
+        control.forEach(element => {
+            control_peso.push(element['S20']);
+            control_tag.push(element['TAG']);
+            control_bf.push(element['BF26']);
+            control_g120.push(element['12013']);
+        });
+
+        console.log(control_g120);
 
         grupo_1.forEach(element => {
             grupo_1_peso.push(element['S20']);
@@ -86,7 +102,7 @@ const promesa = fetch(request_data).then(
                 },
             xAxis: {
                 type: 'category',
-                data: ['Kmeans 1','Kmeans 2'],
+                data: ['Control','Kmeans 1','Kmeans 2'],
                 splitArea: {
                     show: false
                 },
@@ -123,6 +139,13 @@ const promesa = fetch(request_data).then(
             series: [{
                 type: 'boxplot',
                 data: [
+                    {   name: 'Control',
+                        value: control_peso,
+                        itemStyle: {
+                            color:'#a0a0a0',
+                            borderColor: '#000000'
+                        }
+                    },
                     {   name: 'Kmeans 1',
                         value: grupo_1_peso,
                         itemStyle: {
@@ -136,7 +159,7 @@ const promesa = fetch(request_data).then(
                             color:'#004d66',
                             borderColor: '#000000'
                         }
-                    },
+                    }
                     ]
                 }
             ]
@@ -162,7 +185,7 @@ const promesa = fetch(request_data).then(
                 },
             xAxis: {
                 type: 'category',
-                data: ['Kmeans 1','Kmeans 2'],
+                data: ['Control','Kmeans 1','Kmeans 2'],
                 splitArea: {
                     show: false
                 },
@@ -177,7 +200,7 @@ const promesa = fetch(request_data).then(
             },
             yAxis: {
                 name: 'Glucosa',
-                min: 70,
+                min: 60,
                 max: 260,
                 type: 'value',
                 nameGap:35,
@@ -199,6 +222,12 @@ const promesa = fetch(request_data).then(
                 type: 'boxplot',
                 scale: 'log',
                 data: [
+                    {   value: control_g120,
+                        itemStyle: {
+                            color:'#a0a0a0',
+                            borderColor: '#000000'
+                        }
+                    },
                     {   value: grupo_1_g120,
                         itemStyle: {
                             color:'#006e3c',
@@ -236,7 +265,7 @@ const promesa = fetch(request_data).then(
                 },
             xAxis: {
                 type: 'category',
-                data: ['Kmeans 1','Kmeans 2'],
+                data: ['Control','Kmeans 1','Kmeans 2'],
                 splitArea: {
                     show: false
                 },
@@ -271,6 +300,12 @@ const promesa = fetch(request_data).then(
                 type: 'boxplot',
                 scale: 'log',
                 data: [
+                    {   value: control_tag,
+                        itemStyle: {
+                            color:'#a0a0a0',
+                            borderColor: '#000000'
+                        }
+                    },
                     {   value: grupo_1_tag,
                         itemStyle: {
                             color:'#006e3c',
@@ -309,7 +344,7 @@ const promesa = fetch(request_data).then(
                 },
             xAxis: {
                 type: 'category',
-                data: ['Kmeans 1','Kmeans 2'],
+                data: ['Control','Kmeans 1','Kmeans 2'],
                 splitArea: {
                     show: false
                 },
@@ -323,8 +358,8 @@ const promesa = fetch(request_data).then(
                     }
             },
             yAxis: {
-                min: 180,
-                max: 350,
+                min: 160,
+                max: 315,
                 name: 'BF',
                 type: 'value',
                 nameGap:35,
@@ -346,6 +381,12 @@ const promesa = fetch(request_data).then(
                 type: 'boxplot',
                 scale: 'log',
                 data: [
+                    {   value: control_bf,
+                        itemStyle: {
+                            color:'#a0a0a0',
+                            borderColor: '#000000'
+                        }
+                    },
                     {   value: grupo_1_bf,
                         itemStyle: {
                             color:'#006e3c',
