@@ -4,23 +4,22 @@
 
 @font-face {
   font-family: "Atkinson";
-  font-display:"swap";
-  src: url("../assets/fonts/Atkinson-Hyperlegible-Regular-102.ttf");
+  src: url("../assets/fonts/Atkinson-Hyperlegible-Regular-102a.woff2");
 }
 
 @font-face {
   font-family: "Atkinson Bold";
-  src: url("../assets/fonts/Atkinson-Hyperlegible-Bold-102.ttf");
+  src: url("../assets/fonts/Atkinson-Hyperlegible-Bold-102a.woff2");
 }
 
 @font-face {
   font-family: "Atkinson Italic";
-  src: url("../assets/fonts/Atkinson-Hyperlegible-Italic-102.ttf");
+  src: url("../assets/fonts/Atkinson-Hyperlegible-Italic-102a.woff2");
 }
 
 @font-face {
   font-family: "Atkinson BoldItalic";
-  src: url("../assets/fonts/Atkinson-Hyperlegible-BoldItalic-102.ttf");
+  src: url("../assets/fonts/Atkinson-Hyperlegible-BoldItalic-102a.woff2");
 }
 
 @font-face {
@@ -28,7 +27,7 @@
   src: url("../assets/fonts/JetBrainsMono-Regular.ttf");
 }
 
-//$family-sans-serif: "Atkinson", sans-serif;
+$family-sans-serif: "Atkinson", sans-serif;
 $family-monospace: "JetBrainsMono", monospace;
 
 $box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 6px 6px rgba(0, 0, 0, .19);
