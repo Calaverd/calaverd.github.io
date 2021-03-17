@@ -5,12 +5,13 @@
 
   <body>
     
-    <section class="hero is-fullheight is-primary is-bold" id='hero'>
+    <section class="hero is-fullheight is-transparent is-bold" id='hero'>
       {%- include header.html -%}
       <div class="hero-body">
           <div class="container">
               <div class="content has-text-centered">
-                  <h1 class="title is-size-1 post-slow">Osvaldo Bajaras Fierros</h1>
+                <canvas id="computer-canvas" class="canvas_bg" ></canvas>
+                <h1 class="title is-size-1 post-slow has-text-white">Osvaldo Bajaras Fierros</h1>
                 <h2 id ="skills" class="subtitle is-size-2 is-family-monospace has-text-grey-darker post-v-slow">
                   {%- if page.lang == 'es' -%}es{%- else -%}en{%- endif -%}
                 </h2>
@@ -31,21 +32,11 @@
     <!-- Begin About Me Section -->
     <section class="section is-fullheight is-primary is-bold">
         <div class='columns is-centered'>
-          <div class='column is-9'>
-            <div class='columns has-vertically-aligned-content'>
-              <div class="column"></div>
-              
-              <div class='column is-vcentered has-text-centered is-4'>
-                <div class='columns is-vcentered is-gapless'>
-                  <div class="column"></div>
-                </div>
-                <div class='columns is-vcentered is-gapless'>
-                  <div class="column"></div>
-                </div>
-
+          <div class='column is-9 is-vcentered has-text-centered text-show'>
+                
                 <h1 class="title"> <i class="fas fa-lg fa-id-badge"></i></h1>
                 <h1 class="title">{%- if page.lang == 'es' -%} Acerca De Mi...{%- else -%} About Me... {%- endif -%}</h1>
-                  <div class='px-6'>
+                  <div class='px-4'>
                     {%- if page.lang == 'es' -%} 
                     <p>Soy un desarrollador quien ha experimentado con distintos lenguajes de programación y varios enfoques diferentes a lo largo de los años.</p>
                     <p>Enfocado en crear experiencias y software que sea tanto simple como directo.</p>
@@ -54,31 +45,6 @@
                     <p>Focused on creating experiences and software that is both simple and straightforward.</p>
                     {%- endif -%}
                   </div>
-
-              </div>
-              <div class='column is-family-monospace has-text-centered'>
-
-<pre style="background-color:#ffffff;">
-<span >                                </span>
-<span >        </span><span style="background-color:#2a8fae;">      </span><span style="background-color:#237791;">          </span><span >        </span>
-<span >      </span><span style="background-color:#2a8fae;">  </span><span >                </span><span style="background-color:#195669;">  </span><span >      </span>
-<span >      </span><span style="background-color:#2a8fae;">  </span><span >    </span><span style="background-color:#2a8fae;">  </span><span >  </span><span style="background-color:#2a8fae;">  </span><span >      </span><span style="background-color:#195669;">  </span><span >      </span>
-<span >      </span><span style="background-color:#2a8fae;">  </span><span >    </span><span style="background-color:#237791;">  </span><span >  </span><span style="background-color:#237791;">  </span><span >      </span><span style="background-color:#195669;">  </span><span >      </span>
-<span >      </span><span style="background-color:#237791;">  </span><span >            </span><span style="background-color:#237791;">  </span><span >  </span><span style="background-color:#195669;">  </span><span >      </span>
-<span >      </span><span style="background-color:#237791;">  </span><span >    </span><span style="background-color:#237791;">        </span><span >    </span><span style="background-color:#195669;">  </span><span >      </span>
-<span >      </span><span style="background-color:#237791;">  </span><span >                </span><span style="background-color:#195669;">  </span><span >      </span>
-<span >        </span><span style="background-color:#195669;">                </span><span >        </span>
-<span >              </span><span style="background-color:#237791;">      </span><span style="background-color:#195669;">  </span><span >          </span>
-<span >            </span><span style="background-color:#2a8fae;">        </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span >        </span>
-<span >                                </span>
-<span >      </span><span style="background-color:#237791;">  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#237791;">    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">    </span><span >  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span style="background-color:#237791;">  </span><span >  </span>
-<span >    </span><span style="background-color:#237791;">  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#237791;">        </span><span style="background-color:#195669;">    </span><span >    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span style="background-color:#237791;">  </span><span >  </span>
-<span >  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#237791;">    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#237791;">  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">    </span><span >      </span><span style="background-color:#237791;">      </span><span >  </span>
-<span >                                </span>
-</pre>
-              </div>
-              <div class="column"></div>
-            </div>
           </div>
         </div>
     </section>
@@ -147,25 +113,6 @@
 
             </div>
             <div class='column is-family-monospace has-text-centered'>
-
-<pre class='is-vcentered' style="background-color:#ffffff;">
-<span>                                </span>
-<span>            </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#237791;">  </span><span style="background-color:#2a8fae;">    </span><span style="background-color:#195669;">  </span><span>          </span>
-<span>        </span><span style="background-color:#237791;">  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>      </span><span style="background-color:#2a8fae;">    </span><span style="background-color:#195669;">  </span><span>      </span>
-<span>      </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>              </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span>
-<span>    </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>      </span><span style="background-color:#237791;">  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>      </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>  </span>
-<span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>  </span>
-<span>  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>  </span>
-<span>  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>  </span>
-<span>  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>  </span>
-<span>  </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>  </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>  </span>
-<span>    </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>    </span><span style="background-color:#237791;">  </span><span style="background-color:#2a8fae;">    </span><span style="background-color:#195669;">  </span><span>  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>    </span>
-<span>    </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>                        </span>
-<span>      </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#195669;">  </span><span>                      </span>
-<span>        </span><span style="background-color:#2a8fae;">    </span><span style="background-color:#195669;">  </span><span>                  </span>
-<span>            </span><span style="background-color:#237791;">  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#237791;">  </span><span style="background-color:#2a8fae;">  </span><span style="background-color:#237791;">  </span><span style="background-color:#195669;">  </span><span>        </span>
-<span>                                </span>
-</pre>
             </div>
             <div class="column"></div>
           </div>
@@ -176,6 +123,65 @@
 
   {%- include footer.html -%}
   
+  <script type="module">
+    import * as THREE from '/assets/js/three.module.min.js';
+
+    let camera, scene, renderer;
+    let geometry, material, mesh;
+
+    init();
+
+    function init() {
+
+      camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
+      camera.position.z = 1;
+
+      scene = new THREE.Scene();
+
+      geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
+      material = new THREE.MeshPhongMaterial({color:0x209cee});
+
+      mesh = new THREE.Mesh( geometry, material );
+      scene.add( mesh );
+
+      const light = new THREE.DirectionalLight(0xFFFFFF, 1);
+      light.position.set(4, 1, 3);
+      scene.add(light);
+
+      const axesHelper = new THREE.AxesHelper( 5 );
+      scene.add( axesHelper );
+
+      scene.background = new THREE.Color( 0x00d1b2 );
+
+      const canvas = document.getElementById('computer-canvas');
+      renderer = new THREE.WebGLRenderer({canvas});
+      renderer.setSize( window.innerWidth, window.innerHeight );
+      renderer.setAnimationLoop( animation );
+      document.body.appendChild( renderer.domElement );
+
+    }
+
+    function animation( time ) {
+
+      mesh.rotation.x = time / 2000;
+      mesh.rotation.y = time / 1000;
+
+      renderer.render( scene, camera );
+
+      const canvas = document.getElementById('computer-canvas');
+      if (canvas.width  < window.innerWidth){
+          canvas.width  = window.innerWidth;
+      }
+      if (canvas.height < window.innerHeight){
+          canvas.height = window.innerHeight;
+      }
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+
+    }
+
+  </script>
+
   <script src="/assets/js/nms_text.js"></script>
   </body>
   {%- include scripts.html -%}
