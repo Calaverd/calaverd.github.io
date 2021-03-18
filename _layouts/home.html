@@ -125,27 +125,49 @@
   
   <script type="module">
     import * as THREE from '/assets/js/three.module.min.js';
+    import {GLTFLoader} from '/assets/js/GLTFLoader.min.js';
 
     let camera, scene, renderer;
     let geometry, material, mesh;
+    let monitor = null;
 
     init();
 
     function init() {
 
       camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
-      camera.position.z = 1;
+      camera.position.set(0, 0, 3);
+      camera.lookAt(0,0,0);
 
       scene = new THREE.Scene();
 
-      geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
+      geometry = new THREE.BoxGeometry( 1, 1, 1 );
       material = new THREE.MeshPhongMaterial({color:0x209cee});
 
-      mesh = new THREE.Mesh( geometry, material );
-      scene.add( mesh );
+      //mesh = new THREE.Mesh( geometry, material );
+      //scene.add( mesh );
+
+      {
+        const gltfLoader = new GLTFLoader();
+        gltfLoader.load('/assets/3Dmodels/mp_computer.glb', (gltf) => {
+          monitor = gltf.scene;
+          scene.add(monitor);
+
+          // compute the box that contains all the stuff
+          // from root and below
+          const box = new THREE.Box3().setFromObject(root);
+
+          const boxSize = box.getSize(new THREE.Vector3()).length();
+          const boxCenter = box.getCenter(new THREE.Vector3());
+
+          // set the camera to frame the box
+          frameArea(boxSize * 0.5, boxSize, boxCenter, camera);
+        });
+      }
+
 
       const light = new THREE.DirectionalLight(0xFFFFFF, 1);
-      light.position.set(0, 0, 3);
+      light.position.set(2, 4, 20);
       scene.add(light);
 
       //const axesHelper = new THREE.AxesHelper( 5 );
@@ -163,10 +185,13 @@
 
     function animation( time ) {
 
-      mesh.rotation.x = time / 2000;
-      mesh.rotation.y = time / 1000;
+      //mesh.rotation.x = time / 2000;
+      //mesh.rotation.y = time / 1000;
 
-      
+      if(monitor != null){
+        monitor.rotation.z = time / 1000;
+        monitor.rotation.y = time / 2000;
+      }
 
       const canvas = document.getElementById('computer-canvas');
       if (canvas.width != window.innerWidth || canvas.height != window.innerHeight ){
