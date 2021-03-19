@@ -2,18 +2,33 @@ import * as THREE from '/assets/js/three.module.min.js';
 import {GLTFLoader} from '/assets/js/GLTFLoader.min.js';
 
 let renderer;
+let renderer2
 let camera_hero, scene_hero; // the scene and camera from the hero banner
+let monitor = null; // this model goes on hero
 
-let monitor = null;
+let camera_about, scene_about; 
 
 init();
 
 function init() {
 
+  initHeroScene();
+  //initAboutScene();
+
+  //document.body.appendChild( renderer2.domElement );
+
+
+  // everithing is ready to be show, change the color of the hero to is-transparent
+  console.log('actualiza hero a is-transparent')
+  document.getElementById('hero').classList.remove("is-primary");
+  document.getElementById('hero').classList.add("is-transparent");
+
+}
+
+function initHeroScene(){
   camera_hero = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
   camera_hero.position.set(0, 0, 3);
   camera_hero.lookAt(0,0,0);
-
   scene_hero = new THREE.Scene();
 
   {
@@ -38,23 +53,45 @@ function init() {
   light.position.set(2, 4, 20);
   scene_hero.add(light);
   scene_hero.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
-  //const axesHelper = new THREE.AxesHelper( 5 );
-  //scene_hero.add( axesHelper );
-
   scene_hero.background = new THREE.Color(0x00d1b2);
+
 
   const canvas = document.getElementById('computer-canvas');
   renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.setAnimationLoop( animation );
   document.body.appendChild( renderer.domElement );
+  
+};
 
-  // everithing is ready to be show, change the color of the hero to is-transparent
-  console.log('actualiza hero a is-transparent')
-  document.getElementById('hero').classList.remove("is-primary");
-  document.getElementById('hero').classList.add("is-transparent");
+function initAboutScene(){
 
-}
+  const canvas = document.getElementById('about-canvas');
+
+  camera_about = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 10 );
+  camera_about.position.set(0, 0, 3);
+  camera_about.lookAt(0,0,0);
+  
+  scene_about = new THREE.Scene();
+  
+  // build an cube
+  const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
+  const material = new THREE.MeshPhongMaterial({color:0x202040});
+  const cube = new THREE.Mesh(geometry, material);
+  scene_about.add(cube);
+
+  const light = new THREE.DirectionalLight(0xFFFFFF, 1);
+  light.position.set(2, 4, 20);
+  scene_about.add(light);
+  //scene_about.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
+  scene_about.background = new THREE.Color(0xcFcFcF); //0xEFEFEF
+
+  scene_about.userData.element = canvas;
+
+  renderer2 = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
+  renderer2.setSize( canvas.width, canvas.height );
+};
+
 
 function animation( time ) {
 
@@ -68,9 +105,11 @@ function animation( time ) {
 
 function render(){
   render_hero();
+  //render_about();
 }
 
 function render_hero(){
+
   const canvas = document.getElementById('computer-canvas');
 
   // get its position relative to the page's viewport
@@ -83,16 +122,6 @@ function render_hero(){
     return; // it's off screen
 
   }
-
-  // set the viewport 
-  // esto crea la ilusión de que el monitor esta fijo a la pagina
-  const width = rect.right - rect.left;
-  const height = rect.bottom - rect.top;
-  const left = rect.left;
-  const bottom = renderer.domElement.clientHeight - rect.bottom;
-
-  renderer.setViewport( left, bottom, width, height );
-  renderer.setScissor( left, bottom, width, height );
 
   if (canvas.width != window.innerWidth || canvas.height != window.innerHeight ){
     if (canvas.width != window.innerWidth){
@@ -110,4 +139,14 @@ function render_hero(){
 
 
   renderer.render( scene_hero, camera_hero );
+}
+
+function render_about(){
+
+  const canvas =  scene_about.userData.element;
+
+  camera_about.aspect = canvas.clientWidth / canvas.clientHeight;
+  camera_about.updateProjectionMatrix();
+
+  renderer2.render( scene_about, camera_about );
 }
