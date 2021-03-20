@@ -23,7 +23,7 @@ function init() {
   console.log('actualiza hero a is-transparent')
   document.getElementById('hero').classList.remove("is-primary");
   document.getElementById('hero').classList.add("is-transparent");
-  renderer.autoClear = false; // important!
+  //renderer.autoClear = false; // important!
 }
 
 function initHeroScene(){
