@@ -5,26 +5,31 @@
 @font-face {
   font-family: Atkinson;
   src: url("../assets/fonts/Atkinson-Hyperlegible-Regular-102a.woff2");
+  font-display: swap;
 }
 
 @font-face {
   font-family: Atkinson Bold;
   src: url("../assets/fonts/Atkinson-Hyperlegible-Bold-102a.woff2");
+  font-display: swap;
 }
 
 @font-face {
   font-family: Atkinson Italic;
   src: url("../assets/fonts/Atkinson-Hyperlegible-Italic-102a.woff2");
+  font-display: swap;
 }
 
 @font-face {
   font-family: Atkinson BoldItalic;
   src: url("../assets/fonts/Atkinson-Hyperlegible-BoldItalic-102a.woff2");
+  font-display: swap;
 }
 
 @font-face {
   font-family: JetBrainsMono;
   src: url("../assets/fonts/JetBrainsMono-Regular.woff2");
+  font-display: swap;
 }
 
 $family-sans-serif: "Atkinson", sans-serif;
@@ -47,7 +52,7 @@ $box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 6px 6px rgba(0, 0, 0, .19)
 }
 
 .canvas_bg{
-  position:absolute;
+  position: fixed;
   left:0;
   top:0;
   display: block;

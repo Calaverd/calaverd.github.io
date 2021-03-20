@@ -128,7 +128,7 @@ function checkScrollPos(){
       let hero_head = document.getElementById('hero-head');
       let domRect = hero.getBoundingClientRect();
       let nav_bar_pos = hero_head.getBoundingClientRect().y;
-      let nav_bar_size = (document.getElementById('navbar').getBoundingClientRect().height);
+      let nav_bar_size = (document.getElementById('navbar').getBoundingClientRect().height)*1.15;
       //console.log(nav_bar_pos);
       if((Math.abs(nav_bar_pos)+nav_bar_size)>domRect.height && !moved_to_body){
         console.log('moved to body');
@@ -152,4 +152,4 @@ function checkScrollPos(){
     }
 };
 
-window.setInterval(checkScrollPos,5);
+window.setInterval(checkScrollPos,10);

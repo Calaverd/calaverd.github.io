@@ -2,7 +2,6 @@ import * as THREE from '/assets/js/three.module.min.js';
 import {GLTFLoader} from '/assets/js/GLTFLoader.min.js';
 
 let renderer;
-let renderer2
 let camera_hero, scene_hero; // the scene and camera from the hero banner
 let monitor = null; // this model goes on hero
 
@@ -12,22 +11,24 @@ init();
 
 function init() {
 
-  initHeroScene();
-  //initAboutScene();
-
-  //document.body.appendChild( renderer2.domElement );
-
-
   // everithing is ready to be show, change the color of the hero to is-transparent
+  const canvas = document.getElementById('main-canvas');
+  renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
+  renderer.setSize( window.innerWidth, window.innerHeight );
+  renderer.setAnimationLoop( animation );
+
+  initHeroScene();
+  initAboutScene();
+
   console.log('actualiza hero a is-transparent')
   document.getElementById('hero').classList.remove("is-primary");
   document.getElementById('hero').classList.add("is-transparent");
-
+  renderer.autoClear = false; // important!
 }
 
 function initHeroScene(){
   camera_hero = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
-  camera_hero.position.set(0, 0, 3);
+  camera_hero.position.set(0, 0, 3.5);
   camera_hero.lookAt(0,0,0);
   scene_hero = new THREE.Scene();
 
@@ -53,20 +54,15 @@ function initHeroScene(){
   light.position.set(2, 4, 20);
   scene_hero.add(light);
   scene_hero.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
-  scene_hero.background = new THREE.Color(0x00d1b2);
 
-
-  const canvas = document.getElementById('computer-canvas');
-  renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
-  renderer.setSize( window.innerWidth, window.innerHeight );
-  renderer.setAnimationLoop( animation );
-  document.body.appendChild( renderer.domElement );
+  scene_hero.background = new THREE.Color(0x00d1b2); //0xccf1c2
   
+  scene_hero.userData.element = document.getElementById('hero');
 };
 
 function initAboutScene(){
 
-  const canvas = document.getElementById('about-canvas');
+  const canvas = document.getElementById('about');
 
   camera_about = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 10 );
   camera_about.position.set(0, 0, 3);
@@ -83,13 +79,9 @@ function initAboutScene(){
   const light = new THREE.DirectionalLight(0xFFFFFF, 1);
   light.position.set(2, 4, 20);
   scene_about.add(light);
-  //scene_about.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
+  scene_about.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
   scene_about.background = new THREE.Color(0xcFcFcF); //0xEFEFEF
-
   scene_about.userData.element = canvas;
-
-  renderer2 = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
-  renderer2.setSize( canvas.width, canvas.height );
 };
 
 
@@ -104,23 +96,22 @@ function animation( time ) {
 }
 
 function render(){
-  render_hero();
+  render_scene(scene_hero, camera_hero);
+  render_scene(scene_about, camera_about);
   //render_about();
 }
 
-function render_hero(){
+function render_scene(scene, camera){
 
-  const canvas = document.getElementById('computer-canvas');
-
-  // get its position relative to the page's viewport
-  const rect = canvas.getBoundingClientRect();
-
+  const canvas = scene.userData.element;
+  
+  const {left, right, top, bottom, width, height} = canvas.getBoundingClientRect();
   // check if it's offscreen. If so skip it
-  if ( rect.bottom < 0 || rect.top > renderer.domElement.clientHeight ||
-     rect.right < 0 || rect.left > renderer.domElement.clientWidth ) {
-
+  if ( bottom < 0 ||
+       top > renderer.domElement.clientHeight ||
+       right < 0 ||
+       left > renderer.domElement.clientWidth) {
     return; // it's off screen
-
   }
 
   if (canvas.width != window.innerWidth || canvas.height != window.innerHeight ){
@@ -132,21 +123,17 @@ function render_hero(){
         canvas.height = window.innerHeight;
         canvas.style.height = window.innerHeight+"px";
     }
-    camera_hero.aspect = window.innerWidth / window.innerHeight;
-    camera_hero.updateProjectionMatrix();
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
   };
 
+  // set the viewport
+ 
+  const positiveYUpBottom = canvas.height - bottom;
+  renderer.setScissor(left, positiveYUpBottom, width, height);
+  renderer.setViewport(left, positiveYUpBottom, width, height);
+  renderer.setScissorTest( true );
 
-  renderer.render( scene_hero, camera_hero );
-}
-
-function render_about(){
-
-  const canvas =  scene_about.userData.element;
-
-  camera_about.aspect = canvas.clientWidth / canvas.clientHeight;
-  camera_about.updateProjectionMatrix();
-
-  renderer2.render( scene_about, camera_about );
+  renderer.render( scene, camera);
 }

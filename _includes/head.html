@@ -30,6 +30,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ site.title }} {% if page.title -%} | {{ page.title }} {% endif %} </title>
   <script defer src="https://use.fontawesome.com/releases/v5.15.0/js/all.js"></script>
+
+  <link rel="preload" href="/assets/fonts/Atkinson-Hyperlegible-Regular-102a.woff2" as="font" crossorigin="anonymous" />
+  <link rel="preload" href="/assets/fonts/JetBrainsMono-Regular.woff2" as="font" crossorigin="anonymous" />
+  <link rel="preload" href="{{ "/assets/main.css" | relative_url }}" as="style">
+ 
+
   <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
   <link rel="icon" type="image/vnd.microsoft.icon" href="{{ "/assets/favico.ico" | relative_url }}" sizes="16x16">
 
