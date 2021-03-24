@@ -1,5 +1,6 @@
 import * as THREE from '/assets/js/three.module.min.js';
 import {GLTFLoader} from '/assets/js/GLTFLoader.min.js';
+import { MeshoptDecoder } from '/assets/js/meshopt_decoder.module.js';
 
 let renderer;
 let camera_hero, scene_hero; // the scene and camera from the hero banner
@@ -51,6 +52,7 @@ function initHeroScene(){
   //scene_hero.add( axesHelper );
   {
     const gltfLoader = new GLTFLoader();
+      gltfLoader.setMeshoptDecoder(MeshoptDecoder);
       gltfLoader.load('/assets/main_page/computer_and_desk.glb', (gltf) => {
         let computer = gltf.scene;
         scene_hero.add(computer);
@@ -68,10 +70,7 @@ function initHeroScene(){
         console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
         },
     );
-  }
-
-  {
-    const gltfLoader = new GLTFLoader();
+  
       gltfLoader.load('/assets/main_page/dino.glb', (gltf) => {
         dinosaurio = gltf.scene;
         scene_hero.add(dinosaurio);
@@ -117,6 +116,7 @@ function initAboutScene(){
 
   {
     const gltfLoader = new GLTFLoader();
+      gltfLoader.setMeshoptDecoder(MeshoptDecoder);
       gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
         monitor = gltf.scene;
         scene_about.add(monitor);
