@@ -30,10 +30,9 @@ function init() {
   //load the models.
   loadModels()
 
-
   // console.log('make hero is-transparent')
-  document.getElementById('hero').classList.remove("is-primary");
-  document.getElementById('hero').classList.add("is-transparent");
+  //document.getElementById('hero').classList.remove("is-primary");
+  //document.getElementById('hero').classList.add("is-transparent");
 }
 
 function initHeroScene(){
@@ -54,7 +53,7 @@ function initHeroScene(){
   scene_hero.add(light);
   scene_hero.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
   
-  scene_hero.background = new THREE.Color(0x00d1b2); //0xccf1c2
+  //scene_hero.background = new THREE.Color(0x00d1b2); //0xccf1c2
   
   scene_hero.userData.element = document.getElementById('hero');
 };
@@ -127,6 +126,10 @@ function animation( time ) {
 }
 
 function render(){
+
+  const transform = `translateY(${window.scrollY}px)`;
+  renderer.domElement.style.transform = transform;
+
   render_scene(scene_hero, camera_hero, true);
   render_scene(scene_about, camera_about, true);
 }
@@ -134,15 +137,7 @@ function render(){
 function render_scene(scene, camera, is_responsive){
 
   const canvas = scene.userData.element;
-  
   const {left, right, top, bottom, width, height} = canvas.getBoundingClientRect();
-  // check if it's offscreen. If so skip it
-  if ( bottom < 0 ||
-       top > renderer.domElement.clientHeight ||
-       right < 0 ||
-       left > renderer.domElement.clientWidth) {
-    return; // it's off screen
-  }
 
   if (is_responsive){
     if (canvas.width != window.innerWidth || canvas.height != window.innerHeight ){
@@ -155,7 +150,15 @@ function render_scene(scene, camera, is_responsive){
           canvas.style.height = window.innerHeight+"px";
       }
     }
+  
+  
+  if( (top + renderer.domElement.clientHeight) < 0 ||
+    (top >= renderer.domElement.clientHeight)
+    ){ 
+    return false; // it's off screen
+    }
 
+  
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize( window.innerWidth, window.innerHeight );
@@ -169,4 +172,6 @@ function render_scene(scene, camera, is_responsive){
   renderer.setScissorTest( true );
 
   renderer.render( scene, camera);
+  
+  return true;
 }

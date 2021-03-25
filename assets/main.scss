@@ -68,14 +68,12 @@ $box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 6px 6px rgba(0, 0, 0, .19)
   backdrop-filter: blur(1.5px);
 }
 
-
-
 .canvas_bg{
-  position: fixed;
+  // position: fixed;
+  position: absolute;
   left:0;
   top:0;
   display: block;
-  z-index:-1;
 }
 
 .post{
