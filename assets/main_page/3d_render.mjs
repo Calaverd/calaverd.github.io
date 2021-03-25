@@ -1,14 +1,12 @@
 import * as THREE from '/assets/js/three.module.min.js';
 import {GLTFLoader} from '/assets/js/GLTFLoader.min.js';
 import { MeshoptDecoder } from '/assets/js/meshopt_decoder.module.js';
+import { SkeletonUtils } from '/assets/js/SkeletonUtils.min.js';
 
 let renderer;
 let camera_hero, scene_hero; // the scene and camera from the hero banner
-let monitor = null; // this model goes on hero
-
-let mixer = null;
-let dinosaurio = null;
 let camera_about, scene_about; 
+const mixers = [];
 
 let pivot_main_camera = null;
 
@@ -25,13 +23,17 @@ function init() {
   renderer.setAnimationLoop( animation );
   renderer.setClearColor( 0x000000, 0 );
 
+  // init the scenes
   initHeroScene();
   initAboutScene();
 
-  console.log('actualiza hero a is-transparent')
+  //load the models.
+  loadModels()
+
+
+  // console.log('make hero is-transparent')
   document.getElementById('hero').classList.remove("is-primary");
   document.getElementById('hero').classList.add("is-transparent");
-  //renderer.autoClear = false; // important!
 }
 
 function initHeroScene(){
@@ -47,58 +49,11 @@ function initHeroScene(){
 
   scene_hero.add(pivot_main_camera);
 
-  //
-  //const axesHelper = new THREE.AxesHelper( 5 );
-  //scene_hero.add( axesHelper );
-  {
-    const gltfLoader = new GLTFLoader();
-      gltfLoader.setMeshoptDecoder(MeshoptDecoder);
-      gltfLoader.load('/assets/main_page/computer_and_desk.glb', (gltf) => {
-        let computer = gltf.scene;
-        scene_hero.add(computer);
-        // compute the box that contains all the stuff
-        // from root and below
-        const box = new THREE.Box3().setFromObject(root);
-
-        const boxSize = box.getSize(new THREE.Vector3()).length();
-        const boxCenter = box.getCenter(new THREE.Vector3());
-
-        // set the camera_hero to frame the box
-        frameArea(boxSize * 0.5, boxSize, boxCenter, camera_hero);
-        },
-      function ( xhr ) {
-        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        },
-    );
-  
-      gltfLoader.load('/assets/main_page/dino.glb', (gltf) => {
-        dinosaurio = gltf.scene;
-        scene_hero.add(dinosaurio);
-
-        mixer = new THREE.AnimationMixer( dinosaurio );
-    		const action = mixer.clipAction( gltf.animations[ 0 ] ).play();
-
-        // compute the box that contains all the stuff
-        // from root and below
-        const box = new THREE.Box3().setFromObject(root);
-
-        const boxSize = box.getSize(new THREE.Vector3()).length();
-        const boxCenter = box.getCenter(new THREE.Vector3());
-
-        // set the camera_hero to frame the box
-        frameArea(boxSize * 0.5, boxSize, boxCenter, camera_hero);
-        },
-      function ( xhr ) {
-        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        },
-    );
-  }
-
   const light = new THREE.DirectionalLight(0xFFFFFF, 1);
   light.position.set(2, 4, 20);
   scene_hero.add(light);
   scene_hero.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
-
+  
   scene_hero.background = new THREE.Color(0x00d1b2); //0xccf1c2
   
   scene_hero.userData.element = document.getElementById('hero');
@@ -109,49 +64,52 @@ function initAboutScene(){
   const canvas = document.getElementById('about');
 
   camera_about = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 10 );
-  camera_about.position.set(0, 0, 3);
-  camera_about.lookAt(0,0,0);
+  camera_about.position.set(3, 5, 7);
+  camera_about.lookAt(0,2,0);
   
   scene_about = new THREE.Scene();
-
-  {
-    const gltfLoader = new GLTFLoader();
-      gltfLoader.setMeshoptDecoder(MeshoptDecoder);
-      gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
-        monitor = gltf.scene;
-        scene_about.add(monitor);
-
-        // compute the box that contains all the stuff
-        // from root and below
-        const box = new THREE.Box3().setFromObject(root);
-
-        const boxSize = box.getSize(new THREE.Vector3()).length();
-        const boxCenter = box.getCenter(new THREE.Vector3());
-
-        // set the camera_hero to frame the box
-        frameArea(boxSize * 0.5, boxSize, boxCenter, camera_about);
-        },
-      function ( xhr ) {
-        console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
-        },
-    );
-  }
   
-  // build an cube
-  /*
-  const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
-  const material = new THREE.MeshPhongMaterial({color:0x202040});
-  const cube = new THREE.Mesh(geometry, material);
-  scene_about.add(cube);
-  */
-
-  const light = new THREE.DirectionalLight(0xFFFFFF, 1);
-  light.position.set(2, 4, 20);
-  scene_about.add(light);
   scene_about.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
-  scene_about.background = new THREE.Color(0xcFcFcF); //0xEFEFEF
+
+  scene_about.background = new THREE.Color(0xacacac); //0xEFEFEF
+  
   scene_about.userData.element = canvas;
 };
+
+function loadModels(){
+
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.setMeshoptDecoder(MeshoptDecoder);
+
+
+    gltfLoader.load('/assets/main_page/computer_and_desk.glb', (gltf) => {
+      scene_hero.add(gltf.scene);
+      });
+
+    gltfLoader.load('/assets/main_page/dino.glb', (gltf) => {
+      let dinosaurio = gltf.scene;
+      scene_hero.add(dinosaurio);
+
+      let mixer1 = new THREE.AnimationMixer( dinosaurio );
+      mixer1.clipAction( gltf.animations[ 0 ] ).play();
+      mixers.push(mixer1);
+
+      let dinosaurio2 = SkeletonUtils.clone(dinosaurio);
+      scene_about.add(dinosaurio2);
+      let mixer2 = new THREE.AnimationMixer( dinosaurio2 );
+      mixer2.clipAction( gltf.animations[ 1 ] ).play();
+      mixers.push(mixer2);
+
+    });  
+
+    /*
+    gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
+      monitor = gltf.scene;
+      monitor.position.set(0,2,3);
+      scene_about.add(monitor);
+      });
+      */
+  };
 
 
 function animation( time ) {
@@ -161,13 +119,9 @@ function animation( time ) {
     pivot_main_camera.rotation.y = time / 1500;
   }
 
-  if(monitor !== null){
-    monitor.rotation.z = time / 1000;
-    monitor.rotation.y = time / 2000;
-  }
 
   var delta = clock.getDelta();
-  if ( mixer ) mixer.update( delta );
+  mixers.forEach( mixer => { mixer.update( delta ) });
 
   render();
 }
@@ -175,8 +129,6 @@ function animation( time ) {
 function render(){
   render_scene(scene_hero, camera_hero, true);
   render_scene(scene_about, camera_about, true);
-  //render_scene(scene_footer, camera_footer, false);
-  //render_about();
 }
 
 function render_scene(scene, camera, is_responsive){

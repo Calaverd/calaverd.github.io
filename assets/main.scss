@@ -51,6 +51,25 @@ $box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 6px 6px rgba(0, 0, 0, .19)
   box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 3px 3px rgba(0, 0, 0, .19);
 }
 
+.info_box {
+  border-radius: 4px;
+  width: auto;
+  display: block;
+  position: relative;
+  transition: all .2s ease-in-out;
+  background-color: rgba(0, 0, 0, 0.281);
+  backdrop-filter: blur(1px);
+  padding: 10pt;
+ }
+
+.info_box:hover {
+  box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 3px 3px rgba(0, 0, 0, .19);
+  background-color: rgba(39, 44, 39, 0.746);
+  backdrop-filter: blur(1.5px);
+}
+
+
+
 .canvas_bg{
   position: fixed;
   left:0;
@@ -143,7 +162,7 @@ a{
 }
 
 a:hover{
-    color: #000 !important;
+    color: #0f213f !important;
     //font-weight: bold;
     font-style: italic;
     //filter: blur(1px);
