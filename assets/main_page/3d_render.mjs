@@ -19,6 +19,7 @@ function init() {
   // everithing is ready to be show, change the color of the hero to is-transparent
   const canvas = document.getElementById('main-canvas');
   renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
+  renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.setAnimationLoop( animation );
   renderer.setClearColor( 0x000000, 0 );
@@ -51,7 +52,7 @@ function initHeroScene(){
   const light = new THREE.DirectionalLight(0xFFFFFF, 1);
   light.position.set(2, 4, 20);
   scene_hero.add(light);
-  scene_hero.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
+  scene_hero.add(new THREE.HemisphereLight( 0xcacaca, 0x888888 ))
   
   //scene_hero.background = new THREE.Color(0x00d1b2); //0xccf1c2
   
