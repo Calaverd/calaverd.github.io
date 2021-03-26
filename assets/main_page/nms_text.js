@@ -143,7 +143,7 @@ function decipherText(current_text){
             all_zeros = all_zeros && true;
             let tag = document.createElement("span");
             let text = document.createTextNode(current_text[i].basec);
-            tag.classList.add("has-text-warning");
+            tag.classList.add("has-text-success");
             tag.appendChild(text);
             document.getElementById('skills').appendChild(tag);
             }

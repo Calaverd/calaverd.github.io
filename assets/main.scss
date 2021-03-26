@@ -57,15 +57,32 @@ $box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 6px 6px rgba(0, 0, 0, .19)
   display: block;
   position: relative;
   transition: all .2s ease-in-out;
-  background-color: rgba(0, 0, 0, 0.281);
+  background-color: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(1px);
   padding: 10pt;
+  text-shadow: 2px 2px 2px #000000;
  }
 
 .info_box:hover {
   box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 3px 3px rgba(0, 0, 0, .19);
-  background-color: rgba(39, 44, 39, 0.746);
+  background-color: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(1.5px);
+}
+
+.info_link{
+  color: #ffffff !important;
+  font-weight: bold;
+  //font-style: italic;
+  //filter: blur(1px);
+
+}
+
+.info_link:hover{
+  color: #8cb8ff !important;
+  text-shadow: 2px 2px 2px #5a5a5abd;
+  font-weight: bold;
+  //font-style: italic;
+  //filter: blur(1px);
 }
 
 .canvas_bg{
@@ -151,7 +168,6 @@ p.title_card{
     transition: all .3s ease-in-out;
 }
 
-
 a{
     color: #164ea8 !important;
     font-weight: bold;
@@ -166,7 +182,6 @@ a:hover{
     //filter: blur(1px);
     transition: all .2s ease-in-out;
 }
-
 
 .navbar-brand {
   height: 120px;
@@ -352,6 +367,11 @@ body {
 .section {
    //padding: 9rem 1.5rem;
    padding-top: 9rem !important;
+}
+
+.hero-foot{
+  position:relative;
+  z-index:3;
 }
 
 
