@@ -10,6 +10,7 @@ const mixers = [];
 
 let pivot_main_camera = null;
 let computer_screen_texture = null;
+let digital_trama_texture = null;
 
 const clock = new THREE.Clock();
 
@@ -101,7 +102,7 @@ function init() {
 }
 
 function initHeroScene(){
-  camera_hero = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 15 );
+  camera_hero = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 25 );
   camera_hero.position.set(5, 5, -5);
   
   scene_hero = new THREE.Scene();
@@ -173,6 +174,17 @@ function loadModels(){
       
       });
 
+    
+    gltfLoader.load('/assets/main_page/trama.glb', (gltf) => {
+      scene_hero.add(gltf.scene);
+      console.log(dumpObject(gltf.scene).join('\n'));
+      digital_trama_texture = gltf.scene.children[0].material.map;
+      digital_trama_texture.magFilter  = THREE.NearestFilter;
+      digital_trama_texture.minFilter  = THREE.NearestFilter;
+
+      });
+    
+   
     gltfLoader.load('/assets/main_page/dino.glb', (gltf) => {
       let dinosaurio = gltf.scene;
       scene_hero.add(dinosaurio);
@@ -201,75 +213,81 @@ function loadModels(){
 
 function animation( time ) {
 
-  
+  /*
   if(pivot_main_camera !== null){
     //monitor.rotation.z = time / 1000;
     pivot_main_camera.rotation.y = time / 1500;
   }
-  
+  */
+  var delta = clock.getDelta();
+
  if( computer_screen_texture !== null){
     computer_screen_texture.offset = texture_offsets[animation_frames.getFrameActual()];
     }
 
-  var delta = clock.getDelta();
+  if(digital_trama_texture !== null){
+    let offset = digital_trama_texture.offset;
+    offset.x = (offset.x + delta*0.25) %1; 
+    digital_trama_texture.offset = offset;
+  };
+
+
+  
   mixers.forEach( mixer => { mixer.update( delta ) });
 
   render();
 }
 
 function render(){
-
+  /*
   const transform = `translateY(${window.scrollY}px)`;
   renderer.domElement.style.transform = transform;
-
+  */
   
 
-  render_scene(scene_hero, camera_hero, true);
-  render_scene(scene_about, camera_about, true);
+  render_scene(scene_hero, camera_hero);
+  //render_scene(scene_about, camera_about, true);
+
 }
 
-function render_scene(scene, camera, is_responsive){
+
+function render_scene(scene, camera){
 
   const canvas = scene.userData.element;
   const {left, right, top, bottom, width, height} = canvas.getBoundingClientRect();
 
-  if (is_responsive){
-    if (canvas.width != window.innerWidth || canvas.height != window.innerHeight ){
-      if (canvas.width != window.innerWidth){
-          canvas.width  = window.innerWidth;
-          canvas.style.width = window.innerWidth+"px";
-      }
-      if (canvas.height != window.innerHeight){
-          canvas.height = window.innerHeight;
-          canvas.style.height = window.innerHeight+"px";
-      }
+  if (canvas.width != window.innerWidth || canvas.height != window.innerHeight ){
+    if (canvas.width != window.innerWidth){
+        canvas.width  = window.innerWidth;
+        canvas.style.width = window.innerWidth+"px";
     }
-  
-  
+    if (canvas.height != window.innerHeight){
+        canvas.height = window.innerHeight;
+        canvas.style.height = window.innerHeight+"px";
+    }
+  }
+
   if( (top + renderer.domElement.clientHeight) < 0 ||
-    (top >= renderer.domElement.clientHeight)
-    ){ 
+    (top >= renderer.domElement.clientHeight) ){ 
     return false; // it's off screen
     }
 
-  
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize( window.innerWidth, window.innerHeight );
-  };
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize( window.innerWidth, window.innerHeight );
 
   // set the viewport
- 
+  /*
   const positiveYUpBottom = canvas.height - bottom;
   renderer.setScissor(left, positiveYUpBottom, width, height);
   renderer.setViewport(left, positiveYUpBottom, width, height);
   renderer.setScissorTest( true );
+  */
 
   renderer.render( scene, camera);
   
   return true;
 }
-
 
 
 init();
