@@ -131,7 +131,7 @@ function initAboutScene(){
   const canvas = document.getElementById('about');
 
   camera_about = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 15 );
-  camera_about.position.set(3, 3, 3);
+  camera_about.position.set(4, 4, 4);
   camera_about.lookAt(0,0,0);
   
   scene_about = new THREE.Scene();
@@ -213,11 +213,19 @@ function loadModels(){
       mixers.push(mixer2);
       */
     });  
-
-    
+    /*
+    gltfLoader.load('/assets/main_page/test.glb', (gltf) => {
+      //monitor = gltf.scene;
+      //monitor.position.set(0,2,0);
+      scene_about.add(gltf.scene);
+      let texture = gltf.scene.children[0].material.map;
+      texture.magFilter  = THREE.NearestFilter;
+      texture.minFilter  = THREE.NearestFilter;
+      });
+    */
     gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
       monitor = gltf.scene;
-      monitor.position.set(0,0,0);
+      monitor.position.set(0,2,0);
       scene_about.add(monitor);
       });
 
