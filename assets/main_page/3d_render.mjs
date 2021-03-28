@@ -6,6 +6,8 @@ import { SkeletonUtils } from '/assets/js/SkeletonUtils.min.js';
 let renderer;
 let camera_hero, scene_hero; // the scene and camera from the hero banner
 let camera_about, scene_about; 
+let monitor = null;
+
 const mixers = [];
 
 let pivot_main_camera = null;
@@ -103,14 +105,14 @@ function init() {
 
 function initHeroScene(){
   camera_hero = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 25 );
-  camera_hero.position.set(5, 5, -5);
+  camera_hero.position.set(4, 3, -4);
   
   scene_hero = new THREE.Scene();
 
   pivot_main_camera = new THREE.Object3D();
   pivot_main_camera.position.set(0,1,2);
   pivot_main_camera.add(camera_hero);
-  camera_hero.lookAt(0,1,2);
+  camera_hero.lookAt(0,2.5,2);
 
   scene_hero.add(pivot_main_camera);
 
@@ -128,15 +130,24 @@ function initAboutScene(){
 
   const canvas = document.getElementById('about');
 
-  camera_about = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 10 );
-  camera_about.position.set(3, 5, 7);
-  camera_about.lookAt(0,2,0);
+  camera_about = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 15 );
+  camera_about.position.set(3, 3, 3);
+  camera_about.lookAt(0,0,0);
   
   scene_about = new THREE.Scene();
   
   scene_about.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
 
   scene_about.background = new THREE.Color(0xacacac); //0xEFEFEF
+
+  const axesHelper = new THREE.AxesHelper( 5 );
+  scene_about.add( axesHelper );
+
+  const size = 10;
+  const divisions = 10;
+
+  const gridHelper = new THREE.GridHelper( size, divisions );
+  scene_about.add( gridHelper );
   
   scene_about.userData.element = canvas;
 };
@@ -182,48 +193,53 @@ function loadModels(){
       digital_trama_texture.magFilter  = THREE.NearestFilter;
       digital_trama_texture.minFilter  = THREE.NearestFilter;
 
+
       });
     
    
     gltfLoader.load('/assets/main_page/dino.glb', (gltf) => {
       let dinosaurio = gltf.scene;
+      console.log(dumpObject(gltf.scene).join('\n'));
       scene_hero.add(dinosaurio);
 
       let mixer1 = new THREE.AnimationMixer( dinosaurio );
       mixer1.clipAction( gltf.animations[ 0 ] ).play();
       mixers.push(mixer1);
-
+      /*
       let dinosaurio2 = SkeletonUtils.clone(dinosaurio);
       scene_about.add(dinosaurio2);
       let mixer2 = new THREE.AnimationMixer( dinosaurio2 );
       mixer2.clipAction( gltf.animations[ 1 ] ).play();
       mixers.push(mixer2);
-
+      */
     });  
 
-    /*
+    
     gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
       monitor = gltf.scene;
-      monitor.position.set(0,2,3);
+      monitor.position.set(0,0,0);
       scene_about.add(monitor);
       });
-      */
+
   };
 
 
 function animation( time ) {
-
-  /*
-  if(pivot_main_camera !== null){
-    //monitor.rotation.z = time / 1000;
-    pivot_main_camera.rotation.y = time / 1500;
-  }
-  */
+  
+  
   var delta = clock.getDelta();
 
- if( computer_screen_texture !== null){
+  if( computer_screen_texture !== null){
     computer_screen_texture.offset = texture_offsets[animation_frames.getFrameActual()];
-    }
+  
+  };
+  
+  if(monitor !== null) {
+    monitor.rotation.y = time/1005;
+    monitor.rotation.z = time/2008;
+    monitor.rotation.x = time/3007;
+    
+  };
 
   if(digital_trama_texture !== null){
     let offset = digital_trama_texture.offset;
@@ -239,14 +255,14 @@ function animation( time ) {
 }
 
 function render(){
-  /*
+  
   const transform = `translateY(${window.scrollY}px)`;
   renderer.domElement.style.transform = transform;
-  */
+  
   
 
   render_scene(scene_hero, camera_hero);
-  //render_scene(scene_about, camera_about, true);
+  render_scene(scene_about, camera_about);
 
 }
 
@@ -277,12 +293,10 @@ function render_scene(scene, camera){
   renderer.setSize( window.innerWidth, window.innerHeight );
 
   // set the viewport
-  /*
   const positiveYUpBottom = canvas.height - bottom;
   renderer.setScissor(left, positiveYUpBottom, width, height);
   renderer.setViewport(left, positiveYUpBottom, width, height);
   renderer.setScissorTest( true );
-  */
 
   renderer.render( scene, camera);
   

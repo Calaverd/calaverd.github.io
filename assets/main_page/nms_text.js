@@ -14,6 +14,7 @@ const st_espera   = 2;
 const st_delete   = 3;
 const st_get_next = 4;
 
+
 function getRandom(min, max){ return Math.floor(Math.random()*(max-min+1)+min); };
 
 function randChart(){ 
