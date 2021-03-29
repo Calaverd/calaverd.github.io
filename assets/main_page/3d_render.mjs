@@ -134,14 +134,32 @@ function initAboutScene(){
   const canvas = document.getElementById('about');
 
   camera_about = new THREE.PerspectiveCamera( 60, canvas.width / canvas.height, 0.01, 15 );
-  camera_about.position.set(4, 4, 2.5);
-  camera_about.lookAt(0,0,0);
+  camera_about.position.set(5, 3, 5);
+  camera_about.lookAt(0,1,0);
   
   scene_about = new THREE.Scene();
   
   scene_about.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
 
   scene_about.background = new THREE.Color(0xacacac); //0xEFEFEF
+
+  
+
+  const size = 10;
+  const divisions = 10;
+
+  const gridHelper = new THREE.GridHelper( size, divisions );
+  scene_about.add( gridHelper );
+  const gridHelper1 = new THREE.GridHelper( size, divisions );
+  gridHelper1.rotation.set(90 * (Math.PI/180), 0, 0);
+  scene_about.add( gridHelper1 );
+  const gridHelper2 = new THREE.GridHelper( size, divisions );
+  gridHelper2.rotation.set(0,0, 90 * (Math.PI/180));
+  scene_about.add( gridHelper2 );
+
+  const axesHelper = new THREE.AxesHelper( 10 );
+  scene_about.add( axesHelper );
+  
  
   scene_about.userData.element = canvas;
 };
@@ -159,15 +177,6 @@ function initContactScene(){
   scene_contact.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
 
   //scene_contact.background = new THREE.Color(0xacacac); //0xEFEFEF
-
-  const axesHelper = new THREE.AxesHelper( 5 );
-  scene_contact.add( axesHelper );
-
-  const size = 10;
-  const divisions = 10;
-
-  const gridHelper = new THREE.GridHelper( size, divisions );
-  scene_contact.add( gridHelper );
   
   scene_contact.userData.element = canvas;
 };
