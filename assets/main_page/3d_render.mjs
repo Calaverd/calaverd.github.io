@@ -6,6 +6,7 @@ import { SkeletonUtils } from '/assets/js/SkeletonUtils.min.js';
 let renderer;
 let camera_hero, scene_hero; // the scene and camera from the hero banner
 let camera_about, scene_about; 
+let camera_contact, scene_contact; 
 let monitor = null;
 
 const mixers = [];
@@ -13,6 +14,7 @@ const mixers = [];
 let pivot_main_camera = null;
 let computer_screen_texture = null;
 let digital_trama_texture = null;
+let info_panel_texture = null;
 
 const clock = new THREE.Clock();
 
@@ -94,6 +96,7 @@ function init() {
   // init the scenes
   initHeroScene();
   initAboutScene();
+  initContactScene();
 
   //load the models.
   loadModels()
@@ -130,8 +133,8 @@ function initAboutScene(){
 
   const canvas = document.getElementById('about');
 
-  camera_about = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 15 );
-  camera_about.position.set(4, 4, 4);
+  camera_about = new THREE.PerspectiveCamera( 60, canvas.width / canvas.height, 0.01, 15 );
+  camera_about.position.set(4, 4, 2.5);
   camera_about.lookAt(0,0,0);
   
   scene_about = new THREE.Scene();
@@ -139,17 +142,34 @@ function initAboutScene(){
   scene_about.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
 
   scene_about.background = new THREE.Color(0xacacac); //0xEFEFEF
+ 
+  scene_about.userData.element = canvas;
+};
+
+function initContactScene(){
+
+  const canvas = document.getElementById('contact');
+
+  camera_contact = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 15 );
+  camera_contact.position.set(0, 4, 8);
+  camera_contact.lookAt(0,3.5,0);
+  
+  scene_contact = new THREE.Scene();
+  
+  scene_contact.add(new THREE.HemisphereLight( 0xaaaaaa, 0x444444 ))
+
+  //scene_contact.background = new THREE.Color(0xacacac); //0xEFEFEF
 
   const axesHelper = new THREE.AxesHelper( 5 );
-  scene_about.add( axesHelper );
+  scene_contact.add( axesHelper );
 
   const size = 10;
   const divisions = 10;
 
   const gridHelper = new THREE.GridHelper( size, divisions );
-  scene_about.add( gridHelper );
+  scene_contact.add( gridHelper );
   
-  scene_about.userData.element = canvas;
+  scene_contact.userData.element = canvas;
 };
 
 //* taken from threejsfundamentals at https://threejsfundamentals.org/threejs/lessons/threejs-load-gltf.html
@@ -205,28 +225,37 @@ function loadModels(){
       let mixer1 = new THREE.AnimationMixer( dinosaurio );
       mixer1.clipAction( gltf.animations[ 0 ] ).play();
       mixers.push(mixer1);
-      /*
-      let dinosaurio2 = SkeletonUtils.clone(dinosaurio);
-      scene_about.add(dinosaurio2);
-      let mixer2 = new THREE.AnimationMixer( dinosaurio2 );
-      mixer2.clipAction( gltf.animations[ 1 ] ).play();
-      mixers.push(mixer2);
-      */
     });  
-    /*
-    gltfLoader.load('/assets/main_page/test.glb', (gltf) => {
+    
+    gltfLoader.load('/assets/main_page/info.glb', (gltf) => {
       //monitor = gltf.scene;
       //monitor.position.set(0,2,0);
       scene_about.add(gltf.scene);
-      let texture = gltf.scene.children[0].material.map;
-      texture.magFilter  = THREE.NearestFilter;
-      texture.minFilter  = THREE.NearestFilter;
+
+      var geo = new THREE.EdgesGeometry( gltf.scene.children[0].geometry ); // or WireframeGeometry
+      var mat = new THREE.LineBasicMaterial( { color: 0x000000 } );
+      var wireframe = new THREE.LineSegments( geo, mat );
+      gltf.scene.add( wireframe );
+
+      info_panel_texture = gltf.scene.children[0].material.map;
+      info_panel_texture.magFilter  = THREE.NearestFilter;
+      info_panel_texture.minFilter  = THREE.NearestFilter;
+
+      // wireframe
+
+      
+
       });
-    */
+    
     gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
       monitor = gltf.scene;
       monitor.position.set(0,2,0);
       scene_about.add(monitor);
+      });
+
+    gltfLoader.load('/assets/main_page/contact_table.glb', (gltf) => {
+      console.log('contact');
+      scene_contact.add(gltf.scene);
       });
 
   };
@@ -239,20 +268,25 @@ function animation( time ) {
 
   if( computer_screen_texture !== null){
     computer_screen_texture.offset = texture_offsets[animation_frames.getFrameActual()];
-  
   };
+
   
   if(monitor !== null) {
     monitor.rotation.y = time/1005;
     monitor.rotation.z = time/2008;
-    monitor.rotation.x = time/3007;
-    
+    monitor.rotation.x = time/3007;  
   };
 
   if(digital_trama_texture !== null){
     let offset = digital_trama_texture.offset;
     offset.x = (offset.x + delta*0.25) %1; 
     digital_trama_texture.offset = offset;
+  };
+  
+  if(info_panel_texture !== null ){
+    let offset = info_panel_texture.offset;
+    offset.x = (offset.x - delta*0.15) %1; 
+    info_panel_texture.offset = offset;
   };
 
 
@@ -271,7 +305,7 @@ function render(){
 
   render_scene(scene_hero, camera_hero);
   render_scene(scene_about, camera_about);
-
+  render_scene(scene_contact, camera_contact);
 }
 
 
