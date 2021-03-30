@@ -120,7 +120,7 @@ function initHeroScene(){
   scene_hero.add(pivot_main_camera);
 
   const light = new THREE.DirectionalLight(0xFFFFFF, 1);
-  light.position.set(2, 4, 20);
+  light.position.set(2,6,-10);
   scene_hero.add(light);
   scene_hero.add(new THREE.HemisphereLight( 0xcacaca, 0x888888 ))
   
@@ -253,7 +253,7 @@ function loadModels(){
 
     gltfLoader.load('/assets/main_page/contact_bird.glb', (gltf) => {
       scene_contact.add(gltf.scene);
-      
+
       let mixer1 = new THREE.AnimationMixer( gltf.scene );
       mixer1.clipAction( gltf.animations[ 0 ] ).play();
       mixers.push(mixer1);
