@@ -12,6 +12,7 @@ let monitor = null;
 const mixers = [];
 
 let pivot_main_camera = null;
+
 let computer_screen_texture = null;
 let digital_trama_texture = null;
 let info_panel_texture = null;
@@ -106,18 +107,16 @@ function init() {
   //document.getElementById('hero').classList.add("is-transparent");
 }
 
+let hero_cam_orig = [5,5,-3.5];
+let hero_cam_dest = [2,3.5,-2];
+let hero_cam_look = [0,3,2];
 function initHeroScene(){
   camera_hero = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 25 );
-  camera_hero.position.set(4, 3, -4);
+  camera_hero.position.set(hero_cam_orig[0], hero_cam_orig[1], hero_cam_orig[2]);
   
   scene_hero = new THREE.Scene();
-
-  pivot_main_camera = new THREE.Object3D();
-  pivot_main_camera.position.set(0,1,2);
-  pivot_main_camera.add(camera_hero);
-  camera_hero.lookAt(0,2.5,2);
-
-  scene_hero.add(pivot_main_camera);
+  scene_hero.add(camera_hero);
+  camera_hero.lookAt(hero_cam_look[0],hero_cam_look[1],hero_cam_look[2]);
 
   const light = new THREE.DirectionalLight(0xFFFFFF, 1);
   light.position.set(2,6,-10);
@@ -129,12 +128,16 @@ function initHeroScene(){
   scene_hero.userData.element = document.getElementById('hero');
 };
 
+
+let about_cam_orig = [8,7,8];
+let about_cam_dest = [5,3,5];
+let about_cam_look = [0,1,0];
 function initAboutScene(){
 
   const canvas = document.getElementById('about');
 
   camera_about = new THREE.PerspectiveCamera( 60, canvas.width / canvas.height, 0.01, 15 );
-  camera_about.position.set(5, 3, 5);
+  camera_about.position.set(about_cam_orig[0], about_cam_orig[1], about_cam_orig[2]);
   camera_about.lookAt(0,1,0);
   
   scene_about = new THREE.Scene();
@@ -165,12 +168,15 @@ function initAboutScene(){
   scene_about.userData.element = canvas;
 };
 
+let contact_cam_orig = [6,12,6];
+let contact_cam_dest = [4,4,3];
+let contact_cam_look = [0,0.5,0];
 function initContactScene(){
 
   const canvas = document.getElementById('contact');
 
   camera_contact = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 15 );
-  camera_contact.position.set(4, 4, 3);
+  camera_contact.position.set(contact_cam_orig[0], contact_cam_orig[1], contact_cam_orig[2]);
   camera_contact.lookAt(0,0.5,0);
   
   scene_contact = new THREE.Scene();
@@ -297,16 +303,17 @@ function animation( time ) {
   render();
 }
 
+let is_hero_rendering = false;
+let is_about_rendering = false;
+let is_contact_rendering = false;
 function render(){
   
   const transform = `translateY(${window.scrollY}px)`;
   renderer.domElement.style.transform = transform;
   
-  
-
-  render_scene(scene_hero, camera_hero);
-  render_scene(scene_about, camera_about);
-  render_scene(scene_contact, camera_contact);
+  is_hero_rendering = render_scene(scene_hero, camera_hero);
+  is_about_rendering = render_scene(scene_about, camera_about);
+  is_contact_rendering = render_scene(scene_contact, camera_contact);
 }
 
 
@@ -345,6 +352,44 @@ function render_scene(scene, camera){
   
   return true;
 }
+
+function getNewPos(act_post, orign, dest, dt){
+  let maxi = Math.max(dest,orign);
+  let mini = Math.min(dest,orign);
+  dt = dest>=orign ? dt : -dt;
+  return Math.max(Math.min(act_post + dt, maxi), mini);
+}
+
+function moveCamera(camera, original, destino, dt, cam_look){
+  camera.position.y = getNewPos(camera.position.y, original[1], destino[1], dt);
+  camera.position.x = getNewPos(camera.position.x, original[0], destino[0], dt);
+  camera.position.z = getNewPos(camera.position.z, original[2], destino[2], dt);
+  camera.lookAt(cam_look[0],cam_look[1],cam_look[2]);
+};
+
+let lastScrollTop = 0;
+function updateCamera(ev) {
+  let factor = window.scrollY / (document.body.scrollHeight-window.innerHeight);
+  let st = window.pageYOffset || document.documentElement.scrollTop; // Credits: "https://github.com/qeremy/so/blob/master/so.dom.js#L426"
+  let dt = 0.25 * factor;
+  if (st <= lastScrollTop){
+     dt = -0.25 * factor;
+  }
+  lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
+  
+  if(is_hero_rendering){
+  	moveCamera(camera_hero, hero_cam_orig, hero_cam_dest, dt, hero_cam_look);
+  }
+  if(is_about_rendering){
+    moveCamera(camera_about, about_cam_orig, about_cam_dest, dt, about_cam_look);
+  }
+  if(is_contact_rendering){
+    moveCamera(camera_contact, contact_cam_orig, contact_cam_dest, dt, contact_cam_look);
+  }
+  //camera_about.lookAt(0,1,0);
+}
+
+window.addEventListener("scroll", updateCamera);
 
 
 init();
