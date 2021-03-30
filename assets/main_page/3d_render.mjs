@@ -150,13 +150,14 @@ function initAboutScene(){
 
   const gridHelper = new THREE.GridHelper( size, divisions );
   scene_about.add( gridHelper );
+  /*
   const gridHelper1 = new THREE.GridHelper( size, divisions );
   gridHelper1.rotation.set(90 * (Math.PI/180), 0, 0);
   scene_about.add( gridHelper1 );
   const gridHelper2 = new THREE.GridHelper( size, divisions );
   gridHelper2.rotation.set(0,0, 90 * (Math.PI/180));
   scene_about.add( gridHelper2 );
-
+  */
   const axesHelper = new THREE.AxesHelper( 10 );
   scene_about.add( axesHelper );
   
@@ -169,8 +170,8 @@ function initContactScene(){
   const canvas = document.getElementById('contact');
 
   camera_contact = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 15 );
-  camera_contact.position.set(0, 4, 8);
-  camera_contact.lookAt(0,3.5,0);
+  camera_contact.position.set(4, 4, 3);
+  camera_contact.lookAt(0,0.5,0);
   
   scene_contact = new THREE.Scene();
   
@@ -198,11 +199,10 @@ function loadModels(){
 
     const gltfLoader = new GLTFLoader();
     gltfLoader.setMeshoptDecoder(MeshoptDecoder);
-
+    //console.log(dumpObject(gltf.scene).join('\n'));
 
     gltfLoader.load('/assets/main_page/computer_and_desk.glb', (gltf) => {
       scene_hero.add(gltf.scene);
-      console.log(dumpObject(gltf.scene).join('\n'));
 
       computer_screen_texture = gltf.scene.children[0].children[2].material.map;
       
@@ -217,18 +217,14 @@ function loadModels(){
     
     gltfLoader.load('/assets/main_page/trama.glb', (gltf) => {
       scene_hero.add(gltf.scene);
-      console.log(dumpObject(gltf.scene).join('\n'));
       digital_trama_texture = gltf.scene.children[0].material.map;
       digital_trama_texture.magFilter  = THREE.NearestFilter;
       digital_trama_texture.minFilter  = THREE.NearestFilter;
 
-
       });
     
-   
     gltfLoader.load('/assets/main_page/dino.glb', (gltf) => {
       let dinosaurio = gltf.scene;
-      console.log(dumpObject(gltf.scene).join('\n'));
       scene_hero.add(dinosaurio);
 
       let mixer1 = new THREE.AnimationMixer( dinosaurio );
@@ -237,8 +233,6 @@ function loadModels(){
     });  
     
     gltfLoader.load('/assets/main_page/info.glb', (gltf) => {
-      //monitor = gltf.scene;
-      //monitor.position.set(0,2,0);
       scene_about.add(gltf.scene);
 
       var geo = new THREE.EdgesGeometry( gltf.scene.children[0].geometry ); // or WireframeGeometry
@@ -249,11 +243,6 @@ function loadModels(){
       info_panel_texture = gltf.scene.children[0].material.map;
       info_panel_texture.magFilter  = THREE.NearestFilter;
       info_panel_texture.minFilter  = THREE.NearestFilter;
-
-      // wireframe
-
-      
-
       });
     
     gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
@@ -262,9 +251,12 @@ function loadModels(){
       scene_about.add(monitor);
       });
 
-    gltfLoader.load('/assets/main_page/contact_table.glb', (gltf) => {
-      console.log('contact');
+    gltfLoader.load('/assets/main_page/contact_bird.glb', (gltf) => {
       scene_contact.add(gltf.scene);
+      
+      let mixer1 = new THREE.AnimationMixer( gltf.scene );
+      mixer1.clipAction( gltf.animations[ 0 ] ).play();
+      mixers.push(mixer1);
       });
 
   };
