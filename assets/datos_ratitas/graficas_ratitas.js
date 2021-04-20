@@ -27,6 +27,7 @@ const promesa = fetch(request_data).then(
         let control = data['control']; 
         
         control.pop();// el ultimo valor de este array esta vacio de momento...
+        grupo_2.pop();
 
         let grupo_1_peso = [];
         let grupo_1_kmeans = [];
@@ -81,7 +82,28 @@ const promesa = fetch(request_data).then(
             grupo_2_bf.push(element['BF']);
         });
 
-        
+        grupo_1_peso.sort(function(a, b){return a-b});
+        grupo_1_kmeans.sort(function(a, b){return a-b});
+        grupo_1_g120.sort(function(a, b){return a-b});
+        grupo_1_tag.sort(function(a, b){return a-b});
+        grupo_1_insul.sort(function(a, b){return a-b});
+        grupo_1_insul_vs_tag.sort(function(a, b){return a-b});
+        grupo_1_bf.sort(function(a, b){return a-b});
+
+        grupo_2_peso.sort(function(a, b){return a-b});
+        grupo_2_kmeans.sort(function(a, b){return a-b});
+        grupo_2_g120.sort(function(a, b){return a-b});
+        grupo_2_tag.sort(function(a, b){return a-b});
+        grupo_2_insul.sort(function(a, b){return a-b});
+        grupo_2_insul_vs_tag.sort(function(a, b){return a-b});
+        grupo_2_bf.sort(function(a, b){return a-b});
+
+        control_peso.sort(function(a, b){return a-b});
+        control_tag.sort(function(a, b){return a-b});
+        control_bf.sort(function(a, b){return a-b});
+        control_g120.sort(function(a, b){return a-b});
+
+
         let OptionChart1 = {
             title:{
                     text: 'Comparación del Peso',
@@ -119,7 +141,7 @@ const promesa = fetch(request_data).then(
                 type: 'value',
                 name: 'Gramos',
                 min: 400,
-                max: 700,
+                max: 600,
                 type: 'value',
                 nameGap:35,
                 nameTextStyle: {
@@ -201,7 +223,7 @@ const promesa = fetch(request_data).then(
             yAxis: {
                 name: 'Glucosa',
                 min: 60,
-                max: 260,
+                max: 210,
                 type: 'value',
                 nameGap:35,
                 nameTextStyle: {
@@ -282,6 +304,8 @@ const promesa = fetch(request_data).then(
                 name: 'Triglicéridos',
                 type: 'value',
                 nameGap:35,
+                min: 60,
+                max: 360,
                 nameTextStyle: {
                     color:'#0f0f0f',
                     fontSize :16,

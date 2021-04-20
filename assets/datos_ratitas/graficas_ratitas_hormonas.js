@@ -22,6 +22,7 @@ function prepro(list){
         // Id is 0, val is 1
         new_list.push(element[1]);
     });
+    new_list.sort(function(a, b){return a-b});
     return new_list;
 };
 
@@ -200,8 +201,8 @@ const promesa = fetch(request_data).then(
             yAxis: {
                 type: 'value',
                 //name: 'Gramos',
-                // min: 50,
-                // max: 350,
+                 min: 0,
+                 max: 3,
                 type: 'value',
                 nameGap:35,
                 nameTextStyle: {
@@ -276,8 +277,8 @@ const promesa = fetch(request_data).then(
             yAxis: {
                 type: 'value',
                 //name: 'Gramos',
-                min: 100,
-                max: 125,
+                min: 102,
+                max: 117,
                 type: 'value',
                 nameGap:35,
                 nameTextStyle: {
@@ -352,8 +353,8 @@ const promesa = fetch(request_data).then(
             yAxis: {
                 type: 'value',
                 //name: 'Gramos',
-                min: 60,
-                max: 160,
+                min: 65,
+                max: 85,
                 type: 'value',
                 nameGap:35,
                 nameTextStyle: {
