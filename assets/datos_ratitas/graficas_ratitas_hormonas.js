@@ -86,8 +86,8 @@ const promesa = fetch(request_data).then(
         let control_coli_vs_g0 = preproCombined(control['Corticosterone'],control['Ins']);
         let sm_coli_vs_g0 = preproCombined(SM_grup['Corticosterone'],SM_grup['Ins']);
         let regres_control_coli_vs_g0 = ecStat.regression('linear', control_coli_vs_g0).points;
-        let regres_sm_coli_vs_g0 = ecStat.regression('linear', sm_coli_vs_g0).points;
-        
+        let regres_sm_coli_vs_g0 = ecStat.regression('linear',sm_coli_vs_g0).points;
+
         let OptionChart1 = {
             title:{
                     text: 'Glucagon',
