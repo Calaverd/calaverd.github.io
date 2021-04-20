@@ -54,6 +54,8 @@ const promesa = fetch(request_data).then(
         return response.json();
     }).then(function(data) {
 
+        // echarts.registerTransform(ecStat.transform.regression);
+        
 
         let SM_grup = data['SM'];
         let control = data['Control']; 
@@ -73,12 +75,18 @@ const promesa = fetch(request_data).then(
 
         let control_ins_vs_g0 = preproCombined(control['G0'],control['Ins']);
         let sm_ins_vs_g0 = preproCombined(SM_grup['G0'],SM_grup['Ins']);
+        let regres_control_ins_vs_g0 = ecStat.regression('linear', control_ins_vs_g0).points;
+        let regres_sm_ins_vs_g0 = ecStat.regression('linear', sm_ins_vs_g0).points;
 
         let control_glucagon_vs_g0 = preproCombined(control['Glucagon'],control['Ins']);
         let sm_glucagon_vs_g0 = preproCombined(SM_grup['Glucagon'],SM_grup['Ins']);
+        let regres_control_glucagon_vs_g0 = ecStat.regression('linear', control_glucagon_vs_g0).points;
+        let regres_sm_glucagon_vs_g0  = ecStat.regression('linear', sm_glucagon_vs_g0).points;
 
         let control_coli_vs_g0 = preproCombined(control['Corticosterone'],control['Ins']);
         let sm_coli_vs_g0 = preproCombined(SM_grup['Corticosterone'],SM_grup['Ins']);
+        let regres_control_coli_vs_g0 = ecStat.regression('linear', control_coli_vs_g0).points;
+        let regres_sm_coli_vs_g0 = ecStat.regression('linear', sm_coli_vs_g0).points;
         
         let OptionChart1 = {
             title:{
@@ -379,8 +387,8 @@ const promesa = fetch(request_data).then(
                             borderColor: '#000000'
                         }
                     }
-                    ]
-                }
+                    ],
+                },
             ]
         };
         
@@ -467,6 +475,23 @@ const promesa = fetch(request_data).then(
                 data: sm_ins_vs_g0,
                     itemStyle: {
                         color:'#006e3c',
+                        borderColor: '#000000'
+                    }
+                },
+                // linear regressions
+                {
+                type: 'line',
+                data: regres_sm_ins_vs_g0,
+                    itemStyle: {
+                        color:'#006e3c',
+                        borderColor: '#000000'
+                    }
+                },
+                {
+                type: 'line',
+                data: regres_control_ins_vs_g0,
+                    itemStyle: {
+                        color:'#a0a0a0',
                         borderColor: '#000000'
                     }
                 }
@@ -558,6 +583,23 @@ const promesa = fetch(request_data).then(
                         color:'#006e3c',
                         borderColor: '#000000'
                     }
+                },
+                // linear regressions
+                {
+                type: 'line',
+                data: regres_sm_glucagon_vs_g0,
+                    itemStyle: {
+                        color:'#006e3c',
+                        borderColor: '#000000'
+                    }
+                },
+                {
+                type: 'line',
+                data: regres_control_glucagon_vs_g0,
+                    itemStyle: {
+                        color:'#a0a0a0',
+                        borderColor: '#000000'
+                    }
                 }
             ]
         };
@@ -647,9 +689,27 @@ const promesa = fetch(request_data).then(
                         color:'#006e3c',
                         borderColor: '#000000'
                     }
+                },
+                // linear regressions
+                {
+                type: 'line',
+                data: regres_sm_coli_vs_g0,
+                    itemStyle: {
+                        color:'#006e3c',
+                        borderColor: '#000000'
+                    }
+                },
+                {
+                type: 'line',
+                data: regres_control_coli_vs_g0,
+                    itemStyle: {
+                        color:'#a0a0a0',
+                        borderColor: '#000000'
+                    }
                 }
             ]
         };
+
 
         var myChart = echarts.init(document.getElementById('chart_1'));
         myChart.setOption(OptionChart1);
