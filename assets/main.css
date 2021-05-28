@@ -1,3 +1,5 @@
+@import "bulma.css";
+
 @font-face {
   font-family: Atkinson;
   src: url("../assets/fonts/Atkinson-Hyperlegible-Regular-102a.woff2");
