@@ -67,7 +67,7 @@ calculateNavBurgerBigSize()
 function removeSubtitle(){
     if (document.getElementById('siteSubtitleName')){
         document.getElementById('siteSubtitleName').remove();
-        console.log('FUERA!!!');
+        // console.log('FUERA!!!');
         };
     };
 function addSubtitle(){
@@ -122,7 +122,9 @@ function checkScrollPos(){
        window.setTimeout(addSubtitle,250);
        added = false;
     };
-
+    /*
+    This code only is for the main page...
+    */
     let hero = document.getElementById('hero');
     if(hero != null){
       let hero_head = document.getElementById('hero-head');
@@ -131,7 +133,7 @@ function checkScrollPos(){
       let nav_bar_size = (document.getElementById('navbar').getBoundingClientRect().height)*1.15;
       //console.log(nav_bar_pos);
       if((Math.abs(nav_bar_pos)+nav_bar_size)>domRect.height && !moved_to_body){
-        console.log('moved to body');
+        // console.log('moved to body');
         moved_to_body = true;
         hero.removeChild(hero_head);
         if(first_time_moving){
@@ -143,7 +145,7 @@ function checkScrollPos(){
       }
       if(moved_to_body){
         if((Math.abs(nav_bar_pos)+nav_bar_size)<domRect.height){
-          console.log('moved to hero');
+          // console.log('moved to hero');
           moved_to_body = false;
           document.body.removeChild(hero_head);
           hero.insertBefore(hero_head, hero.firstChild);
@@ -151,5 +153,20 @@ function checkScrollPos(){
       }
     }
 };
+
+if (typeof(Storage) !== "undefined") {
+  // Code for localStorage/sessionStorage.
+  console.log(window.location.href);
+  if (sessionStorage.set_lang) {
+    // do nothing
+    console.log('Lang set');
+  } else {
+    console.log('Lang not set');
+    sessionStorage.set_lang = true;
+    console.log(globalObj.navigator.language);
+    // figure the idiom
+    // window.location.replace("http://stackoverflow.com");
+  }
+}
 
 window.setInterval(checkScrollPos,10);
