@@ -1,4 +1,7 @@
 <head>
+  <!-- Run this script before anything else!!! -->
+  <script async src="/assets/js/redirect_es.js"></script>
+  
   {%- if page.description.size > 0 -%}
     {%- assign descipcion = page.description -%}
   {%- else  -%}
@@ -24,7 +27,6 @@
       {%- endif -%}
     {%- endfor -%}
   {%- endif -%}
-
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">

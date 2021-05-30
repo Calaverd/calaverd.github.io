@@ -154,19 +154,4 @@ function checkScrollPos(){
     }
 };
 
-if (typeof(Storage) !== "undefined") {
-  // Code for localStorage/sessionStorage.
-  console.log(window.location.href);
-  if (sessionStorage.set_lang) {
-    // do nothing
-    console.log('Lang set');
-  } else {
-    console.log('Lang not set');
-    sessionStorage.set_lang = true;
-    console.log(globalObj.navigator.language);
-    // figure the idiom
-    // window.location.replace("http://stackoverflow.com");
-  }
-}
-
 window.setInterval(checkScrollPos,10);
