@@ -1,7 +1,7 @@
 import * as THREE from '/assets/js/three.module.min.js';
 import {GLTFLoader} from '/assets/js/GLTFLoader.min.js';
 import { MeshoptDecoder } from '/assets/js/meshopt_decoder.module.js';
-import { SkeletonUtils } from '/assets/js/SkeletonUtils.min.js';
+// import { SkeletonUtils } from '/assets/js/SkeletonUtils.min.js';
 
 let renderer;
 let camera_hero, scene_hero; // the scene and camera from the hero banner
@@ -13,9 +13,9 @@ let is_about_rendering = false;
 let is_contact_rendering = false;
 
 // this are some variables made to control the camera postion on scroll for each scene
-let hero_cam_orig = [5,5,-3.5];
+let hero_cam_orig = [5,3.75,-3];
 let hero_cam_dest = [2,3.5,-2];
-let hero_cam_look = [0,3,2];
+let hero_cam_look = [-2,3,2];
 
 let about_cam_orig = [8,7,8];
 let about_cam_dest = [5,3,5];
@@ -33,8 +33,6 @@ let digital_trama_texture = null;
 let info_panel_texture = null;
 
 const mixers = [];
-
-
 
 // create alist of frames to play for the animation of the computer screen
 
@@ -179,22 +177,27 @@ function loadModels(){
     scene_hero.add(gltf.scene);
 
     computer_screen_texture = gltf.scene.children[0].children[2].material.map;
-    
+    gltf.scene.children[0].children[2].material.needsUpdate = true;
     computer_screen_texture.magFilter  = THREE.NearestFilter;
     computer_screen_texture.minFilter  = THREE.NearestFilter;
+    computer_screen_texture.needsUpdate = true;
 
     // set the texutre of the computer as Nearest Filter.
     gltf.scene.children[0].children[0].material.map.magFilter  = THREE.NearestFilter;
     gltf.scene.children[0].children[0].material.map.minFilter  = THREE.NearestFilter;
     });
 
+   /*
   gltfLoader.load('/assets/main_page/trama.glb', (gltf) => {
     scene_hero.add(gltf.scene);
 
     digital_trama_texture = gltf.scene.children[0].material.map;
+    gltf.scene.children[0].material.needsUpdate = true;
     digital_trama_texture.magFilter  = THREE.NearestFilter;
     digital_trama_texture.minFilter  = THREE.NearestFilter;
+    digital_trama_texture.needsUpdate = true;
     });
+  */
   
   gltfLoader.load('/assets/main_page/dino.glb', (gltf) => {
     scene_hero.add(gltf.scene);
@@ -214,8 +217,10 @@ function loadModels(){
     gltf.scene.add( wireframe );
 
     info_panel_texture = gltf.scene.children[0].material.map;
+    gltf.scene.children[0].material.needsUpdate = true;
     info_panel_texture.magFilter  = THREE.NearestFilter;
     info_panel_texture.minFilter  = THREE.NearestFilter;
+    info_panel_texture.needsUpdate = true;
     });
   
   gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
@@ -274,7 +279,7 @@ function initContactScene(){
 
   const canvas = document.getElementById('contact');
 
-  camera_contact = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01, 15 );
+  camera_contact = new THREE.PerspectiveCamera( 70, canvas.width / canvas.height, 0.01,16);
   camera_contact.position.set(contact_cam_orig[0], contact_cam_orig[1], contact_cam_orig[2]);
   camera_contact.lookAt(contact_cam_look[0],contact_cam_look[1],contact_cam_look[2]);
   
@@ -297,11 +302,13 @@ function mainAnimation( time ) {
     computer_screen_texture.offset = texture_offsets[animation_frames.getFrameActual()];
   };
   // the zeros and ones  around the dinosaur 
+  /*
   if(digital_trama_texture !== null){
     let offset = digital_trama_texture.offset;
     offset.x = (offset.x + delta*0.25) %1; 
     digital_trama_texture.offset = offset;
   };
+  */
   
   // animate the monitor on the about scene
   if(monitor !== null) {
@@ -326,19 +333,21 @@ function mainAnimation( time ) {
 /*
   Get the container of the scene, and render it only if is visible on screen
 */
+var rscanvas = null;
+
 function render_scene(scene, camera){
 
-  const canvas = scene.userData.element;
-  const {left, right, top, bottom, width, height} = canvas.getBoundingClientRect();
+  rscanvas = scene.userData.element;
+  const {left, top, bottom, width, height} = rscanvas.getBoundingClientRect();
 
-  if (canvas.width != window.innerWidth || canvas.height != window.innerHeight ){
-    if (canvas.width != window.innerWidth){
-        canvas.width  = window.innerWidth;
-        canvas.style.width = window.innerWidth+"px";
+  if (rscanvas.width != window.innerWidth || rscanvas.height != window.innerHeight ){
+    if (rscanvas.width != window.innerWidth){
+        rscanvas.width  = window.innerWidth;
+        rscanvas.style.width = window.innerWidth+"px";
     }
-    if (canvas.height != window.innerHeight){
-        canvas.height = window.innerHeight;
-        canvas.style.height = window.innerHeight+"px";
+    if (rscanvas.height != window.innerHeight){
+        rscanvas.height = window.innerHeight;
+        rscanvas.style.height = window.innerHeight+"px";
     }
   }
 
@@ -352,7 +361,7 @@ function render_scene(scene, camera){
   renderer.setSize( window.innerWidth, window.innerHeight );
 
   // set the viewport
-  const positiveYUpBottom = canvas.height - bottom;
+  const positiveYUpBottom = rscanvas.height - bottom;
   renderer.setScissor(left, positiveYUpBottom, width, height);
   renderer.setViewport(left, positiveYUpBottom, width, height);
   renderer.setScissorTest( true );
@@ -374,8 +383,9 @@ function render(){
 
 function init() {
 
-  const canvas = document.getElementById('main-canvas');
-  renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
+  renderer = new THREE.WebGLRenderer(
+    {canvas: document.getElementById('main-canvas'),
+     antialias: true, alpha: true});
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.setAnimationLoop( mainAnimation );
