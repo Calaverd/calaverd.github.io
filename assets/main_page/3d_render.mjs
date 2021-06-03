@@ -13,9 +13,9 @@ let is_about_rendering = false;
 let is_contact_rendering = false;
 
 // this are some variables made to control the camera postion on scroll for each scene
-let hero_cam_orig = [5,3.75,-3];
-let hero_cam_dest = [2,3.5,-2];
-let hero_cam_look = [-2,3,2];
+let hero_cam_orig = [10,1,3];
+let hero_cam_dest = [12,3,-1];
+let hero_cam_look = [0,-3,-0.5];
 
 let about_cam_orig = [8,7,8];
 let about_cam_dest = [5,3,5];
@@ -28,9 +28,9 @@ let contact_cam_look = [0,0.5,0];
 
 // This are for the objects that will be animated but are not loaded yet
 let monitor = null;
-let computer_screen_texture = null;
-let digital_trama_texture = null;
 let info_panel_texture = null;
+let goji_plane = null
+
 
 const mixers = [];
 
@@ -134,7 +134,7 @@ function updateCamera(ev) {
   lastScrollTop = st <= 0 ? 0 : st; // For Mobile or negative scrolling
   
   if(is_hero_rendering){
-  	moveCamera(camera_hero, hero_cam_orig, hero_cam_dest, dt, hero_cam_look);
+  	moveCamera(camera_hero, hero_cam_orig, hero_cam_dest, dt*2, hero_cam_look);
   }
   if(is_about_rendering){
     moveCamera(camera_about, about_cam_orig, about_cam_dest, dt, about_cam_look);
@@ -148,7 +148,7 @@ function updateCamera(ev) {
 
 //* taken from threejsfundamentals at https://threejsfundamentals.org/threejs/lessons/threejs-load-gltf.html
 // use for debug of the models
-/*
+
 function dumpObject(obj, lines = [], isLast = true, prefix = '') {
   const localPrefix = isLast ? '└─' : '├─';
   lines.push(`${prefix}${prefix ? localPrefix : ''}${obj.name || '*no-name*'} [${obj.type}]`);
@@ -160,7 +160,6 @@ function dumpObject(obj, lines = [], isLast = true, prefix = '') {
   });
   return lines;
 }
-*/
 
 /*
   Load the models and add each one to their scenes. 
@@ -171,37 +170,13 @@ function loadModels(){
 
   const gltfLoader = new GLTFLoader();
   gltfLoader.setMeshoptDecoder(MeshoptDecoder);
-  //console.log(dumpObject(gltf.scene).join('\n'));
-
-  gltfLoader.load('/assets/main_page/computer_and_desk.glb', (gltf) => {
-    scene_hero.add(gltf.scene);
-
-    computer_screen_texture = gltf.scene.children[0].children[2].material.map;
-    gltf.scene.children[0].children[2].material.needsUpdate = true;
-    computer_screen_texture.magFilter  = THREE.NearestFilter;
-    computer_screen_texture.minFilter  = THREE.NearestFilter;
-    computer_screen_texture.needsUpdate = true;
-
-    // set the texutre of the computer as Nearest Filter.
-    gltf.scene.children[0].children[0].material.map.magFilter  = THREE.NearestFilter;
-    gltf.scene.children[0].children[0].material.map.minFilter  = THREE.NearestFilter;
-    });
-
-   /*
-  gltfLoader.load('/assets/main_page/trama.glb', (gltf) => {
-    scene_hero.add(gltf.scene);
-
-    digital_trama_texture = gltf.scene.children[0].material.map;
-    gltf.scene.children[0].material.needsUpdate = true;
-    digital_trama_texture.magFilter  = THREE.NearestFilter;
-    digital_trama_texture.minFilter  = THREE.NearestFilter;
-    digital_trama_texture.needsUpdate = true;
-    });
-  */
   
-  gltfLoader.load('/assets/main_page/dino.glb', (gltf) => {
+  gltfLoader.load('/assets/main_page/goji_pilot_c.glb', (gltf) => {
     scene_hero.add(gltf.scene);
-
+    // console.log(dumpObject(gltf.scene));
+    
+    goji_plane = gltf.scene;
+    
     let mixer1 = new THREE.AnimationMixer( gltf.scene );
     mixer1.clipAction( gltf.animations[ 0 ] ).play();
     mixers.push(mixer1);
@@ -252,6 +227,11 @@ function initHeroScene(){
   const light = new THREE.DirectionalLight(0xFFFFFF, 1);
   light.position.set(2,6,-10);
   scene_hero.add(light);
+  
+  const light2 = new THREE.DirectionalLight(0xFFFFFF, 1);
+  light2.position.set(0,2,10);
+  scene_hero.add(light2);
+  
   scene_hero.add(new THREE.HemisphereLight( 0xcacaca, 0x888888 ))
   
   //scene_hero.background = new THREE.Color(0x00d1b2); //0xccf1c2
@@ -297,26 +277,22 @@ function mainAnimation( time ) {
   
   let delta = clock.getDelta();
 
-  // the screen of the computer in front of the dinosaur
-  if( computer_screen_texture !== null){
-    computer_screen_texture.offset = texture_offsets[animation_frames.getFrameActual()];
-  };
-  // the zeros and ones  around the dinosaur 
-  /*
-  if(digital_trama_texture !== null){
-    let offset = digital_trama_texture.offset;
-    offset.x = (offset.x + delta*0.25) %1; 
-    digital_trama_texture.offset = offset;
-  };
-  */
-  
   // animate the monitor on the about scene
   if(monitor !== null) {
     monitor.rotation.y = time/1005;
     monitor.rotation.z = time/2008;
     monitor.rotation.x = time/3007;  
   };
-
+  
+  if(goji_plane !== null){
+    const delta = (3.5 * Math.sin(Math.PI * 2 * time/5000)) -3.5;
+    const delta2 = (1 * Math.sin(Math.PI * 2 * time/5000));
+    const delta3 = (3 * Math.sin(Math.PI * 2 * time/10000));
+    goji_plane.position.y = delta;
+    goji_plane.position.z = delta2;
+    goji_plane.position.x = delta3;
+  };
+  
   // animate the text and gaujes of the about scene 
   if(info_panel_texture !== null ){
     let offset = info_panel_texture.offset;

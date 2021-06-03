@@ -119,6 +119,24 @@ $box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 6px 6px rgba(0, 0, 0, .19)
   transition: all .2s ease-in-out;
 }
 
+/*
+.about-me-hero{
+    background: rgb(32,156,238);
+    background: -moz-linear-gradient(0deg, rgba(32,156,238,1) 0%, rgba(77,184,255,1) 89%, rgba(0,209,178,1) 100%);
+    background: -webkit-linear-gradient(0deg, rgba(32,156,238,1) 0%, rgba(77,184,255,1) 89%, rgba(0,209,178,1) 100%);
+    background: linear-gradient(0deg, rgba(32,156,238,1) 0%, rgba(77,184,255,1) 89%, rgba(0,209,178,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#209cee",endColorstr="#00d1b2",GradientType=1);
+}
+
+.top-page-hero{
+    background: rgb(8,212,181);
+    background: -moz-linear-gradient(180deg, rgba(8,212,181,1) 72%, rgba(0,209,178,1) 100%);
+    background: -webkit-linear-gradient(180deg, rgba(8,212,181,1) 72%, rgba(0,209,178,1) 100%);
+    background: linear-gradient(180deg, rgba(8,212,181,1) 72%, rgba(0,209,178,1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#08d4b5",endColorstr="#00d1b2",GradientType=1); 
+}
+*/
+
 .icon {
     display: flex;
     justify-content: center;
