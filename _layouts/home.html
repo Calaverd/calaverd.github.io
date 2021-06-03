@@ -2,11 +2,60 @@
 <html lang="{{ page.lang | default: site.lang | default: 'en' }}">
   
   {%- include head.html -%}
-
+  <link rel="stylesheet" href="/assets/main_page/local.css">
   <body>
+  
+    <!-- Background clouds -->
+    <div class="shoot cloud1">
+      <svg viewBox='10 36 80 65' class="svg_shape" >
+          <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
+      </svg>
+    </div>
+    <div class="shoots cloud3">
+      <svg viewBox='10 36 80 65' class="svg_shape" >
+          <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
+      </svg>
+    </div>
+    <div class="shoots cloud5">
+      <svg viewBox='10 36 80 65' class="svg_shape" >
+          <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
+      </svg>
+    </div>
+    <div class="shoots cloud7">
+      <svg viewBox='10 36 80 65' class="svg_shape" >
+          <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
+      </svg>
+    </div>
+    <div class="shoots cloud8">
+      <svg viewBox='10 36 80 65' class="svg_shape" >
+          <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
+      </svg>
+    </div>
+    
+    <!-- Draw dino on plane -->
     <canvas id="main-canvas" class="canvas_bg" ></canvas>
+    
+    <!-- Foreground clouds -->
+    
+    <div class="shoot cloud2">
+      <svg viewBox='10 36 80 65' class="svg_shape" >
+          <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
+      </svg>
+    </div>
+    <div class="shootb cloud4">
+      <svg viewBox='10 36 80 65' class="svg_shape" >
+          <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
+      </svg>
+    </div>
+    <div class="shoot cloud6">
+      <svg viewBox='10 36 80 65' class="svg_shape" >
+          <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
+      </svg>
+    </div>
+    
     <section class="hero is-fullheight is-primary" id='hero'>
       {%- include header.html -%}
+      
       <div class="hero-body">
           <div class="container">
             <div class='columns is-centered is-dark'>

@@ -1,0 +1,83 @@
+
+.shoot{
+  position: absolute;
+  width: 10rem;
+  height: 10vh;
+  opacity: 0.90;
+  overflow:hidden;
+}
+
+.shootb{
+  position: absolute;
+  width: 12rem;
+  height: 14vh;
+  opacity: 0.90;
+  overflow:hidden;
+}
+
+.shoots{
+  position: absolute;
+  width: 8rem;
+  height: 7.5vh;
+  opacity: 0.90;
+  overflow:hidden;
+}
+
+.svg_shape{
+    position:absolute;
+    left:0; top:0; width:100%; height:100%
+}
+
+.cloud1{
+    top:20vh;
+    left:20%;
+    animation: cloud_move 4s linear infinite both;
+    animation-delay: -0.5s;
+}
+.cloud2{
+    top:30vh;
+    left:50%;
+    animation: cloud_move 4s linear infinite both;
+}
+.cloud3{
+    top:40vh;
+    left:50%;
+    animation: cloud_move 6s linear infinite both;
+    animation-delay: -2s;
+}
+.cloud4{
+    top:48vh;
+    animation: cloud_move 2s linear infinite both;
+    animation-delay: -1s;
+}
+.cloud5{
+    top:62vh;
+    animation: cloud_move 6s linear infinite both;
+}
+
+.cloud6{
+    top:70vh;
+    animation: cloud_move 4s linear infinite both;
+}
+.cloud7{
+    top:40vh;
+    animation: cloud_move 6s linear infinite both;
+    animation-delay: -5s;
+}
+.cloud8{
+    top:70vh;
+    animation: cloud_move 6s linear infinite both;
+    animation-delay: -4s;
+}
+
+
+
+
+@keyframes cloud_move{
+  from {
+    left: calc(0% - 12rem);
+  }
+  to {
+    left: 100%;
+  }
+}
