@@ -7,8 +7,15 @@ if (typeof(Storage) !== "undefined"){
       // console.log('El lenguaje del navegador es español'); 
       if( window.location.href.search(/\/es\//) == -1 ){
          // console.log("la pagina no esta en español, redirije a la versión en español");
-         window.location.replace( window.location.href.replace(/(?<=\/\/.*)\//,'/es/') );
-      }
+         let spanish_page = window.location.href.replace(/(?<=\/\/.*)\//,'/es/')
+         // ¿Exite la pagina en español?
+         fetch(spanish_page).then(function(response) {
+            console.log(response.status);
+            if(response.status == 200){
+               window.location.replace(spanish_page);
+                }
+            });
+       }
     }
   }
 }
