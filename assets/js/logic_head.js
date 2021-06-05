@@ -127,6 +127,7 @@ function checkScrollPos(){
     */
     let hero = document.getElementById('hero');
     if(hero != null){
+    /*
       let hero_head = document.getElementById('hero-head');
       let domRect = hero.getBoundingClientRect();
       let nav_bar_pos = hero_head.getBoundingClientRect().y;
@@ -151,15 +152,15 @@ function checkScrollPos(){
           hero.insertBefore(hero_head, hero.firstChild);
         }
       }
-    
-    // keep the clouds away from moving the navburger 
-    if(parseInt(document.getElementById('nav-burger').style.width) != 0){
-        let size = `${parseInt(window.innerWidth)}px`;  
-        navbar.style.width =  size;
-    }else{
-        let navbar = document.getElementById("navbar-brand");
-        navbar.style.width =  'auto';
-    }
+        */
+        // keep the clouds away from moving the navburger 
+        if(parseInt(document.getElementById('nav-burger').style.width) != 0){
+            let size = `${parseInt(window.innerWidth)}px`;  
+            navbar.style.width =  size;
+        }else{
+            let navbar = document.getElementById("navbar-brand");
+            navbar.style.width =  'auto';
+        }
     
     }
 };

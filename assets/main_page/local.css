@@ -29,18 +29,18 @@
 }
 
 .cloud1{
-    top:20vh;
+    top:18vh;
     left:20%;
     animation: cloud_move 4s linear infinite both;
     animation-delay: -0.5s;
 }
 .cloud2{
-    top:30vh;
+    top:35vh;
     left:50%;
     animation: cloud_move 4s linear infinite both;
 }
 .cloud3{
-    top:40vh;
+    top:43vh;
     left:50%;
     animation: cloud_move 6s linear infinite both;
     animation-delay: -2s;
@@ -60,14 +60,19 @@
     animation: cloud_move 4s linear infinite both;
 }
 .cloud7{
-    top:40vh;
+    top:38vh;
     animation: cloud_move 6s linear infinite both;
     animation-delay: -5s;
 }
 .cloud8{
-    top:70vh;
+    top:73vh;
     animation: cloud_move 6s linear infinite both;
     animation-delay: -4s;
+}
+.cloud9{
+    top:50vh;
+    animation: cloud_move 7s linear infinite both;
+    animation-delay: -0.2s;
 }
 
 

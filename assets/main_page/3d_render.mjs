@@ -287,7 +287,7 @@ function mainAnimation( time ) {
   if(goji_plane !== null){
     const delta = (3.5 * Math.sin(Math.PI * 2 * time/5000)) -3.5;
     const delta2 = (1 * Math.sin(Math.PI * 2 * time/5000));
-    const delta3 = (3 * Math.sin(Math.PI * 2 * time/10000));
+    const delta3 = (3 * Math.sin(Math.PI * 2 * time/10000)-2);
     goji_plane.position.y = delta;
     goji_plane.position.z = delta2;
     goji_plane.position.x = delta3;

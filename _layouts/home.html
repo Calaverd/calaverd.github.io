@@ -4,7 +4,7 @@
   {%- include head.html -%}
   <link rel="stylesheet" href="/assets/main_page/local.css">
   <body>
-  
+    {%- include header.html -%}
     <!-- Background clouds -->
     <div class="shoot cloud1">
       <svg viewBox='10 36 80 65' class="svg_shape" >
@@ -31,6 +31,11 @@
           <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
       </svg>
     </div>
+    <div class="shoot cloud9">
+      <svg viewBox='10 36 80 65' class="svg_shape" >
+          <path d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z'  fill="white" />
+      </svg>
+    </div>
     
     <!-- Draw dino on plane -->
     <canvas id="main-canvas" class="canvas_bg" ></canvas>
@@ -53,8 +58,8 @@
       </svg>
     </div>
     
-    <section class="hero is-fullheight is-primary" id='hero'>
-      {%- include header.html -%}
+    <section class="hero is-fullheight is-info" id='hero'>
+      
       
       <div class="hero-body">
           <div class="container">
@@ -110,7 +115,7 @@
    </section>
   
   <!-- Begin Contact -->
-  <section class="hero is-fullheight is-link" id='contact'>
+  <section class="hero is-fullheight is-info" id='contact'>
     <!-- <canvas id="about-canvas" class="section is-fullheight" ></canvas>  -->
     <div class="hero-body">
       <div class="container">
