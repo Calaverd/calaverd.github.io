@@ -29,7 +29,8 @@ let contact_cam_look = [0,0.5,0];
 // This are for the objects that will be animated but are not loaded yet
 let monitor = null;
 let info_panel_texture = null;
-let goji_plane = null
+let goji_plane = null;
+let bird_contact = null;
 
 
 const mixers = [];
@@ -180,37 +181,40 @@ function loadModels(){
     let mixer1 = new THREE.AnimationMixer( gltf.scene );
     mixer1.clipAction( gltf.animations[ 0 ] ).play();
     mixers.push(mixer1);
-  });  
-  
-  gltfLoader.load('/assets/main_page/info.glb', (gltf) => {
-    scene_about.add(gltf.scene);
+    
+    
+    gltfLoader.load('/assets/main_page/info.glb', (gltf) => {
+        scene_about.add(gltf.scene);
 
-    // the black outline of the info charts is just the wireframe
-    let geo = new THREE.EdgesGeometry( gltf.scene.children[0].geometry ); // or WireframeGeometry
-    let mat = new THREE.LineBasicMaterial( { color: 0x000000 } );
-    let wireframe = new THREE.LineSegments( geo, mat );
-    gltf.scene.add( wireframe );
+        // the black outline of the info charts is just the wireframe
+        let geo = new THREE.EdgesGeometry( gltf.scene.children[0].geometry ); // or WireframeGeometry
+        let mat = new THREE.LineBasicMaterial( { color: 0x000000 } );
+        let wireframe = new THREE.LineSegments( geo, mat );
+        gltf.scene.add( wireframe );
 
-    info_panel_texture = gltf.scene.children[0].material.map;
-    gltf.scene.children[0].material.needsUpdate = true;
-    info_panel_texture.magFilter  = THREE.NearestFilter;
-    info_panel_texture.minFilter  = THREE.NearestFilter;
-    info_panel_texture.needsUpdate = true;
-    });
-  
-  gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
-    monitor = gltf.scene;
-    monitor.position.set(0,2,0);
-    scene_about.add(monitor);
-    });
-
-  gltfLoader.load('/assets/main_page/contact_bird.glb', (gltf) => {
-    scene_contact.add(gltf.scene);
-
-    let mixer1 = new THREE.AnimationMixer( gltf.scene );
-    mixer1.clipAction( gltf.animations[ 0 ] ).play();
-    mixers.push(mixer1);
-    });
+        info_panel_texture = gltf.scene.children[0].material.map;
+        gltf.scene.children[0].material.needsUpdate = true;
+        info_panel_texture.magFilter  = THREE.NearestFilter;
+        info_panel_texture.minFilter  = THREE.NearestFilter;
+        info_panel_texture.needsUpdate = true;
+        
+        });
+    
+      gltfLoader.load('/assets/main_page/mp_computer.glb', (gltf) => {
+        monitor = gltf.scene;
+        monitor.position.set(0,2,0);
+        scene_about.add(monitor);
+        
+        gltfLoader.load('/assets/main_page/contact_bird.glb', (gltf) => {
+            scene_contact.add(gltf.scene);
+            bird_contact = gltf.scene;
+            let mixer1 = new THREE.AnimationMixer( gltf.scene );
+            mixer1.clipAction( gltf.animations[ 0 ] ).play();
+            mixers.push(mixer1);
+            });   
+        });
+    
+  });
 };
 
 /*
@@ -352,13 +356,21 @@ function render(){
   const transform = `translateY(${window.scrollY}px)`;
   renderer.domElement.style.transform = transform;
   
-  is_hero_rendering = render_scene(scene_hero, camera_hero);
-  is_about_rendering = render_scene(scene_about, camera_about);
-  is_contact_rendering = render_scene(scene_contact, camera_contact);
+  // only render if all models are aready loaded...
+  if(goji_plane !== null &&  bird_contact !== null && monitor !== null ){
+      is_hero_rendering = render_scene(scene_hero, camera_hero);
+      is_about_rendering = render_scene(scene_about, camera_about);
+      is_contact_rendering = render_scene(scene_contact, camera_contact);
+    }
 }
 
-function init() {
+// taken from https://www.sitepoint.com/delay-sleep-pause-wait/
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
+async function init() {
+  await sleep(1500);
   renderer = new THREE.WebGLRenderer(
     {canvas: document.getElementById('main-canvas'),
      antialias: true, alpha: true});
@@ -366,16 +378,23 @@ function init() {
   renderer.setSize( window.innerWidth, window.innerHeight );
   renderer.setAnimationLoop( mainAnimation );
   renderer.setClearColor( 0x000000, 0 );
-
+  
   // init the scenes
+  await sleep(100);
   initHeroScene();
+  
+  await sleep(100);
   initAboutScene();
+  
+  await sleep(100);
   initContactScene();
 
   //load the models.
+  await sleep(500);
   loadModels();
+  
+  window.addEventListener("scroll", updateCamera);
 }
 
 
-window.addEventListener("scroll", updateCamera);
 init();
