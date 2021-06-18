@@ -53,13 +53,15 @@ $box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 6px 6px rgba(0, 0, 0, .19)
 
 .info_box {
   border-radius: 4px;
-  width: auto;
+  width: 120%;
+  left:100%;
   display: block;
   position: relative;
   transition: all .2s ease-in-out;
   background-color: rgba(0, 0, 0, 0.35);
   backdrop-filter: blur(1px);
-  padding: 10pt;
+  padding: 1rem;
+  transform: translate(-92%,0);
   text-shadow: 2px 2px 2px #000000;
  }
 
