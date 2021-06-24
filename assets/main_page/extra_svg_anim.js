@@ -12,7 +12,7 @@ helix2.style.visibility = "hidden"
 
 let taken_places = [];
 let place_list = [0,1,2,3,4,5,6];
-let directions = [ "to_20","to_45","to_60","to_90","to_110","to_135","to_160"];
+let directions = ["to_20","to_45","to_60","to_90","to_110","to_135","to_160"];
 let ctr_monitor = document.getElementById('ctr-monitor');
 
 let center_shoot = [...document.getElementsByClassName("center-shoot")];
@@ -54,7 +54,7 @@ function runFrameAnimations(){
 }
 
 function startLogoAnimations(){
-    for(i=0;i<7;i++){
+    for(i=0;i<place_list.length;i++){
         if(taken_places[i]){
             let dir = taken_places[i][0];
             let object = taken_places[i][1];

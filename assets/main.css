@@ -53,21 +53,27 @@ $box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 6px 6px rgba(0, 0, 0, .19)
 
 .info_box {
   border-radius: 4px;
-  width: 120%;
-  left:100%;
+  width: 100%;
+  left:0%;
   display: block;
   position: relative;
   transition: all .2s ease-in-out;
-  background-color: rgba(0, 0, 0, 0.35);
+  background-color: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(1px);
   padding: 1rem;
-  transform: translate(-92%,0);
-  text-shadow: 2px 2px 2px #000000;
+  text-shadow: 0.25rem 0.25rem 0.25rem #000000;
+  z-index:2;
+  line-height: 1.5;
  }
+
+.info_box p{
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
 
 .info_box:hover {
   box-shadow:  0.5em 0.5em 0.5em -0.125em #00330044, 0 3px 3px rgba(0, 0, 0, .19);
-  background-color: rgba(0, 0, 0, 0.6);
+  background-color: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(1.5px);
 }
 
