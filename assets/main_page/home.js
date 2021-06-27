@@ -1,3 +1,59 @@
+// SVG animations
+let helix1 = document.getElementById('helix1');
+let helix2 = document.getElementById('helix2');
+let frames = [helix1, helix2];
+let frame = 0;
+helix2.style.visibility = "hidden"
+
+let ctr_monitor = document.getElementById('ctr-monitor');
+let crt_text = [...ctr_monitor.getElementsByTagName("g")[1].getElementsByTagName("rect")];
+let current_ctr_text = 0;
+crt_text.forEach( x => { x.style.visibility = "hidden"; });
+crt_text.sort((a, b) => (a.getAttribute("y") > b.getAttribute("y")) ? 1 : -1);
+
+// NMS decode effects
+const active_css = "has-text-primary";
+const inactive_css = "has-text-link"; 
+const decipher_css = "has-text-danger";
+
+let decipher_simbol_list = [...'⬟⬣⯂⬢⬟⬣⯂⬢'];
+const control_active_simbol = ' ⯀ ';
+const control_inactive_simbol = ' ⬦ ';
+const control_transition_simbol = ' ⯍ ';
+decipher_simbol_list.forEach( function(x,i){ this[i]=' '+x+' '; console.log(this[i]); }, decipher_simbol_list ) ;
+
+//
+let info_about = document.getElementById('info-about');
+let info_contact = document.getElementById('info-contact');
+let portafolio = document.getElementById('portafolio');
+
+let title_node = info_about.childNodes[1];
+let text_list = [];
+text_list[info_about.id] = [...info_about.getElementsByTagName('p')];
+text_list[portafolio.id] = [...portafolio.getElementsByTagName('p')];
+console.log(text_list[portafolio.id]);
+text_list[info_contact.id] = [...info_contact.getElementsByTagName('a')];
+
+let text_list_sectets = [];
+text_list_sectets[info_about.id] = [];
+text_list_sectets[info_contact.id] = [];
+text_list_sectets[portafolio.id] = [];
+
+for(let i=0; i<text_list[info_about.id].length; i++){
+    text_list_sectets[info_about.id].push(getOfuscated(text_list[info_about.id][i].innerHTML));
+    text_list[info_about.id][i].innerHTML = text_list_sectets[info_about.id][i]["ofuscated"];
+}
+
+for(let i=0; i<text_list[info_contact.id].length; i++){
+    text_list_sectets[info_contact.id].push(getOfuscated(text_list[info_contact.id][i].innerHTML));
+    text_list[info_contact.id][i].innerHTML = text_list_sectets[info_contact.id][i]["ofuscated"];
+}
+
+for(let i=0; i<text_list[portafolio.id].length; i++){
+    text_list_sectets[portafolio.id].push(getOfuscated(text_list[portafolio.id][i].innerHTML));
+    text_list[portafolio.id][i].innerHTML = text_list_sectets[portafolio.id][i]["ofuscated"];
+}
+
 function getRandom(min, max){ return Math.floor(Math.random()*(max-min+1)+min); };
 
 function randChart(){ 
@@ -32,13 +88,10 @@ function getOfuscated(base_string){
     let word = '' ;
     while(i< base_string.length){
         let base_num_runs = 2;
-        if(i%2 == 1){base_num_runs = getRandom(10, 15)};
-        if(getRandom(0, 20) >= 19 ){
-            base_num_runs = 20;
-            }
+        if(i%2 == 1){base_num_runs = getRandom(8, 13)};
         chart_list[i] = {
             basec: base_string.charAt(i),
-            runs: base_num_runs+getRandom(5, 10),
+            runs: base_num_runs+getRandom(0,5),
             nchar: randChart()
         };
         if(chart_list[i].basec == ' '){
@@ -88,16 +141,6 @@ function decipherRun(parent, current_text, solved_color){
     }
     return all_zeros;
 }
-
-const active_css = "has-text-primary";
-const inactive_css = "has-text-link"; 
-const decipher_css = "has-text-danger";
-
-let decipher_simbol_list = [...'⬟⬣⯂⬢⬟⬣⯂⬢'];
-const control_active_simbol = ' ⯀ ';
-const control_inactive_simbol = ' ⬦ ';
-const control_transition_simbol = ' ⯍ ';
-decipher_simbol_list.forEach( function(x,i){ this[i]=' '+x+' '; console.log(this[i]); }, decipher_simbol_list ) ;
         
 class ControlPoint{
     constructor(container, on_click) { //function(){ setNewWord(i) }
@@ -305,48 +348,26 @@ let main_text = new function(){
     };
 }
 
-
-main_text.startText();
-main_text.initControls();
-
-window.setInterval(main_text.updateText,75);
+function runFrameAnimations(){
+    frames[frame].style.visibility = "hidden";
+    frame = (frame+1)%2;
+    frames[frame].style.visibility = "visible";
+    
+    // crt animation text
+    if(current_ctr_text < crt_text.length){
+        crt_text[current_ctr_text].style.visibility = "visible";
+        current_ctr_text +=1;
+    }else{
+        current_ctr_text = 0;
+        crt_text.forEach( x => { x.style.visibility = "hidden"; });
+    }
+}
 
 const ob_options = {
   rootMargin: '10px 0px',
-  threshold: 1
+  threshold: 0.75
 }
 
-
-let info_about = document.getElementById('info-about');
-let info_contact = document.getElementById('info-contact');
-let title_node = info_about.childNodes[1];
-let text_list = [];
-text_list[info_about.id] = [...info_about.childNodes[3].getElementsByTagName('p')];
-text_list[info_contact.id] = [...info_contact.getElementsByTagName('a')];
-
-let text_list_sectets = [];
-text_list_sectets[info_about.id] = [];
-text_list_sectets[info_contact.id] = [];
-
-for(let i=0; i<text_list[info_about.id].length; i++){
-    text_list_sectets[info_about.id].push(getOfuscated(text_list[info_about.id][i].innerHTML));
-    text_list[info_about.id][i].innerHTML = text_list_sectets[info_about.id][i]["ofuscated"];
-}
-
-for(let i=0; i<text_list[info_contact.id].length; i++){
-    text_list_sectets[info_contact.id].push(getOfuscated(text_list[info_contact.id][i].innerHTML));
-    text_list[info_contact.id][i].innerHTML = text_list_sectets[info_contact.id][i]["ofuscated"];
-}
-
-/*
-for(let i=0; i<contact_ids.length; i++){
-    console.log(contact_ids[i], info_contact.getElementById(contact_ids[i]));
-    //text_list[info_contact.id].push(info_contact.getElementById(contact_ids[i]));
-    //let text = getOfuscated(text_list[info_contact.id][i].innerHTML);
-    //text_list_sectets[info_contact.id].push( );
-    //console.log(text["ofuscated"]);
-}
-*/
 let observer = new IntersectionObserver(function(entradas, observador){
 entradas.forEach( x => {
 if(x.isIntersecting){
@@ -374,4 +395,9 @@ if(x.isIntersecting){
 
 observer.observe( info_about );
 observer.observe( info_contact );
+observer.observe( portafolio );
 
+main_text.startText();
+main_text.initControls();
+
+window.setInterval( function(){ main_text.updateText(); runFrameAnimations(); },80);
