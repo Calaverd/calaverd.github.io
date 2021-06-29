@@ -12,6 +12,9 @@ crt_text.forEach( x => { x.style.visibility = "hidden"; });
 crt_text.sort((a, b) => (a.getAttribute("y") > b.getAttribute("y")) ? 1 : -1);
 
 // NMS decode effects
+const rand_char_list = [...'↗↘↙↚↛↜↝↞↟↠↡↢↣↤↥↦↧↨↩↪↫↬↭↮↯↰↱↲↳↴↵↶↷↸↹↺↻↼↽↾↿⇀⇁⇂⇃⇄⇅⇆⇇⇈⇉⇊⇋⇌⇍⇎⇏⇐⇑⇒⇓⇔⇕⇖⇗⇘⇙⇚⇛⇜⇝⇞⇟⇠⇡⇢⇣⇤⇥┌┍┎┏┐┑┒┓└┕┖┗┘┙┚┛├┝┞┟┠┡┢┣┤┥┦┧┨┩┪┫┬┭┮┯┰┱┲┳┴┵┶┷┸┹┺┻┼┽┾┿╀╁╂╃╄╅╆╇╈╉╊╋═║╒╓╔╕╖▀▁▂▃▄▅▆▇█▉░▒▓▖▗▘▙▚▛▜▝▞▟■□▢▣▤▥▦▧▨▩▲△▶▷▼▽◀◁◆◈◉○◌◍◐◑◒◓◔◕◖'];
+
+
 const active_css = "has-text-primary";
 const inactive_css = "has-text-link"; 
 const decipher_css = "has-text-danger";
@@ -65,24 +68,9 @@ list_portafolio_id_nodes.forEach( x =>{
 
 function getRandom(min, max){ return Math.floor(Math.random()*(max-min+1)+min); };
 
+
 function randChart(){ 
-    let grup = getRandom(0,8);
-    let upper_limit = 25;
-    if(grup == 0 ){ //letter like simbos have the lowest probability, you do not what to form a random word
-        grup = getRandom(0,2);
-        if(grup == 0){
-            return String.fromCharCode(getRandom(20,128-upper_limit));
-        }else{
-            return String.fromCharCode(getRandom(160,260-upper_limit));
-        };
-    }else if( grup <= 3 ){
-        return String.fromCharCode(getRandom(8592,8703-upper_limit));
-    }else if(grup < 6){
-        return String.fromCharCode(getRandom(9472,9584-upper_limit));
-    }else{
-        return String.fromCharCode(getRandom(9600,9712-upper_limit));
-    }
-   // return 'a'
+    return rand_char_list[getRandom(0,rand_char_list.length-1)];
 };
 
 function removeAllChildNodes(parent) {

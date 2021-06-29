@@ -91,7 +91,7 @@ const promesa = fetch(request_data).then(
 
         let OptionChart1 = {
             title:{
-                    text: 'Glucagon',
+                    text: 'Glucagón',
                     left: 'center',
                     textStyle: {
                         color:'#0f0f0f',
@@ -501,7 +501,7 @@ const promesa = fetch(request_data).then(
         
         let OptionChart6 = {
             title:{
-                    text: 'Glucagon vs Glucosa en ayuno',
+                    text: 'Glucagón vs Glucosa en ayuno',
                     left: 'center',
                     textStyle: {
                         color:'#0f0f0f',
@@ -550,7 +550,7 @@ const promesa = fetch(request_data).then(
                     }
             },
             yAxis: {
-                name: 'Glucagon',
+                name: 'Glucagón',
                 type: 'value',
                 nameGap:35,
                 nameTextStyle: {
