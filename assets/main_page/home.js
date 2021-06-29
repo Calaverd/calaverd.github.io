@@ -25,19 +25,18 @@ decipher_simbol_list.forEach( function(x,i){ this[i]=' '+x+' '; console.log(this
 //
 let info_about = document.getElementById('info-about');
 let info_contact = document.getElementById('info-contact');
-let portafolio = document.getElementById('portafolio');
+//let portafolio = document.getElementById('portafolio');
 
 let title_node = info_about.childNodes[1];
 let text_list = [];
 text_list[info_about.id] = [...info_about.getElementsByTagName('p')];
-text_list[portafolio.id] = [...portafolio.getElementsByTagName('p')];
-console.log(text_list[portafolio.id]);
 text_list[info_contact.id] = [...info_contact.getElementsByTagName('a')];
+//text_list[portafolio.id] = [...portafolio.getElementsByTagName('p')];
 
 let text_list_sectets = [];
 text_list_sectets[info_about.id] = [];
 text_list_sectets[info_contact.id] = [];
-text_list_sectets[portafolio.id] = [];
+//text_list_sectets[portafolio.id] = [];
 
 for(let i=0; i<text_list[info_about.id].length; i++){
     text_list_sectets[info_about.id].push(getOfuscated(text_list[info_about.id][i].innerHTML));
@@ -49,10 +48,20 @@ for(let i=0; i<text_list[info_contact.id].length; i++){
     text_list[info_contact.id][i].innerHTML = text_list_sectets[info_contact.id][i]["ofuscated"];
 }
 
-for(let i=0; i<text_list[portafolio.id].length; i++){
-    text_list_sectets[portafolio.id].push(getOfuscated(text_list[portafolio.id][i].innerHTML));
-    text_list[portafolio.id][i].innerHTML = text_list_sectets[portafolio.id][i]["ofuscated"];
-}
+let list_portafolio_id_nodes = ['p-python', 'p-javascript', 'p-hmlt-css', 'p-lua'];
+let list_portafolio_nodes = [];
+list_portafolio_id_nodes.forEach( x =>{
+    let portafolio = document.getElementById(x);
+    text_list[portafolio.id] = [...portafolio.getElementsByTagName('p')];
+    text_list_sectets[portafolio.id] = [];
+    for(let i=0; i<text_list[portafolio.id].length; i++){
+        text_list_sectets[portafolio.id].push(getOfuscated(text_list[portafolio.id][i].innerHTML));
+        text_list[portafolio.id][i].innerHTML = text_list_sectets[portafolio.id][i]["ofuscated"];
+    }
+    list_portafolio_nodes.push(portafolio);
+});
+
+
 
 function getRandom(min, max){ return Math.floor(Math.random()*(max-min+1)+min); };
 
@@ -395,7 +404,10 @@ if(x.isIntersecting){
 
 observer.observe( info_about );
 observer.observe( info_contact );
-observer.observe( portafolio );
+list_portafolio_nodes.forEach( node =>{
+    observer.observe( node );
+} );
+
 
 main_text.startText();
 main_text.initControls();
