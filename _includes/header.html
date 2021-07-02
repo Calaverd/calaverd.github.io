@@ -26,27 +26,44 @@
           <div class="navbar-end">
           <div class="navbar-menu" id="navMenu">
            {%- if page.lang == "es" -%}
-            <a class="navbar-item navbar-item-shady is-3 post" href="/es/about">
+            
+            <a class="navbar-item navbar-item-shady is-3 post" href="/es/#about">
              <span style="vertical-align:middle;">
               <i class="far fa-lg fa-address-card fa-fw is-left"></i> <strong>Acerca de</strong>
              </span>
+           </a> 
+           
+           <a class="navbar-item navbar-item-shady is-3 post" href="/es/#contact">
+             <span style="vertical-align:middle;">
+              <i class="fas fa-mail-bulk fa-fw is-left"></i> <strong>Contacto</strong>
+             </span>
            </a>
+           
            <a class="navbar-item navbar-item-shady is-3 post" href="/es/blog">
              <span style="vertical-align:middle;">
               <i class="far fa-lg fa-file-alt fa-fw is-left"></i> <strong>Blog</strong>
              </span>
            </a>
+           
            {%- else -%}
-            <a class="navbar-item navbar-item-shady is-3 post" href="/about">
+            <a class="navbar-item navbar-item-shady is-3 post" href="/#about">
              <span style="vertical-align:middle;">
               <i class="far fa-lg fa-address-card fa-fw is-left"></i> <strong>About</strong>
              </span>
            </a>
+           
+           <a class="navbar-item navbar-item-shady is-3 post" href="/#contact">
+             <span style="vertical-align:middle;">
+              <i class="fas fa-mail-bulk fa-fw is-left"></i> <strong>Contact</strong>
+             </span>
+           </a>
+           
            <a class="navbar-item navbar-item-shady is-3 post" href="/blog">
              <span style="vertical-align:middle;">
               <i class="far fa-lg fa-file-alt fa-fw is-left post"></i> <strong>Blog</strong>
              </span>
            </a>
+           
            {%- endif -%}
             <hr class="navbar-divider">
             {%- assign post_encontrado = false -%}
