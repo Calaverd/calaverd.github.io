@@ -76,18 +76,18 @@ const promesa = fetch(request_data).then(
 
         let control_ins_vs_g0 = preproCombined(control['G0'],control['Ins']);
         let sm_ins_vs_g0 = preproCombined(SM_grup['G0'],SM_grup['Ins']);
-        let regres_control_ins_vs_g0 = ecStat.regression('linear', control_ins_vs_g0).points;
-        let regres_sm_ins_vs_g0 = ecStat.regression('linear', sm_ins_vs_g0).points;
+        let regres_control_ins_vs_g0 = ecStat.regression('linear', control_ins_vs_g0);
+        let regres_sm_ins_vs_g0 = ecStat.regression('linear', sm_ins_vs_g0);
 
         let control_glucagon_vs_g0 = preproCombined(control['Glucagon'],control['Ins']);
         let sm_glucagon_vs_g0 = preproCombined(SM_grup['Glucagon'],SM_grup['Ins']);
-        let regres_control_glucagon_vs_g0 = ecStat.regression('linear', control_glucagon_vs_g0).points;
-        let regres_sm_glucagon_vs_g0  = ecStat.regression('linear', sm_glucagon_vs_g0).points;
+        let regres_control_glucagon_vs_g0 = ecStat.regression('linear', control_glucagon_vs_g0);
+        let regres_sm_glucagon_vs_g0  = ecStat.regression('linear', sm_glucagon_vs_g0);
 
         let control_coli_vs_g0 = preproCombined(control['Corticosterone'],control['Ins']);
         let sm_coli_vs_g0 = preproCombined(SM_grup['Corticosterone'],SM_grup['Ins']);
-        let regres_control_coli_vs_g0 = ecStat.regression('linear', control_coli_vs_g0).points;
-        let regres_sm_coli_vs_g0 = ecStat.regression('linear',sm_coli_vs_g0).points;
+        let regres_control_coli_vs_g0 = ecStat.regression('linear', control_coli_vs_g0);
+        let regres_sm_coli_vs_g0 = ecStat.regression('linear',sm_coli_vs_g0);
 
         let OptionChart1 = {
             title:{
@@ -482,7 +482,7 @@ const promesa = fetch(request_data).then(
                 // linear regressions
                 {
                 type: 'line',
-                data: regres_sm_ins_vs_g0,
+                data: regres_sm_ins_vs_g0.points,
                     itemStyle: {
                         color:'#006e3c',
                         borderColor: '#000000'
@@ -490,7 +490,7 @@ const promesa = fetch(request_data).then(
                 },
                 {
                 type: 'line',
-                data: regres_control_ins_vs_g0,
+                data: regres_control_ins_vs_g0.points,
                     itemStyle: {
                         color:'#a0a0a0',
                         borderColor: '#000000'
@@ -565,7 +565,7 @@ const promesa = fetch(request_data).then(
                     fontSize :12,
                     rotate: 65,
                     },
-                boundaryGap: false
+                boundaryGap: false,
             },
             series: [{
                 type: 'scatter',
@@ -588,7 +588,7 @@ const promesa = fetch(request_data).then(
                 // linear regressions
                 {
                 type: 'line',
-                data: regres_sm_glucagon_vs_g0,
+                data: regres_sm_glucagon_vs_g0.points,
                     itemStyle: {
                         color:'#006e3c',
                         borderColor: '#000000'
@@ -596,7 +596,7 @@ const promesa = fetch(request_data).then(
                 },
                 {
                 type: 'line',
-                data: regres_control_glucagon_vs_g0,
+                data: regres_control_glucagon_vs_g0.points,
                     itemStyle: {
                         color:'#a0a0a0',
                         borderColor: '#000000'
@@ -694,7 +694,7 @@ const promesa = fetch(request_data).then(
                 // linear regressions
                 {
                 type: 'line',
-                data: regres_sm_coli_vs_g0,
+                data: regres_sm_coli_vs_g0.points,
                     itemStyle: {
                         color:'#006e3c',
                         borderColor: '#000000'
@@ -702,7 +702,7 @@ const promesa = fetch(request_data).then(
                 },
                 {
                 type: 'line',
-                data: regres_control_coli_vs_g0,
+                data: regres_control_coli_vs_g0.points,
                     itemStyle: {
                         color:'#a0a0a0',
                         borderColor: '#000000'
@@ -711,6 +711,7 @@ const promesa = fetch(request_data).then(
             ]
         };
 
+        console.log(regres_control_coli_vs_g0.parameter.r);
 
         var myChart = echarts.init(document.getElementById('chart_1'));
         myChart.setOption(OptionChart1);
@@ -725,12 +726,18 @@ const promesa = fetch(request_data).then(
         myChart4.setOption(OptionChart4);
 
         var myChart5 = echarts.init(document.getElementById('chart_7'));
+        document.getElementById('cr_1').innerHTML=`r: ${regres_control_coli_vs_g0.parameter.r.toPrecision(4)}`;
+        document.getElementById('smr_1').innerHTML=`r: ${regres_sm_coli_vs_g0.parameter.r.toPrecision(4)}`;
         myChart5.setOption(OptionChart5);
 
         var myChart6 = echarts.init(document.getElementById('chart_6'));
+        document.getElementById('cr_2').innerHTML=`r: ${regres_control_glucagon_vs_g0.parameter.r.toPrecision(4)}`;
+        document.getElementById('smr_2').innerHTML=`r: ${regres_sm_glucagon_vs_g0.parameter.r.toPrecision(3)}`;
         myChart6.setOption(OptionChart6);
 
         var myChart7 = echarts.init(document.getElementById('chart_5'));
+        document.getElementById('cr_3').innerHTML=`r: ${regres_control_ins_vs_g0.parameter.r.toPrecision(4)}`;
+        document.getElementById('smr_3').innerHTML=`r: ${regres_sm_ins_vs_g0.parameter.r.toPrecision(4)}`;
         myChart7.setOption(OptionChart7);
 
     });

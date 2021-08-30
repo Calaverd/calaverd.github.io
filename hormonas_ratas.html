@@ -4,6 +4,23 @@
   <title>Datos Ratas</title>
   <script defer src="https://use.fontawesome.com/releases/v5.15.0/js/all.js"></script>
   <link rel="stylesheet" href="/assets/main.css">
+  <style>
+    .char{
+      width: 100%;
+      min-height: 500px;
+      height:500px;
+    }
+    .char-label{
+      position: absolute;
+      left: 50%; top:70%;
+      margin-left: -128px;
+      background:#fff;
+      border-style: solid;
+      border-color:#000a;
+      padding: 0.4rem;
+      font-family:Atkinson;
+    }
+  </style>
   </head>
   <body>
     <div class="section">
@@ -15,13 +32,12 @@
             <div class='columns'> 
               
               <div class ='column'>
-                <div id="chart_1" style="width: 100%; min-height: 500px; height:500px;"></div>  
+                <div id="chart_1"class="char"></div>  
                 <div class='columns'> 
                   <div class='column is-1'>
                   </div>
-                  <div class='column'>  
-                  <span class='is-size-5 has-text-black has-text-justified is-family-serif' >
-                    <span class='is-italic' >Fig (1) Glucagón </span> - En la imagen se puede observar claramente la diferencia marcada en los parámetros de glucagón entre el grupo control y las ratas que presentan síndrome metabólico.</span>
+                  <div class='column has-text-centered'>  
+                  <span class='is-size-5 has-text-black is-family-serif' >Figura (A)</span>
                   </div>
                   <div class='column is-1'>
                   </div>
@@ -29,13 +45,12 @@
               </div>
 
               <div class ='column'>
-                <div id="chart_2" style="width: 100%; min-height: 500px; height:500px;"></div>
+                <div id="chart_2"class="char"></div>
                 <div class='columns'> 
                   <div class='column is-1'>
                   </div>
-                  <div class='column'>  
-                  <span class='is-size-5 has-text-black has-text-justified is-family-serif' >
-                  <span class='is-italic' >Fig (2) Insulina </span> - Diferencia en los parámetros de insulina entre el grupo control y el grupo con síndrome metabólico</span>
+                  <div class='column has-text-centered'>  
+                  <span class='is-size-5 has-text-black is-family-serif' >Figura (B)</span>
                   </div>
                   <div class='column is-1'>
                   </div>
@@ -46,13 +61,12 @@
             <div class='columns'> 
             
               <div class ='column'>
-                <div id="chart_3" style="width: 100%; min-height: 500px; height:500px;"></div>
+                <div id="chart_3"class="char"></div>
                 <div class='columns'> 
                   <div class='column is-1'>
                   </div>
-                  <div class='column'>  
-                  <span class='is-size-5 has-text-black has-text-justified is-family-serif' >
-                    <span class='is-italic' >Fig (3) Corticosterona </span> - Se observa que el grupo que presenta síndrome metabólico tiene mayores noveles de corticosterona en sangre con respecto a los presentados en el grupo control</span>
+                  <div class='column has-text-centered'>  
+                  <span class='is-size-5 has-text-black is-family-serif' >Figura (C)</span>
                   </div>
                   <div class='column is-1'>
                   </div>
@@ -60,13 +74,12 @@
               </div>
               
               <div class ='column'>
-                <div id="chart_4" style="width: 100%; min-height: 500px; height:500px;"></div>
+                <div id="chart_4"class="char"></div>
                 <div class='columns'> 
                   <div class='column is-1'>
                   </div>
-                  <div class='column'>  
-                  <span class='is-size-5 has-text-black has-text-justified is-family-serif' >
-                  <span class='is-italic' >Fig (4) Glucosa en ayuno </span> - Se puede observar que las ratas control presentan los parámetros mas elevados de glucosa en sangre en ayuno, contrario a las que presentan síndrome metabólico, que tienen una concentración mas baja.</span>
+                  <div class='column has-text-centered'>  
+                  <span class='is-size-5 has-text-black is-family-serif' >Figura (D)</span>
                   </div>
                   <div class='column is-1'>
                   </div>
@@ -79,13 +92,18 @@
             <div class='columns'> 
             
                 <div class ='column'>
-                  <div id="chart_5" style="width: 100%; min-height: 500px; height:500px;"></div>
+                  <div style="position: relative;">
+                    <div id="chart_5" class="char"></div>
+                    <div class="char-label">
+                      <p class="is-bold is-family-sans" > <b style="color: gray;">⬤</b>  Control <span class="is-italic" id="cr_1"> </span></p>
+                      <p class="is-bold is-family-sans" > <b style="color: #006e3c;">⬤</b> Síndrome metabólico <span class="is-italic" id="smr_1"> </span></p>
+                    </div>
+                  </div>
                   <div class='columns'> 
                     <div class='column is-1'>
                     </div>
-                    <div class='column'>  
-                    <span class='is-size-5 has-text-black has-text-justified is-family-serif' >
-                      <span class='is-italic' >Fig (5) Corticosterona vs Glucosa en ayuno </span> - De observar que los niveles en corticosterona son mayores en las ratas que presentan síndrome metabólico con respecto a las control, así mismo se observa que los noveles de glucosa en ayuno son mas altos en las ratas control con respecto a las de síndrome metabólico.</span>
+                    <div class='column has-text-centered'>  
+                    <span class='is-size-5 has-text-black is-family-serif'>Figura (E)</span>
                     </div>
                     <div class='column is-1'>
                     </div>
@@ -93,13 +111,18 @@
                 </div>
                 
                 <div class ='column'>
-                  <div id="chart_6" style="width: 100%; min-height: 500px; height:500px;"></div>
+                  <div style="position: relative;">
+                    <div id="chart_6" class="char"></div>
+                    <div class="char-label">
+                      <p class="is-bold is-family-sans" > <b style="color: gray;">⬤</b>  Control <span class="is-italic" id="cr_2"> </span></p>
+                      <p class="is-bold is-family-sans" > <b style="color: #006e3c;">⬤</b> Síndrome metabólico <span class="is-italic" id="smr_2"> </span></p>
+                    </div>
+                  </div>
                   <div class='columns'> 
                     <div class='column is-1'>
                     </div>
-                    <div class='column'>  
-                    <span class='is-size-5 has-text-black has-text-justified is-family-serif' >
-                    <span class='is-italic' >Fig (6) Glucagón vs Glucosa en ayuno</span> - Las ratas control presentan una mayor acumulación de glucagón en sangre y niveles poco mas bajos de los niveles de glucosa en ayuno, con respecto a las ratas con síndrome metabólico, estas presentan niveles mas altos de glucagón pero tienden a mantener niveles comparables en glucosa en ayuno a diferencia de las ratas control.</span>
+                    <div class='column has-text-centered'>  
+                    <span class='is-size-5 has-text-black is-family-serif' >Figura (F)</span>
                     </div>
                     <div class='column is-1'>
                     </div>
@@ -111,19 +134,37 @@
               <div class='columns'> 
             
                 <div class ='column'>
-                  <div id="chart_7" style="width: 100%; min-height: 500px; height:500px;"></div>
+                  <div style="position: relative;">
+                    <div id="chart_7" class="char"></div>
+                    <div class="char-label" style="left:75%; top:20%">
+                      <p class="is-bold is-family-sans" > <b style="color: gray;">⬤</b>  Control <span class="is-italic" id="cr_3"> </span></p>
+                      <p class="is-bold is-family-sans" > <b style="color: #006e3c;">⬤</b> Síndrome metabólico <span class="is-italic" id="smr_3"> </span></p>
+                    </div>
+                  </div>
                   <div class='columns'> 
                     <div class='column is-1'>
                     </div>
-                    <div class='column'>  
-                    <span class='is-size-5 has-text-black has-text-justified is-family-serif' >
-                      <span class='is-italic' >Fig (7) Insulina vs Glucosa en ayuno</span> - En las ratas con síndrome metabólico los niveles de insulina son muy altos y la glucosa en ayuno tiende a tener niveles mas bajos con respecto a la insulina, a diferencia de las ratas control, que tienen niveles bajos de insulina y niveles de glucosa en ayuno mucho mas altos.</span>
+                    <div class='column has-text-centered'>  
+                    <span class='is-size-5 has-text-black is-family-serif' >Figura (G)</span>
                     </div>
                     <div class='column is-1'>
                     </div>
                   </div>
                 </div>
   
+              </div>
+
+             <div class='columns'> 
+                <div class='column is-centered is-size-5 has-text-black has-text-justified is-family-serif px-2' >
+<span>
+Figura (A) En la imagen se puede observar claramente la diferencia marcada en los parámetros de glucagón entre el grupo control y las ratas que presentan síndrome metabólico,
+Figura (B) Diferencia en los parámetros de insulina entre el grupo control y el grupo con síndrome metabólico,
+Figura (C) Se observa que el grupo que presenta síndrome metabólico tiene mayores noveles de corticosterona en sangre con respecto a los presentados en el grupo control,
+Figura (D) Se puede observar que las ratas control presentan los parámetros mas elevados de glucosa en sangre en ayuno, contrario a las que presentan síndrome metabólico, que tienen una concentración mas baja,
+Figura (E) De observar que los niveles en corticosterona son mayores en las ratas que presentan síndrome metabólico con respecto a las control, así mismo se observa que los noveles de glucosa en ayuno son mas altos en las ratas control con respecto a las de síndrome metabólico,
+Figura (F) Las ratas control presentan una mayor acumulación de glucagón en sangre y niveles poco mas bajos de los niveles de glucosa en ayuno, con respecto a las ratas con síndrome metabólico, estas presentan niveles mas altos de glucagón pero tienden a mantener niveles comparables en glucosa en ayuno a diferencia de las ratas control,
+Figura (G) En las ratas con síndrome metabólico los niveles de insulina son muy altos y la glucosa en ayuno tiende a tener niveles mas bajos con respecto a la insulina, a diferencia de las ratas control, que tienen niveles bajos de insulina y niveles de glucosa en ayuno mucho mas altos.
+</span>
               </div>
 
         
