@@ -1,8 +1,0 @@
-_site
-_assets
-.sass-cache
-.jekyll-cache
-.jekyll-metadata
-vendor
-node_modules
-package-lock.json
