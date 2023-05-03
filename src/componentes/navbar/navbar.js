@@ -155,16 +155,18 @@ class NavBar extends Component {
         </div>
         <div class="navbar-menu ${active_class} ${closing_class}">
             <div class="navbar-end ${class_fadein}">
+                <!--    
                 <a class="navbar-item">
-                <span class="icon pr-1">
-                    <img src="${this.icon_msg}" aria-hidden="true"/>
-                </span><strong>${contact_text}</strong>
+                    <span class="icon pr-1">
+                        <img src="${this.icon_msg}" aria-hidden="true"/>
+                    </span><strong>${contact_text}</strong>
                 </a>
                 <a class="navbar-item">
-                <span class="icon pr-1">
-                    <img src="${this.icon_card}" aria-hidden="true"/>
-                </span><strong>${about_text}</strong>
+                    <span class="icon pr-1">
+                        <img src="${this.icon_card}" aria-hidden="true"/>
+                    </span><strong>${about_text}</strong>
                 </a>
+                -->
                 <a class="navbar-item" href="/post/list.html">
                     <span class="icon pr-1">
                         <img src="${this.icon_blog}" aria-hidden="true"/>
