@@ -1,0 +1,1 @@
+const l=globalThis.window,o=l.localStorage;let t=`${l.location}`.split("://")[1].split("/").slice(1).join("/");(void 0===t||t.length>0&&"404.html"!==t)&&(o.setItem("not_found",`${t}`),l.location.replace("/404.html"));

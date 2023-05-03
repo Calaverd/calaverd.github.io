@@ -1,0 +1,332 @@
+@import 'npm:bulma/css/bulma.min.css';
+
+@import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap');
+
+:root{
+    font-family: 'Atkinson Hyperlegible', sans-serif;
+    --navbar-text-color:#1b1c1c;
+    --navbar-lang-contrast:#042f54;
+    --navbar-lang-color:#eee;
+    --navbar-hover:#3d89c8;
+    --navbar-hover-text:#eee;
+
+    --accent-blue:#3d89c8;
+    --accent-text-color:#1b1c1c;
+    --article-bg:#eee;
+    --article-bold-text-color:#484949;
+}
+
+@media (prefers-color-scheme: dark) { 
+    :root{
+        --accent-blue:#042f54;
+        --article-bg:#1b1c1c;
+        --accent-text-color: #eee;
+        --article-bold-text-color:#f1f1f1;
+        --navbar-text-color:#eee;
+        --navbar-hover:#eee;
+        --navbar-lang-contrast:#042f54;
+        --navbar-lang-color:#eee;
+        --navbar-hover-text:#042f54;
+    }
+    body > .bg{
+        background-blend-mode:color-burn, hard-light;
+    }
+}
+
+
+html{
+    scroll-behavior:smooth;
+}
+
+
+body > .bg{
+    position: relative;
+    background-color: var(--accent-blue);
+    background-image:
+        url( './rsc/subtle-prism-2.svg' );
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: -1;
+}
+
+/* El css de la navbar */
+.navbar-brand, .navbar-menu{
+    background-color: var(--article-bg);
+}
+.navbar a:hover img{
+    filter: invert(1);
+}
+a.nav-lang img{
+    filter: invert(1);
+}
+a.nav-lang:hover img{
+    filter:none;
+}
+.navbar  a {
+    color: var(--navbar-text-color);
+    transition: all 0.12s ease-in;
+}
+.navbar a:hover:not(.nav-lang).navbar-item {
+    background-color: var(--navbar-hover);
+    color:var(--navbar-hover-text);
+    border-bottom:inset 2px var(--navbar-hover-text);
+ }
+.nav-lang{
+    background-color: var(--navbar-lang-contrast) !important;
+    color:var(--navbar-lang-color);
+}
+a.nav-lang:hover{
+    background-color:var(--navbar-lang-color) !important;
+    color: var(--navbar-lang-contrast) !important;
+    border-bottom:inset 2px var(--navbar-lang-contrast);
+}
+.navbar-brand, .navbar-menu{
+    background-color: var(--article-bg);
+}
+@media (prefers-color-scheme: dark) { 
+    .navbar a img{
+        filter: invert(1);
+    }
+    .navbar a:hover img{
+        filter: none;
+    }
+}
+
+/* El css del contenido */
+
+main.content{
+    min-height: 100vh;
+    padding: 0 !important;
+    margin-bottom:0 !important;
+}
+
+@keyframes fade-in {
+    0%{ opacity: 0;  }
+    100%{ opacity: 1; }
+}
+
+article{
+    background-color: var(--article-bg) !important;
+    padding: 0 !important;
+    opacity: 0;
+    animation: fade-in 0.9s ease-in forwards;
+    /* Hay */
+    border-radius:14px !important;
+}
+
+article > .key{
+    display:none;
+}
+
+content{
+  display: flex;
+  flex-direction: column;
+  padding: 0 3rem 1rem 3rem;
+  margin-top:15px;
+  margin-bottom:10px;
+  color: var(--accent-text-color) !important;
+}
+
+content strong{
+    color:var(--article-bold-text-color);
+}
+
+content > h2,h3,h4,h5,h6{
+    color:var(--article-bold-text-color) !important;
+}
+
+article content > div.img-captioned {
+    display: flex;
+    align-items: center;
+    max-width: 50%;
+    align-self: center;
+    padding: 5px;
+    margin: 1rem;
+    align-self: center;
+    border-radius: 0.2rem;
+    box-shadow: 1px 1px 3px #4a4a4a;
+}
+
+div.img-captioned span {
+    font-style: inherit;
+    font-weight: inherit;
+    padding: 1rem;
+    margin: 0.5rem;
+    background: var(--accent-blue);
+    box-shadow: 1px 1px 3px #4a4a4a;
+    font-size: 86%;
+    min-width: 50%;
+}
+
+article content > img{
+    padding: 5px;
+    margin: 1rem;
+    align-self: center;
+    border-radius: 0.2rem;
+    box-shadow: 1px 1px 3px #4a4a4a;
+}
+
+article > header{
+    border-radius:10px 10px 0 0;
+    background-color:var(--accent-blue);
+    display: grid;
+    width: 100%;
+    padding: 1rem;
+    column-gap:0;
+    row-gap: 0;
+    grid-template-areas: 
+        " i i t t "
+}
+
+header .title{
+    grid-area: t;
+    margin-top: 0 !important;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    align-self:center;
+    color:var(--accent-text-color) !important;
+}
+
+header .subtitle{
+    color:var(--accent-text-color) !important;
+}
+
+header img{
+    justify-self: end;
+    grid-area: i;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    max-height: 150px;
+    min-height: 150px;
+    transition: all 1s;
+    margin-right: 1rem;
+    filter: drop-shadow(1px 1px 2px #4a4a4a);
+}
+
+/* EL css de la lista de post */
+
+ul.post-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none; 
+}
+
+ul.post-list a{
+    background-color: var(--article-bg);
+    display: flex;
+    padding: 5px;
+    margin: 1rem;
+    align-self: center;
+    border-radius: 0.2rem;
+    transition: all 0.1s;
+    box-shadow: 1px 1px 3px #4a4a4a;
+}
+
+ul.post-list a:hover{
+    background-color: var(--accent-blue);
+    box-shadow: 1px 1px 4px #4b504b;
+}
+
+ul.post-list a:focus-visible{
+    background-color: var(--accent-blue);
+    box-shadow: 1px 1px 4px #4b504b;
+}
+
+
+ul.post-list a div{
+    padding: 1rem;
+    align-self: center;
+}
+
+ul.post-list a div > p.title{
+    color: var(--accent-text-color);
+    margin-bottom:1rem;
+}
+ul.post-list a div > p.subtitle{
+    color: var(--accent-text-color);
+}
+
+@media (max-width:600px) {
+    article > header{
+        text-align: center;
+        grid-template-areas:
+        " i i i"
+        " t t t"
+        " s s s"
+    }
+
+    header img{
+        grid-area: i;
+        border-radius: 100% !important;
+        justify-self: center;
+        filter: drop-shadow(2px 2px 1px #4a4a4a);
+    }
+
+    content{
+        padding: 0 1rem 1rem 1rem;
+    }
+
+    article content > div.img-captioned {
+        flex-direction:column;
+    }
+    
+    div.img-captioned span {
+        min-width: 140%;
+    }
+
+    ul.post-list a{
+        flex-direction: column;
+    }
+
+    ul.post-list a > img{
+        align-self: center;
+    }
+}
+
+p span.code{
+    font-family: monospace;
+    font-size: 80%;
+    background-color: #cad2f2;
+    border-radius: 3px;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    color:#1b1b1b;
+}
+
+.notes{
+    font-size: small;
+    border-top:solid 2px #2a7bcbaa;
+}
+
+.notes::first-line{
+    font-weight: bold;
+}
+
+.footnote{
+    font-size:11;
+    font-family: monospace;
+    transition: all 0.5s;
+    padding: 2px;
+}
+
+a.cite{
+    vertical-align: super;
+    font-size:smaller;
+    /* I can not belive this bullshit worked! */
+    /* https://stackoverflow.com/questions/10732690/offsetting-an-html-anchor-to-adjust-for-fixed-header */
+    padding-top: 60px;
+    margin-top: -60px;
+    display: inline-block; /* required for webkit browsers */
+}
+
+a.cite:target::after{
+    content: "*";
+}
+
+.footnote:target { 
+    background: #ccc;
+    color:black; 
+}

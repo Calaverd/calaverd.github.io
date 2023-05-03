@@ -1,0 +1,165 @@
+
+body{
+  overflow-x: hidden;
+}
+
+.sky{
+  position: absolute;
+  width:100vw;
+  z-index: 0;
+  background-color: #f0f;
+}
+
+.cloud{
+  position: absolute;
+  overflow:visible;
+  animation: cloud_move linear infinite both;
+  /* default cloud size */
+  width:8rem;
+  height:10vh;
+}
+/* our cloud sizes */
+.cloud.big{
+  width: 11rem;
+  height: 14vh;
+}
+.cloud.small{
+  width: 6rem;
+  height: 7.5vh;
+}
+
+/* In parallax, the farther away, the slower it moves. */
+.cloud.layer-front path { fill:#fff8; }
+.cloud.layer-middle path { fill:#fffc; }
+.cloud.layer-bottom path { fill:#fff; }
+
+.cloud.layer-front { animation-duration: 3s;  }
+.cloud.layer-middle { animation-duration: 5s; }
+.cloud.layer-bottom { animation-duration: 7s; }
+
+/* Vertical position on the page */
+.cloud.top{ top:0vh; }
+.cloud.middle-top{ top:15vh; }
+.cloud.middle{ top:45vh; }
+.cloud.middle-bottom{ top:55vh; }
+.cloud.bottom{ top:65vh; }
+
+.cloud.offset-a{
+    left:50%;
+}
+
+.cloud.offset-b {
+    left:20%;
+    animation-delay: -0.5s;
+}
+
+.cloud.offset-c {
+    left:50%;
+    animation-delay: -2s;
+}
+
+.cloud.offset-d {
+  right:20%;
+  animation-delay: -1s;
+}
+
+.cloud.offset-e {
+  right:10%;
+  animation-delay: -4s;
+}
+
+@keyframes cloud_move{ 
+  from { left: calc(0% - 20rem); }
+  to { left: 100%; }
+}
+
+.dinoplane{
+  position: absolute;
+  width: 20vw;
+  height: max(15vh, 400px);
+  overflow: hidden;
+  top:50vh;
+  animation: dinoPlaneAnimation 30s ease-in-out infinite both;
+}
+
+@keyframes dinoPlaneAnimation{
+  0%   { left:65vw; transform: scale(0.7,0.7) skew(6deg); }
+  5%   { top:20vh; left:35vw; transform: scale(1.2,1.2); }
+  25%  { top:60vh; transform: scale(1,1); }
+  50%  { left:60vw; transform: scale(0.5,0.5); }
+  60%  { top:50vh; left:30vw; transform: scale(0.7,0.7); }
+  75%  { top:60vh; left:50vw; transform: scale(1,1); }
+  80%  { top:20vh; left:10vw; transform: scale(1.5,1.5) skew(6deg); }
+  100% { left:65vw; transform: scale(0.7,0.7); }
+}
+
+.index{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  text-align: center;
+  flex-direction: column;
+  padding-top: 5rem;
+  background: transparent;
+  background-color: transparent;
+}
+
+.index-bg{
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100vw;
+  height: 100vh;
+  display:flex;
+  flex-direction:row;
+  z-index:2;
+}
+
+.mi-hero-title{
+  z-index: 5;
+}
+
+.mi-hero-title > .box{
+  background-color: #eeec;
+}
+
+.anicolumn-a {
+  flex:6;
+  animation:enter-col-a 1.3s ease-out forwards;
+  background-color:#f0f;
+}
+.anicolumn-b {
+  flex:0;
+  animation:enter-col-b 1.3s ease-out forwards;
+  background-color:#ff0;
+}
+.anicolumn-c {
+  flex:0;
+  animation:enter-col-c 1.3s ease-out forwards;
+  background-color:transparent;
+}
+
+@keyframes enter-col-a{
+  0%{ flex-grow:6; }
+  100%{ flex-grow:0; }
+}
+
+@keyframes enter-col-b{
+  0%{ flex-grow:0; }
+  25%{ flex-grow:2; }
+  50%{ flex-grow:1; }
+  100%{ flex-grow:0; }
+}
+
+@keyframes enter-col-c{
+  0%{ flex-grow:0; }
+  100%{ flex-grow:12; }
+}
+
+@media (max-width:768px) {
+  .index-bg{
+    flex-direction:column-reverse;
+  }
+}

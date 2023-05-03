@@ -1,0 +1,58 @@
+extends componentes/base_layout.pug
+
+block append head
+  link(rel="stylesheet", href="./index.css")
+
+block append body
+  section( class="index hero is-fullheight")
+    div(class="sky" aria-hidden="true")
+      div(class="cloud big layer-bottom middle-top offset-c" aria-hidden="true")
+        svg(viewBox='5 36 90 65' class="svg_shape")
+            path(d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z' )
+      
+      div(class="cloud big layer-bottom middle-bottom offset-a" aria-hidden="true")
+        svg(viewBox='5 36 90 65' class="svg_shape")
+            path(d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z' )
+      
+      div(class="cloud big layer-bottom bottom offset-e" aria-hidden="true")
+        svg(viewBox='5 36 90 65' class="svg_shape")
+            path(d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z' )
+      
+      div(class="cloud layer-middle middle offset-b" aria-hidden="true")
+        svg(viewBox='5 36 90 65' class="svg_shape")
+            path(d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z' )
+      
+      div(class="dinoplane")
+        img(src="rsc/dino_on_plane.svg")
+      
+      div(class="cloud layer-middle bottom offset-e" aria-hidden="true")
+        svg(viewBox='5 36 90 65' class="svg_shape")
+            path(d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z' )
+      
+      div(class="cloud layer-front middle offset-e" aria-hidden="true")
+        svg(viewBox='5 36 90 65' class="svg_shape")
+            path(d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z' )
+      
+      div(class="cloud small layer-front middle-bottom offset-c" aria-hidden="true")
+        svg(viewBox='5 36 90 65' class="svg_shape")
+            path(d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z' )
+
+      div(class="cloud small layer-front middle-top offset-d" aria-hidden="true")
+        svg(viewBox='5 36 90 65' class="svg_shape")
+            path(d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10 z' )
+
+    .mi-hero-title#main-content
+      .box
+        p.title.is-size-2.is-size-3-mobile
+          | Osvaldo Barajas Fierros
+        p.subtitle.is-size-3.is-size-6-mobile.is-family-monospace
+          | Desarrollador de Software
+
+  section( class="index-bg hero is-fullheight" aria-hidden="true")
+    div(class="anicolumn-a" )
+    div(class="anicolumn-b" )
+    div(class="anicolumn-c" )
+
+block append scripts
+  script(type="module", src="./componentes/js/router.js")
+  script(type="module", src="./componentes/js/main_page.js")

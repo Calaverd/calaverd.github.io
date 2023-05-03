@@ -1,0 +1,11 @@
+var e="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof self?self:"undefined"!=typeof window?window:"undefined"!=typeof global?global:{},t={},s={},o=e.parcelRequire04bb;null==o&&((o=function(e){if(e in t)return t[e].exports;if(e in s){var o=s[e];delete s[e];var a={id:e,exports:{}};return t[e]=a,o.call(a.exports,a,a.exports),a.exports}var i=new Error("Cannot find module '"+e+"'");throw i.code="MODULE_NOT_FOUND",i}).register=function(e,t){s[e]=t},e.parcelRequire04bb=o),o.register("76Fd8",(function(e,t){e.exports=import("./"+o("dRo73").resolve("j1z0i")).then((()=>o("iciRj")))})),o("dRo73").register(JSON.parse('{"enKF5":"list.21eef21b.js","j1z0i":"catalog.db18f4e8.js","eWm5K":"palette_swap.56b1c929.gif"}'));var a=o("lRdqA"),i=o("dXpOE");const n={es:{title:"Lista de post."},en:{title:"Post list."}},l="Pendiente",r="error",d="ready";class c extends a.Component{render(){const{post:e,lang:t}=this.props,[s]=e.pages.filter((e=>e.lang===t));if(s){const t=e.thumbnail;return console.log(t.href),i.html`
+            <a href='${s.url}'>
+              <img class='image is-128x128' src="${t.href}"/>
+              <div>
+                <p class="title">${s.title??""}</p>
+                <p class='subtitle'>${s.subtitle??""}</p>
+              </div>
+            </a>`}return""}}class p extends a.Component{constructor(){super(),this.state={jsonData:{},dataState:l,idiom:"es"}}async componentDidMount(){globalThis.resetIdiom=()=>{let e=globalThis.document;const t=getUseIdiom();this.setState({idiom:t});for(let[s,o]of Object.entries(n[t]))e.getElementById(s).innerText=o},globalThis.resetIdiom();try{const{catalog:e}=await o("76Fd8");console.log(e),this.setState({dataState:d,jsonData:e})}catch{this.setState({dataState:r})}}render(){const{idiom:e,jsonData:t,dataState:s}=this.state;return s===d?i.html`
+            <ul class='post-list'>
+              ${t.map((t=>i.html`<li><${c} post=${t} lang=${e}/></li>`))}
+            </ul>`:i.html`<p>Cargando...</p>`}}(0,a.render)(i.html`<${p} />`,document.getElementById("desc"));

@@ -1,0 +1,1 @@
+globalThis.resetIdiom=()=>{globalThis.document,getUseIdiom();console.log("Idiom reset")},globalThis.resetIdiom();

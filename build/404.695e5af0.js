@@ -1,0 +1,1 @@
+const e=window.localStorage;globalThis.getUseIdiom=()=>{let o=e.getItem("idiom");return"string"!=typeof o&&(o=navigator.userLanguage||navigator.language,o=o.split("-")[0],"es"!=o&&"en"!=o&&(o="en"),saveUseIdiom(o)),o},globalThis.saveUseIdiom=o=>{console.log("saving idiom",o),e.setItem("idiom",o)};

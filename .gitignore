@@ -3,6 +3,8 @@ _assets
 .sass-cache
 .jekyll-cache
 .jekyll-metadata
+.parcel-cache
+dev
 vendor
 node_modules
 package-lock.json

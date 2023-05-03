@@ -1,0 +1,126 @@
+extends ../componentes/post_layout.pug
+block prepend head
+  - date     = "2020-03-11 09:00"
+  - title    = "Palette swap on Löve 2D"
+  - subtitle = "without use shaders"
+  - lang     = "en"
+  - type     = 'post'
+  - thumbnail = 'rsc/t_palette_swap/palette_swap.gif'
+  - tags     = ["love2d","tutorial"]
+  - key      = "d20200310l"
+  - status   = "published"
+block append meta
+  meta( property="og:image"     content="https://calaverd.github.io/rsc/t_palette_swap/palette_swap.gif" )
+block encabezado
+  img( src="../rsc/t_palette_swap/head.webp" alt="Some colorfull cirlces that will be used as example" )
+block append content 
+  p Changing the color of a image can be a very usefull form to reuse an asset without increase the file size of the game on disk. Is possible change the color of the images using the capacity of #[span.code ImageData] to access directly the pixels, to both, read the colors, as to modify they.
+
+  .img-captioned
+    img(src="../rsc/t_palette_swap/palette_swap.gif" alt="Animation that shows what can be done once the palette is changed.")
+    span Animation that shows what can be done once the palette is changed.
+
+  p The algorithm is based on load to the memory our image as an object of type #[span.code ImageData], in which we will do not any changes and only use as a  #[i " map " ] to know what is the color to be used, for that reason we gonna call it #[span.code image_map]. We also make an image of the same size where we will write all the changes to be made, and call it #[span.code image_data] #[a.cite#q1(href="#nt1") 1].
+
+  .img-captioned
+    img(src="../rsc/t_palette_swap/ima.png", alt="The image to be used as map, is a bunch of circles with some lines of different colors.")
+    span The image to be used as map, is a bunch of circles with some lines of different colors.
+
+  p There has to be load an image that contains the palettes to be used, the #[span.code palette_data], where each row of pixels is a palette:
+
+  img(src="../rsc/t_palette_swap/palette.png", alt="Show a set of bands were each row is of diferent colors.")
+
+  pre.language-lua.line-numbers
+    code
+      | image_map = love.image.newImageData('ima.png')
+      | image_data = love.image.newImageData( image_map:getWidth(), image_map:getHeight())
+      | palette_data = love.image.newImageData('palette.png')
+  
+  p We also must calculate the max number of palettes that we can use (#[span.code max_palettes]), that will be of the same height as the image were are stored the palettes.
+
+  pre.language-lua.line-numbers
+    code max_palettes = palette_data:getHeight()
+
+  p Now we create a new table to be used as look up where each column of the first row of the palette image corresponds to each color of the first palette. This table will be called #[span.code look_up_color_table]. We also gonna make a string that will be used as an #[span.code id] to identify each color quickly.
+
+  pre.language-lua.line-numbers
+    code
+      | look_up_color_table = {}
+      | local col = palette_data:getWidth()
+      | local i = 0
+      | while i < col do
+      |     local r,g,b,a = palette_data:getPixel(i,0)
+      |     --El id es creado usando un valor similar al hexadecimal
+      |     local id = ("%X_%X_%X_%X"):format(
+      |                           math.floor((o_r)*255),
+      |                           math.floor((o_g)*255),
+      |                           math.floor((o_b)*255),
+      |                           math.floor((o_a)*255)
+      |                           )
+      |     look_up_color_table[id] = i
+      |     i=i+1
+      | end
+
+  p We set the palette to be used and change the colors on #[span.code image_data].
+
+  pre.language-lua.line-numbers
+    code
+      | use_palette = 1
+      | changePalete()
+
+  p What happens inside of the function #[span.code changePalete()], the method #[span.code mapPixel()] of the object #[span.code ImageData] is called. #[span.code mapPixel()] allow us to send a function that will be run for each one of the pixels on the object, in this case, the very function that actually change the colors. 
+  p After, as objects of type #[span.code ImageData] can not be draw, we should create a image object to draw on screen, and we set the filter to "nearest".
+
+  pre.language-lua.line-numbers
+    code
+      | function changePalete()
+      |     image_data:mapPixel(changeColors)
+      |     image = love.graphics.newImage(image_data)
+      |     image:setFilter('nearest','nearest')
+      | end
+  
+  p Now, in the function #[span.code changeColors()] happens everything. 
+
+  .img-captioned
+    img(src="../rsc/t_palette_swap/algoritmo.png", alt="A description of how the algorithm works.")
+    span A description of how the algorithm works.
+
+  p We first take the cords  #[i (x,y) ] of the color to be change, we search the color on the #[span.code image_map] using the method #[span.code getPixel(x,y)], after we transform the color to an #[span.code id], and use it to access to the table #[span.code look_up_color_table], that returns the column number. An then, using #[span.code use_palette], that is equal to the number of the row, and now knowing also the column, we take the color of the palette and place it in the cords  #[i (x,y) ] on #[span.code image_data].
+
+  pre.language-lua.line-numbers
+    code
+      | function changeColors(x, y, r,g,b,a)
+      |     local o_r,o_g,o_b,o_a = image_map:getPixel(x,y)
+      |     local id = ("%X_%X_%X_%X"):format(
+      |                           math.floor((o_r)*255),
+      |                           math.floor((o_g)*255),
+      |                           math.floor((o_b)*255),
+      |                           math.floor((o_a)*255)
+      |                           )
+      |     --check if the color exist on the table
+      |     if look_up_color_table[id] then
+      |         --if exist, then get the color on the palete 
+      |         local col = look_up_color_table[id]
+      |         local row = use_palette-1
+      |         return palette_data:getPixel(col,row)
+      |     end
+      |     --else, do nothing, return the original color
+      |     return r, g, b, a
+      | end
+
+  p For every time we what to change the palette of the image, we only need to set what is the corresponding row, and change it.
+
+  pre.language-lua.line-numbers
+    code
+      | use_palette = 3 
+      | changePalete()
+
+  p Watch out, a disadvantage of this method without shaders, is on the fact that change the palettes,  #[b the bigger the area to change, this will be slower on a exponential manner ]
+
+  p That will be everything, you can download the  #[b #[i .zip ] ] file #[a(href="../rsc/t_palette_swap/palette_swap.zip") right here ] and check it for yourself. Use the arrow keys to change between palettes.
+
+  .notes Notes:
+  p.footnote#nt1
+    a(href="#q1") [1] 
+    | When an #[span.code ImageData] object is created using #[span.code love.image.newImageData()], all the RGBA values of the pixels are  #[i (0,0,0,0) ]
+  .key.idiom( lang="es" value="/post/2020-03-11-cambio-de-paleta-en-love-2d.html" aria-hidden="true")

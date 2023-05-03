@@ -1,0 +1,41 @@
+extends ./base_layout.pug
+block append head
+  if type=='post' || type == 'list_of_post'
+    if status != "published" && type != 'list_of_post'
+      link(rel="stylesheet", href="../../prism.css")
+    else
+      link(rel="stylesheet", href="../prism.css")
+block meta
+  - full_title = `${title} ${subtitle}`
+  meta( property="og:title" content=full_title )
+  if type=='post'
+    meta( property="og:type" content="article" )
+    meta( property="article:author" content="Osvaldo Barajas Fierros (Calaverd)" )
+    meta( property="article:section" content="Software Developement" )
+    if date
+      meta( property="article:published_time"  content="date" )
+    if tags
+      for tag in tags
+        meta( property="article:tag" content="#{tag}" )
+  if type == 'list_of_post'
+    meta( property="og:type" content="website" )
+block append body
+    main.content#main-content
+      section.section.columns.is-centered.is-mobile
+        article.box.column.is-12-mobile.is-10-tablet.is-8-desktop.pb-2
+          .key#key( value=key aria-hidden="true" )
+          .key#lang( value=lang aria-hidden="true" )
+          .key#other( value=lang aria-hidden="true" )
+          header
+            h1.title#title #{title} #[div.subtitle #{subtitle} ]
+            block encabezado
+          content
+            block content
+block append scripts
+  // Agregamos el script de sintaxis.
+  // hay que indicarle donde encontrar los scripts
+  if type=='post' || type == 'list_of_post'
+    if status != "published" && type != 'list_of_post'
+      script(type="module", src="../../componentes/js/prism.js")
+    else
+      script(type="module", src="../componentes/js/prism.js")

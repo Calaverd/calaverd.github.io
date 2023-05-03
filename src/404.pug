@@ -1,0 +1,19 @@
+extends componentes/base_layout.pug
+block append body
+  section( class="hero is-fullheight is-primary" )
+    .hero-body#main-content
+      .box
+        p.title.is-size-1.is-size-2-mobile.is-family-monospace.has-text-dark
+          | Error 404
+        p.subtitle.is-size-5.is-size-6-mobile.has-text-dark
+          span#page La página 
+          span.has-text-danger.is-family-monospace#not-found
+          br
+          span#unaviable no esta disponible.
+        p >  
+          a#go-mainpage(href="/") Regresar a la página principal.
+block append scripts
+  script(type="module", src="componentes/js/router.js")
+  script
+    include componentes/js/idiom_logic.js
+    include componentes/js/404_logic.js

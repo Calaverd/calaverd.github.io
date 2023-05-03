@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    block head
+      if type=='post' || type == 'list_of_post'
+        if status != "published" && type != 'list_of_post'
+          link(rel="stylesheet", href="../../main.css")
+        else
+          link(rel="stylesheet", href="../main.css")
+      else
+        link(rel="stylesheet", href="main.css")
+      if title
+        title Calaverd - #{title}
+      else
+        title Calaverd
+    meta( property="og:site_name" content="Calaverd" )
+    block meta
+      meta( property="og:type" content="website" )
+      
+  body
+    // El punto de montaje de la navbar.
+    .bg( aria-hidden="true" )
+    a(class="skip-nav-link" href="#main-content") Skip Navigation
+    nav.navbar.is-fixed-top#navigation( role="navigation" aria-label="main navigation" )
+    span#modal-mount
+    block body
+
+  block scripts
+    // hay que indicarle donde encontrar los scripts
+    if type=='post' || type == 'list_of_post'
+      if status != "published" && type != 'list_of_post'
+        script(type="module", src="../../componentes/js/idiom_logic.js")
+        script(type="module", src="../../componentes/navbar/navbar.js")
+      else
+        script(type="module", src="../componentes/js/idiom_logic.js")
+        script(type="module", src="../componentes/navbar/navbar.js")
+    else
+      script(type="module", src="./componentes/js/idiom_logic.js")
+      script(type="module", src="./componentes/navbar/navbar.js")
