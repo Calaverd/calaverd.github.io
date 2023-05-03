@@ -1,1 +1,1 @@
-const l=globalThis.window,o=l.localStorage;let t=`${l.location}`.split("://")[1].split("/").slice(1).join("/");(void 0===t||t.length>0&&"404.html"!==t)&&(o.setItem("not_found",`${t}`),l.location.replace("/404.html"));
+const l=globalThis.window,o=l.localStorage;!function(){let t=`${l.location}`.split("://")[1].split("/");if(t[t.length-1].includes("?"))return void l.location.replace(`${l.location}`.replaceAll(/\?.+/,""));let e=t.slice(1).join("/");(void 0===e||e.length>0&&"404.html"!==e)&&(o.setItem("not_found",`${e}`),l.location.replace("/404.html"))}();
