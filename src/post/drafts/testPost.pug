@@ -29,6 +29,9 @@ block append content
   p Ante esta encrucijada, la respuesta esta en tomar nota de las SPA y procesar esas demandas del lado del cliente. Para hacerlo, requerimos de generar un catalogo de los datos relevantes de nuestros post, abusar del `localStorage` y convertir la pagina 404 en nuestro router.
   p Al generar el catalogo primero hay que crear un script que lea todos los archivos de nuestra carpeta post, y parsear sus datos a un json para guardarlos en lo que sera nuestro **catalogo**. Podemos aprovechar este momento, para agregar otras funciones que nos simplifiquen el trabajo con los datos, como mover en automatico los archivos de los borradores cuando se publican a la carpeta de post #[a.cite#q1(href="#nt1") 1] (y encargarse de componer los links internos), remplazar el markdown de los parrafos por etiquetas de pug, agregar las fechas y un poco de metadata para permitir la navegación entre lenguajes.
   //- TODO incluir aquí un link a los datos de nuestro archivo de processado.
+  //- también incluir un post mencionando los desafios de trabajar y configurar github actions. https://www.reddit.com/r/github/comments/tismvn/disable_pagesbuilddeployment/
+  //- también mencionar la necesidad de que los nombres de js y css no cambien para evitar
+  //- que con cada actualización a esos archivos, tambien modifique todos los html.
   .notes Notas 
   .footnote#nt1
     a(href="#q1") [1] 

@@ -6,7 +6,7 @@
     "clean-cache": "rm -rf .parcel-cache",
     "clean-build": "rm -rf build",
     "clean": "npm run clean-cache && npm run clean-build",
-    "pack": "npx parcel build ./src/*.pug ./src/post/*.pug  ./src/post/drafts/*.pug --no-source-maps --no-cache --detailed-report --dist-dir build",
+    "pack": "npx parcel build ./src/*.pug ./src/post/*.pug ./src/post/drafts/*.pug --no-source-maps --no-cache --no-content-hash --detailed-report --dist-dir build",
     "purge-css": "npx postcss-cli ./build/*.css -r --no-map --verbose",
     "build": "npm run clean && npm run process-post && npm run pack && npm run purge-css",
     "process-post": "node process_post.js",
