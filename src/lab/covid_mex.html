@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="../main.css">
+  <link rel="stylesheet" href="./rsc_covid_edomex/controls.css">
+</head>
+<body>
+    <script src="./rsc_covid_edomex/pako.min.js"  charset="utf-8"></script>
+    <script src="./rsc_covid_edomex/echarts.min.js"></script>
+    
+    <div class="covid">
+      
+      <div class='columns text-show'> 
+        <div class='column is-11 is-offset-1'>
+          <h1 class='title has-text-centered'>Covid-19 en el Estado de México</h1>
+          <h2 id="fecha" class='subtitle has-text-centered'></h2>
+    
+          <div class='tile is-ancestor'>
+            <div class='tile is-6 is-vertical'>
+              <div class='tile is-child is-vcentered'>
+                <h2 class='title is-4 has-text-centered is-vcentered' >Numero de Contagios Confirmados</h2>
+                <h3 id="con_acumulados" class='subtitle has-text-centered has-text-weight-bold has-text-dark'>...</h3>
+                <div id="pie_conta"  style="width:100%; height:250px; display: flex; justify-content: center;"></div>
+              </div>
+              <div class='tile is-child is-vcentered'>
+                <h2 class='title is-4 has-text-centered is-vcentered' >Numero de Defunciones Confirmadas</h2>
+                <h3 id="dece_acumulados" class='subtitle has-text-centered has-text-weight-bold has-text-dark' >...</h3>
+                <div id="pie_deces"  style="width:100%; height:250px;  display: flex; justify-content: center;"></div>
+              </div>
+            </div>
+            <div class='tile is-6 is-vertical'>
+              <div class='tile is-child'>
+                <h2 class='title is-4 has-text-centered is-vcentered' >Extensión Geográfica de los Contagios</h2>
+                <div id="edomex_map" style="width:100%; min-height:450px;  display: flex; justify-content: center;"></div>
+              </div>
+            </div>
+          </div>
+          <p></p>
+    
+          <h1 id="evol" class='title is-4 has-text-centered'>...</h1>
+          <br>
+          <div class="dropdown">
+            <!--
+              <button id='btnMun' onclick="muestraMenuMunicipios()" class="dropbtn is-primary">Buscar Municipio</button>
+            -->
+            <div id="menuMun" class="dropdown-content">
+                <input type="text" placeholder="Buscar..." id="buscaMun" onkeyup="filterFunction()">
+                <div id="listMun" class="dropdown-content-list" ></div>
+            </div>
+          </div>  
+          <div id="chart" style="width: 100%; min-height: 600px; height:600px;  display: flex; justify-content: center;"></div>
+          <p class='is-small has-text-centered'>
+            Datos tomados de la página de la Secretaría de Salud del Gobierno del Estado de México <a class="is-right" href="https://salud.edomex.gob.mx/salud/covid19_municipio">https://salud.edomex.gob.mx/salud/covid19_municipio</a>
+          </p>
+    
+        </div>
+      </div>
+      
+      <script src='./rsc_covid_edomex/graficas_covid_edomex.js' type="module" charset="utf-8">  </script>
+    </div>
+</body>
+</html>

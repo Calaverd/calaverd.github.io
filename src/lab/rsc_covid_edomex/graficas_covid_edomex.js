@@ -10,14 +10,14 @@ let HistoricoContagios = undefined;
 let MaximosContagiosMunicipio = 0;
 let MaximosDefuncionesMunicipio;
 
-const file_directory = '/assets/covid_edomex/data/';
+const file_directory = '';
 
 /* Start Up data... */
-const request_fechas = new Request(file_directory+'Fechas.json');
-const request_municipios = new Request(file_directory+'Municipios.json');
-const request_datos_estado = new Request(file_directory+'000.json');
-const request_historial_defunciones = new Request(file_directory+'ultimas_defunciones_confirmadas.json');
-const request_historial_contagios = new Request(file_directory+'ultimos_contagios_confirmados.json');
+const request_fechas = new Request( new URL('./data/Fechas.dat', import.meta.url));
+const request_municipios = new Request(new URL('./data/Municipios.dat', import.meta.url));
+const request_datos_estado = new Request(new URL('./data/000.dat', import.meta.url));
+const request_historial_defunciones = new Request(new URL('./data/ultimas_defunciones_confirmadas.dat', import.meta.url));
+const request_historial_contagios = new Request(new URL('./data/ultimos_contagios_confirmados.dat', import.meta.url));
 
 let datos_list_mun_cargados = false;
 let datos_fechas_cargados = false;
@@ -230,7 +230,7 @@ function updateCharTitle(){
      time_frame = `<br>${fechaAEsp(starttime)} al ${fechaAEsp(endtime)}`;
      };
   if(endtime == last_date){
-    time_frame = time_frame+`<br>(Ultimos ${diff_date+1} días)`;
+    time_frame = time_frame+`<br>(${diff_date+1} Días Antes del Viernes 4 de Febrero 2022 )`;
     }
   else{
     time_frame = time_frame+`<br>(${diff_date+1} días)`;
@@ -269,7 +269,7 @@ function startup_completadas(){
         };
     if (dato_hiscon_cargado && datos_fechas_cargados && !chart_two_is_ready){
         chart_two_is_ready = true;
-        const test_geo = fetch(file_directory+'edomex_geojson.json').then(
+        fetch(new URL('./data/edomex_geojson.dat', import.meta.url)).then(
         function(response) {
             return response.json();
         }).then(function(map_data) {
@@ -427,7 +427,7 @@ function startup_completadas(){
                             labelLine: { lineStyle: { color:'#0f0f0f' } },
                             data : HistoricoDefunciones.series.data,
                         }]
-                    };
+                };
             
             //document.getElementById("date_covid").innerHTML = fechaAEsp(OptionChart1.xAxis.data[0]);
             myChartEdoMexMap.setOption(edomexChartOptions);
@@ -449,25 +449,41 @@ function startup_completadas(){
     };
 
 
-const promesa_por_estado = fetch(request_datos_estado).then(
-    function(response) {
-        return response.json();
-    }).then(function(data) {
-        OptionChart1.series[0].data = data['CNH'].slice(1);
-        OptionChart1.series[1].data = data['DNH'].slice(1);
-        OptionChart1.series[2].data = data['CPS'].slice(1);
-        OptionChart1.series[3].data = data['DPS'].slice(1);
-        datos_estado_cargados = true;
-        startup_completadas();
+fetch(request_datos_estado).then(
+    async function(response) {
+        console.log('Hola')
+        console.log(response)
+        try{
+            const data = await response.json();
+            OptionChart1.series[0].data = data['CNH'].slice(1);
+            OptionChart1.series[1].data = data['DNH'].slice(1);
+            OptionChart1.series[2].data = data['CPS'].slice(1);
+            OptionChart1.series[3].data = data['DPS'].slice(1);
+            datos_estado_cargados = true;
+            startup_completadas();
+        }catch(error){
+            console.log(error);
+        }
     });
+
 
 const promesa_por_municipios = fetch(request_municipios).then(
     function(response) {
         return response.arrayBuffer();
     }).then(function(buffer) {
-        let my_data = new Uint8Array(buffer);
-        diccionario_municipios = JSON.parse(pako.inflate(my_data, { to: 'string' }));
-        console.log('¡¡Municipios cargados!!');
+        try {
+            const my_data = new Uint8Array(buffer);
+            console.log('to inflate');
+            const inflated_data = pako.inflate(my_data, { to: 'string' });
+            console.log(inflated_data);
+            console.log('to parse');
+            diccionario_municipios = JSON.parse(inflated_data);
+            console.log('¡¡Municipios cargados!!');
+        } catch (error) {
+            console.log('Error municipios!')
+            console.log(error);
+            return;
+        }
         
         for (var key in diccionario_municipios) {        
             lista_de_municipios[lista_de_municipios.length] = key
@@ -476,7 +492,7 @@ const promesa_por_municipios = fetch(request_municipios).then(
         let top = lista_de_municipios[0];
         lista_de_municipios = [top].concat(lista_de_municipios.slice(1).sort());
         
-        /* MODIFICA EL DOM PARA AGREGAR LA LISTA DE MUNICIPIOS */
+        // MODIFICA EL DOM PARA AGREGAR LA LISTA DE MUNICIPIOS 
         const div = document.getElementById("listMun");
         lista_de_municipios.forEach( 
             x => { 
@@ -493,20 +509,15 @@ const promesa_por_municipios = fetch(request_municipios).then(
         datos_list_mun_cargados = true;
         startup_completadas();
     });
-    
 
-const promesa_por_fechas = fetch(request_fechas).then(
+
+fetch(request_fechas).then(
     function(response) {
         return response.arrayBuffer();
     }).then(function(buffer) {
         let my_data = new Uint8Array(buffer);
         let data = JSON.parse(pako.inflate(my_data, { to: 'string' }));
-        OptionChart1.xAxis.data = data.Fechas.slice(1)/*
-         .map(
-            function(x){
-                return fechaAEsp(new Date(x));
-                }
-            )*/;
+        OptionChart1.xAxis.data = data.Fechas.slice(1);
         last_date = OptionChart1.xAxis.data[OptionChart1.xAxis.data.length-1];
         OptionChart1.dataZoom[0].endValue = OptionChart1.xAxis.data.length 
         OptionChart1.dataZoom[0].startValue = OptionChart1.xAxis.data.length-14
@@ -517,10 +528,10 @@ const promesa_por_fechas = fetch(request_fechas).then(
         document.getElementById("fecha").innerHTML = fechaAEspL(last_date);
         datos_fechas_cargados = true;
         startup_completadas();
-    });
+});
 
 
-const promesa_hisotrial_contagios = fetch(request_historial_contagios).then(
+fetch(request_historial_contagios).then(
     function(response) {
         return response.arrayBuffer();
     }).then(function(buffer) {
@@ -534,8 +545,7 @@ const promesa_hisotrial_contagios = fetch(request_historial_contagios).then(
         startup_completadas();
     });
 
-
-const promesa_hisotrial_defunciones = fetch(request_historial_defunciones).then(
+fetch(request_historial_defunciones).then(
     function(response) {
         return response.arrayBuffer();
     }).then(function(buffer) {
@@ -544,11 +554,10 @@ const promesa_hisotrial_defunciones = fetch(request_historial_defunciones).then(
         console.log(data.date_list);
         HistoricoDefunciones = data.date_list[0];
         MaximosDefuncionesMunicipio = data.maximo_hisotrico;
-        console.log('¡¡Hisotrico contagios cargado...!!');
+        console.log('¡¡Hisotrico defunciones cargado...!!');
         dato_hiscon_cargado = true;
         startup_completadas();
     });
-
 
 /* Logica de la pagina */
 
@@ -636,5 +645,4 @@ function SolicitaDatosMunicipio(event){
     });
 
 }
-
 
