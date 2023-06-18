@@ -6,11 +6,11 @@
     "clean-cache": "rm -rf .parcel-cache",
     "clean-build": "rm -rf build",
     "clean": "npm run clean-cache && npm run clean-build",
-    "pack": "npx parcel build ./src/lab/*html ./src/*.pug ./src/post/*.pug ./src/post/drafts/*.pug --no-source-maps --no-cache --no-content-hash --detailed-report --dist-dir build",
+    "pack": "npx parcel build ./src/lab/*html ./src/lab/*/*html ./src/*.pug ./src/post/*.pug ./src/post/drafts/*.pug --no-source-maps --no-cache --no-content-hash --detailed-report --dist-dir build",
     "purge-css": "npx postcss-cli ./build/*.css -r --no-map --verbose",
     "build": "npm run clean && npm run process-post && npm run pack && npm run purge-css",
     "process-post": "node process_post.js",
-    "start": "parcel ./src/lab/*html ./src/*.pug ./src/post/*.pug  ./src/post/drafts/*.pug  --port 3000 --open --watch-for-stdin --no-cache --dist-dir dev",
+    "start": "parcel ./src/lab/*html ./src/lab/*/*html ./src/*.pug ./src/post/*.pug  ./src/post/drafts/*.pug  --port 3000 --open --watch-for-stdin --no-cache --dist-dir dev",
     "serve": "npm run process-post && npm run start"
   },
   "author": "Calaverd",
@@ -21,6 +21,7 @@
     "@parcel/transformer-pug": "^2.8.3",
     "autoprefixer": "^10.4.14",
     "bulma": "^0.9.4",
+    "echarts": "^5.4.2",
     "htm": "^3.1.1",
     "pako": "^2.1.0",
     "parcel": "^2.8.3",
@@ -34,6 +35,7 @@
   },
   "description": "",
   "devDependencies": {
+    "buffer": "^5.7.1",
     "jstransformer-markdown-it": "^3.0.0"
   }
 }
