@@ -11,6 +11,7 @@
     --navbar-hover-text:#eee;
 
     --accent-blue:#3d89c8;
+    --bg-blue:#3d89c8;
     --accent-text-color:#1b1c1c;
     --article-bg:#eee;
     --article-bold-text-color:#484949;
@@ -18,6 +19,7 @@
 
 @media (prefers-color-scheme: dark) { 
     :root{
+        --bg-blue:#66828f;
         --accent-blue:#042f54;
         --article-bg:#1b1c1c;
         --accent-text-color: #eee;
@@ -41,7 +43,7 @@ html{
 
 body > .bg{
     position: relative;
-    background-color: var(--accent-blue);
+    background-color: var(--bg-blue);
     background-image:
         url( './rsc/subtle-prism-2.svg' );
     background-repeat: no-repeat;
