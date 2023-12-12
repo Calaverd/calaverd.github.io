@@ -53,8 +53,9 @@ body{
   transform: translate(-3px, -35px) !important;
 }
 
-.iso.asset{
+.iso.dino{
   animation-name: fadeIn;
+  transform: translate(2px,-10px);
 }
 
 

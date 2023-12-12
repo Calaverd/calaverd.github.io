@@ -155,7 +155,9 @@ class IsoMap extends Component {
             style="${calcStyle(build, this.buildAnimOrder+index+1 )}">
       </img>`
     )}
-    `
+    <img class="iso dino" src="${new URL('../../rsc/index_tilemap/dino2.gif', import.meta.url)}" aria-hidden="true" 
+            style="${calcStyle(tileScreenPos(4,8), this.buildAnimOrder+this.buildings.length+1 )}">
+    </img>`
   }
 }
 
