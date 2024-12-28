@@ -36,6 +36,7 @@
   "description": "",
   "devDependencies": {
     "buffer": "^5.7.1",
-    "jstransformer-markdown-it": "^3.0.0"
+    "jstransformer-markdown-it": "^3.0.0",
+    "svgo": "^3.3.2"
   }
 }
