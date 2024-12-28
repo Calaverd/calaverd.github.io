@@ -1,6 +1,9 @@
 extends ../componentes/post_layout.pug
 block prepend head
   - type = 'list_of_post'
+  meta(http-equiv="refresh" content="0; url=https://calaverd-dev.blog/en/blog")
+  script( type="text/javascript").
+    window.location.href = "https://calaverd-dev.blog/en/blog"
 block encabezado
 block content
   #desc
